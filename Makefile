@@ -4,7 +4,8 @@ RM = rm -f
 CC = cc
 
 LIBFT_DIR = ./libft
-SRCS = minishell.c
+LIBFT = $(LIBFT_DIR)/libft.a
+SRCS = minishell.c lexer/lexer.c lexer/tokenization.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY : all clean fclean re bonus
@@ -12,12 +13,15 @@ OBJS = $(SRCS:.c=.o)
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $^ $(LIBFT) -o $@ -lreadline
+	make -C $(LIBFT_DIR)
+	$(CC) $(CFLAGS) -lreadline -L$(shell brew --prefix readline)/lib $(LIBFT) $^ -o $@ 
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@
 clean :
+	make -C $(LIBFT_DIR) $@
 	$(RM) $(OBJS)
 fclean : clean
+	make -C $(LIBFT_DIR) $@
 	$(RM) $(NAME)
 re : fclean all
