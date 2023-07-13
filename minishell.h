@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/06/11 00:30:29 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/13 16:34:05 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ enum token_type
     TYPE_APPEND,
     TYPE_R_BR,
     TYPE_L_BR,
-    TYPE_OR,
-    TYPE_AND,
     TYPE_STAR,
     TYPE_S_AND,
     TYPE_SPC
@@ -46,11 +44,18 @@ typedef struct token_s
     char *value;
 } token_t;
 
+typedef struct smpl_cmnd_s
+{
+    char **cmnd;
+    int built_in;
+} smpl_cmnd_t;
+
 t_list *lexer(char *line);
 char	*space_type(char *line, int *i);
 enum token_type	find_type2(char *line, int *i);
 enum token_type	find_type(char *line, int *i);
 token_t	*new_token(enum token_type type, void *content);
 int	check_word(char c);
+t_list* remove_quotes(t_list* tokens);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/06/11 01:00:28 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/13 15:09:05 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,10 @@ char	*space_type(char *line, int *i)
 
 enum token_type	find_type2(char *line, int *i)
 {
-	if (line[*i] == '|' && line[*i + 1] != '|')
+	if (line[*i] == '|')
 		return (*i += 1, TYPE_PIPE);
-	else if (line[*i] == '|')
-		return (*i += 2, TYPE_OR);
-	if (line[*i] == '&' && line[*i + 1] != '&')
+	if (line[*i] == '&')
 		return (*i += 1, TYPE_S_AND);
-	else if (line[*i] == '&')
-		return (*i += 2, TYPE_AND);
 	if (line[*i] == '<' && line[*i + 1] != '<')
 		return (*i += 1, TYPE_RD_L);
 	else if (line[*i] == '<')

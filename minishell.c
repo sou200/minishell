@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/06/11 00:30:29 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:05:47 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,6 @@ char *get_type(enum token_type type)
         return ")";
     if(type == TYPE_L_BR)
         return "(";
-    if(type == TYPE_OR)
-        return "||";
-    if(type == TYPE_AND)
-        return "&&";
     if(type == TYPE_STAR)
         return "*";
     if(type == TYPE_S_AND)
@@ -65,17 +61,18 @@ void print_tokens(t_list *head)
 
 int main(int argc, char const *argv[])
 {
-    char *line = (void *)1;
+    char *line;
     
     t_list *head;
+    line = readline("\033[0;32mminishell: $->\033[0;37m");
     while(line != NULL)
     {   
-        line = readline("minishell:");
         head = lexer(line);
+        head = remove_quotes(head);
         print_tokens(head);
-        
+        //printf("%s\n",line);
         add_history(line);
-        free(line);
+        line = readline("\033[0;32mminishell: $->\033[0;37m");
     }
     system("leaks minishell");
     return 0;

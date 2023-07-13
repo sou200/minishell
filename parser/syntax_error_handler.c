@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   syntax_error_handler.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/13 21:48:21 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/13 14:53:31 by serhouni         ###   ########.fr       */
+/*   Created: 2023/07/13 11:30:06 by serhouni          #+#    #+#             */
+/*   Updated: 2023/07/13 13:22:53 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-t_list	*ft_lstnew(void *content)
+int is_valid_syntax(t_list *token_lst)
 {
-	t_list	newnode;
-	t_list	*node;
-
-	node = (t_list *)malloc(sizeof(t_list));
-	if (node == 0)
-		return (0);
-	newnode.content = content;
-	newnode.next = NULL;
-	newnode.prev = NULL;
-	*node = newnode;
-	return (node);
+    token_t *token;
+    while(token_lst != NULL)
+    {
+        token = (token_t *)token_lst->content;
+        
+        token_lst = token_lst->next;
+    }
 }

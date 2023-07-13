@@ -19,15 +19,11 @@ CFLAGS = -Wextra -Wall -Werror
 RM = rm -rf
 
 OBJS = $(SRCS:.c=.o)
-B_OBJS = $(B_SRCS:.c=.o)
 
 all : $(NAME) 
 
 $(NAME) : $(OBJS) libft.h
 	ar rcs $@ $?
-
-bonus : $(B_OBJS)
-	ar rcs $(NAME) $?
 
 clean :
 	$(RM) $(OBJS)

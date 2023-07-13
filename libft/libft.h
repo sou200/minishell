@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:38:54 by serhouni          #+#    #+#             */
-/*   Updated: 2022/10/23 22:46:16 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/13 14:50:59 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
+	struct s_list	*prev;
 }					t_list;
 
 t_list				*ft_lstnew(void *content);
