@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 20:19:56 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/13 17:45:40 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/13 22:05:16 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_list	*lexer(char *line)
 	t_list	*token;
 	int		i;
 	int		x;
-	char	*word;
 
 	x = 0;
 	i = 0;
@@ -41,10 +40,15 @@ t_list	*lexer(char *line)
 		else if (line[i] == ' ')
 			token = ft_lstnew(new_token(TYPE_SPC, space_type(line, &i)));
 		else
-			token = ft_lstnew(new_token(find_type(line, &i), ft_substr(line, i, 1)));
+			token = ft_lstnew(new_token(find_type(line, &i), ft_substr(line, x, i - x)));
 		if (!token)
 			exit(-1);
 		ft_lstadd_back(&head, token);
 	}
 	return (head);
 }
+
+// char *get_val_by_type()
+// {
+	
+// }

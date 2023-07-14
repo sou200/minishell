@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/13 16:34:05 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/14 15:27:54 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ enum token_type
     TYPE_R_BR,
     TYPE_L_BR,
     TYPE_STAR,
-    TYPE_S_AND,
     TYPE_SPC
 };
 
@@ -57,5 +56,6 @@ enum token_type	find_type(char *line, int *i);
 token_t	*new_token(enum token_type type, void *content);
 int	check_word(char c);
 t_list* remove_quotes(t_list* tokens);
+int is_valid_syntax(t_list *token_lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/13 18:05:47 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:12:43 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ char *get_type(enum token_type type)
         return "(";
     if(type == TYPE_STAR)
         return "*";
-    if(type == TYPE_S_AND)
-        return "&&";
     if(type == TYPE_SPC)
         return "Space";
     return NULL;
@@ -52,7 +50,7 @@ void print_tokens(t_list *head)
     {
         token = head->content;
         if(token->type == 0 || token->type == 15)
-            printf("word =\"%s\"\n", token->value);
+            printf("word ={%s}\n", token->value);
         printf("token type = %s\n", get_type(token->type));
         printf("-----------------------\n");
         head = head->next;
@@ -68,9 +66,10 @@ int main(int argc, char const *argv[])
     while(line != NULL)
     {   
         head = lexer(line);
+        if(head == NULL || !is_valid_syntax(head))
+            printf("syntax error !\n");
         head = remove_quotes(head);
         print_tokens(head);
-        //printf("%s\n",line);
         add_history(line);
         line = readline("\033[0;32mminishell: $->\033[0;37m");
     }

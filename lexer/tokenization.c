@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/13 15:09:05 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:12:57 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ enum token_type	find_type2(char *line, int *i)
 {
 	if (line[*i] == '|')
 		return (*i += 1, TYPE_PIPE);
-	if (line[*i] == '&')
-		return (*i += 1, TYPE_S_AND);
 	if (line[*i] == '<' && line[*i + 1] != '<')
 		return (*i += 1, TYPE_RD_L);
 	else if (line[*i] == '<')
@@ -60,8 +58,6 @@ enum token_type	find_type(char *line, int *i)
 		return (*i += 1, TYPE_STAR);
 	if (line[*i] == '\'')
 		return (*i += 1, TYPE_QUOTE);
-	if (line[*i] == '\"')
-		return (*i += 1, TYPE_D_QUOTE);
 	if (line[*i] == '\"')
 		return (*i += 1, TYPE_D_QUOTE);
 	return (find_type2(line, i));
