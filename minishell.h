@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/14 15:27:54 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/16 17:24:15 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,15 @@ enum token_type
     TYPE_DOLLAR,
     TYPE_HERE_DOC,
     TYPE_APPEND,
-    TYPE_R_BR,
-    TYPE_L_BR,
     TYPE_STAR,
     TYPE_SPC
 };
 
-typedef struct token_s
+typedef struct s_token
 {
     enum token_type type;
     char *value;
-} token_t;
+} t_token;
 
 typedef struct smpl_cmnd_s
 {
@@ -53,9 +51,11 @@ t_list *lexer(char *line);
 char	*space_type(char *line, int *i);
 enum token_type	find_type2(char *line, int *i);
 enum token_type	find_type(char *line, int *i);
-token_t	*new_token(enum token_type type, void *content);
+t_token	*new_token(enum token_type type, void *content);
 int	check_word(char c);
-t_list* remove_quotes(t_list* tokens);
+t_list* remove_quotes(t_list* tokens, char **env);
 int is_valid_syntax(t_list *token_lst);
+
+void expand_env(t_list *tokens, char **env);
 
 #endif

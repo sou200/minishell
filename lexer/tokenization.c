@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/14 17:12:57 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/16 17:23:51 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,6 @@ enum token_type	find_type(char *line, int *i)
 {
 	if (line[*i] == '$')
 		return (*i += 1, TYPE_DOLLAR);
-	if (line[*i] == '(')
-		return (*i += 1, TYPE_L_BR);
-	if (line[*i] == ')')
-		return (*i += 1, TYPE_R_BR);
 	if (line[*i] == '*')
 		return (*i += 1, TYPE_STAR);
 	if (line[*i] == '\'')
@@ -63,11 +59,11 @@ enum token_type	find_type(char *line, int *i)
 	return (find_type2(line, i));
 }
 
-token_t	*new_token(enum token_type type, void *content)
+t_token	*new_token(enum token_type type, void *content)
 {
-	token_t	*token;
+	t_token	*token;
 
-	token = malloc(sizeof(token_t));
+	token = malloc(sizeof(t_token));
 	if (!token)
 		exit(-1);
 	token->type = type;

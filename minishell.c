@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/14 17:12:43 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/16 17:23:51 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ char *get_type(enum token_type type)
         return "<<";
     if(type == TYPE_APPEND)
         return ">>";
-    if(type == TYPE_R_BR)
-        return ")";
-    if(type == TYPE_L_BR)
-        return "(";
     if(type == TYPE_STAR)
         return "*";
     if(type == TYPE_SPC)
@@ -45,7 +41,7 @@ char *get_type(enum token_type type)
 
 void print_tokens(t_list *head)
 {
-    token_t *token;
+    t_token *token;
     while(head != NULL)
     {
         token = head->content;
@@ -57,7 +53,7 @@ void print_tokens(t_list *head)
     }
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char const *argv[], char **env)
 {
     char *line;
     
@@ -66,10 +62,11 @@ int main(int argc, char const *argv[])
     while(line != NULL)
     {   
         head = lexer(line);
-        if(head == NULL || !is_valid_syntax(head))
+        if(!is_valid_syntax(head))
             printf("syntax error !\n");
-        head = remove_quotes(head);
-        print_tokens(head);
+        head = remove_quotes(head, env);
+        if(head != NULL)
+            print_tokens(head);
         add_history(line);
         line = readline("\033[0;32mminishell: $->\033[0;37m");
     }
