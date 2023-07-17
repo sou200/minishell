@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/14 15:27:54 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/16 15:20:24 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
+#include <sys/stat.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
+#include <sys/wait.h>
 #include "./libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -49,6 +52,8 @@ typedef struct smpl_cmnd_s
     int built_in;
 } smpl_cmnd_t;
 
+void	ft_pwd(void);
+void	ft_echo(char **cmd);
 t_list *lexer(char *line);
 char	*space_type(char *line, int *i);
 enum token_type	find_type2(char *line, int *i);

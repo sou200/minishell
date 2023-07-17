@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 01:28:49 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/13 14:50:16 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/16 10:33:46 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 
-int main() {
-
-    
-
-    return 0;
+#include<stdio.h>
+int main(int argc, char **argv, char **env) 
+{
+    printf("%s\n",getenv("_"));
 }

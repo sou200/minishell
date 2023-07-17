@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/14 17:12:43 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/16 15:29:17 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,36 +43,69 @@ char *get_type(enum token_type type)
     return NULL;
 }
 
-void print_tokens(t_list *head)
-{
-    token_t *token;
-    while(head != NULL)
-    {
-        token = head->content;
-        if(token->type == 0 || token->type == 15)
-            printf("word ={%s}\n", token->value);
-        printf("token type = %s\n", get_type(token->type));
-        printf("-----------------------\n");
-        head = head->next;
-    }
-}
+// void print_tokens(t_list *head)
+// {
+//     token_t *token;
+//     while(head != NULL)
+//     {
+//         token = head->content;
+//         printf("%s\n",token);
+//         if(token->type == 0 || token->type == 15)
+//         //     printf("word ={%s}\n", token->value);
+//         // printf("token type = %s\n", get_type(token->type));
+//         // printf("-----------------------\n");
+//         head = head->next;
+//     }
+// }
 
-int main(int argc, char const *argv[])
-{
-    char *line;
-    
+// void sigint_handler(int sig)
+// {
+//     int pid = fork();
+//     char *p[3];
+
+//         if (!pid)
+//             execve("/usr/bin/clear",0,0);
+//     // system("clear");
+//     // write(1, "\n", 1);
+//     // rl_on_new_line();
+//     // rl_replace_line("", 0);
+//     // rl_redisplay();
+//     // // printf("SIGINT\n");
+// }
+
+int main(int argc, char const *argv[], char **env)
+{ 
     t_list *head;
-    line = readline("\033[0;32mminishell: $->\033[0;37m");
-    while(line != NULL)
-    {   
-        head = lexer(line);
+    struct stat p;
+
+        lstat("/tmp/ee",&p);
+        printf("%d \n",S_ISLNK(p.st_mode));
+        lstat("/tmp/ff",&p);
+        printf("%d \n",S_ISLNK(p.st_mode));
+    // printf("%s\n",getcwd(0,0));
+    // printf("%s\n",getenv("PWD"));
+    ft_pwd();
+   rl_line_buffer = readline("\033[0;32mminishell: $->\033[0;37m");
+    while( rl_line_buffer != NULL)
+    {  
+        head = lexer(rl_line_buffer);
         if(head == NULL || !is_valid_syntax(head))
             printf("syntax error !\n");
         head = remove_quotes(head);
-        print_tokens(head);
-        add_history(line);
-        line = readline("\033[0;32mminishell: $->\033[0;37m");
+        if (head && !ft_strncmp(((token_t *)head->content)->value, "pwd",4))
+           ft_pwd();
+        else if (head && !ft_strncmp(((token_t *)head->content)->value, "clear",6))
+        {
+            int i  = 0;
+            i = fork();
+            if (!i)
+                execve("/usr/bin/clear", 0 , env);
+            else
+                usleep(10000);
+        }
+        add_history(rl_line_buffer);
+        rl_line_buffer = readline("\033[0;32mminishell: $->\033[0;37m");
     }
-    system("leaks minishell");
+    // system("leaks minishell");
     return 0;
 }

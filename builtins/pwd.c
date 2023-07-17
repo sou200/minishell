@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/12 06:35:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/16 07:54:12 by fel-hazz         ###   ########.fr       */
+/*   Created: 2023/07/16 08:49:29 by fel-hazz          #+#    #+#             */
+/*   Updated: 2023/07/16 15:30:34 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_pwd(void)
 {
-	if (s == 0 || fd < 0)
+	char *pwd;
+    struct stat p;
+
+	pwd = getcwd(0, 0);
+	if (!pwd)
 		return ;
-	while (*s != '\0')
-		ft_putchar_fd(*s++, fd);
+    lstat(pwd,&p);
+    printf("%d \n",S_ISLNK(p.st_mode));
+	ft_putstr_fd(pwd, 1);
+	write(1, "\n", 1);
+	free(pwd);
 }

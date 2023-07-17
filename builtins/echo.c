@@ -1,21 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/12 06:35:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/16 07:54:12 by fel-hazz         ###   ########.fr       */
+/*   Created: 2023/07/16 07:10:11 by fel-hazz          #+#    #+#             */
+/*   Updated: 2023/07/16 08:16:34 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+#include "../minishell.h"
+
+int	check_n(char *s)
 {
-	if (s == 0 || fd < 0)
-		return ;
-	while (*s != '\0')
-		ft_putchar_fd(*s++, fd);
+	int	i;
+
+	i = 0;
+	if (s[i++] == '-' && s[i])
+	{
+		while (s[i] == 'n')
+			i++;
+		if (!s[i])
+			return (0);
+	}
+	return (1);
+}
+
+void	ft_echo(char **cmd)
+{
+	int	y;
+
+	y = check_n(cmd[0]);
+	if (y == 0)
+		cmd++;
+	while (*cmd)
+	{
+		ft_putstr_fd(*cmd, 1);
+		cmd++;
+		if (*cmd)
+			write(1, " ", 1);
+	}
+	if (y)
+		write(1, "\n", 1);
 }
