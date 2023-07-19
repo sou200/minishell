@@ -6,15 +6,17 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 01:28:49 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/15 11:50:47 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/17 01:46:38 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
+#include <stdio.h>
 
 
 
-int main() {
-    
+int main(int ac, char **args) {
+    printf("%d\n{%c}\n", args[1][0], args[1][0]);
+    printf("%d\n{%c}\n", '\t', '\t');
     return 0;
 }

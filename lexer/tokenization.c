@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/16 17:23:51 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/17 20:19:58 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,13 @@ char	*space_type(char *line, int *i)
 	char	*str;
 
 	x = 0;
-	while (line[*i] == ' ')
-	{
-		*i += 1;
+	while (line[*i + x] == ' ' || line[*i + x] == '\t')
 		x++;
-	}
 	str = malloc(x + 1);
 	if (!str)
 		exit(-1);
-	ft_memset(str, ' ', x);
+	ft_memmove(str, line + *i, x);
+	*i += x;
 	str[x] = '\0';
 	return (str);
 }
@@ -59,11 +57,11 @@ enum token_type	find_type(char *line, int *i)
 	return (find_type2(line, i));
 }
 
-t_token	*new_token(enum token_type type, void *content)
+token_t	*new_token(enum token_type type, void *content)
 {
-	t_token	*token;
+	token_t	*token;
 
-	token = malloc(sizeof(t_token));
+	token = malloc(sizeof(token_t));
 	if (!token)
 		exit(-1);
 	token->type = type;

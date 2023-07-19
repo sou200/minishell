@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 20:19:56 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/14 22:48:39 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/19 02:51:14 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	check_word(char c)
 {
 	if (c == '\'' || c == '\"' || c == '|' || c == '&'
-		|| c == '*' || c == '<' || c == '>' || c == '$' || c == ' ')
+		|| c == '*' || c == '<' || c == '>' || c == '$' || c == ' ' || c == '\t')
 		return (0);
 	return (1);
 }
@@ -37,7 +37,7 @@ t_list	*lexer(char *line)
 			i++;
 		if (x != i)
 			token = ft_lstnew(new_token(0, ft_substr(line, x, i - x)));
-		else if (line[i] == ' ')
+		else if (line[i] == ' ' || line[i] == '\t')
 			token = ft_lstnew(new_token(TYPE_SPC, space_type(line, &i)));
 		else
 			token = ft_lstnew(new_token(find_type(line, &i), ft_substr(line, x, i - x)));
@@ -47,8 +47,3 @@ t_list	*lexer(char *line)
 	}
 	return (head);
 }
-
-// char *get_val_by_type()
-// {
-	
-// }
