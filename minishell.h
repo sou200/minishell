@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/16 17:24:15 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/19 08:32:27 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 #include "./libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <stdarg.h>
+#include <string.h>
+#include <errno.h>
 
 enum token_type
 {
@@ -35,18 +38,32 @@ enum token_type
     TYPE_SPC
 };
 
+typedef struct s_global
+{
+    char	return_value;
+    t_list	*garbage;
+	char	error;
+}t_global;
+
+t_global	global;
+
 typedef struct s_token
 {
     enum token_type type;
     char *value;
-} t_token;
+}t_token;
 
-typedef struct smpl_cmnd_s
-{
-    char **cmnd;
-    int built_in;
-} smpl_cmnd_t;
+// typedef struct smpl_cmnd_s
+// {
+//     char **cmnd;
+//     int built_in;
+// } smpl_cmnd_t;
 
+t_list	*ft_lstnew1(void *content);
+char	*ft_substr1(char const *s, unsigned int start, size_t len);
+void	ft_free(int number, ...);
+void	ft_exit(int	error);
+void recycle(int n, ...);
 t_list *lexer(char *line);
 char	*space_type(char *line, int *i);
 enum token_type	find_type2(char *line, int *i);

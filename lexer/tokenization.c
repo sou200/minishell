@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/16 17:23:51 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/19 08:28:06 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char	*space_type(char *line, int *i)
 	}
 	str = malloc(x + 1);
 	if (!str)
-		exit(-1);
+		ft_exit(ENOMEM);
+	recycle(1, str);
 	ft_memset(str, ' ', x);
 	str[x] = '\0';
 	return (str);
@@ -65,7 +66,8 @@ t_token	*new_token(enum token_type type, void *content)
 
 	token = malloc(sizeof(t_token));
 	if (!token)
-		exit(-1);
+		ft_exit(ENOMEM);
+	recycle(1, token);
 	token->type = type;
 	token->value = content;
 	return (token);

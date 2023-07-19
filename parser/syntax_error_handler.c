@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error_handler.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:30:06 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/16 17:23:51 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/19 08:45:10 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int is_valid_syntax(t_list *token_lst)
     int q_type;
 
     q_type = 0;
-    token_lst = tokens_without_spc(token_lst);
+    // token_lst = tokens_without_spc(token_lst);
     while(token_lst != NULL)
     {
         token = (t_token *)token_lst->content;

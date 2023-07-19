@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/16 17:23:51 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/19 08:46:57 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,14 @@ void print_tokens(t_list *head)
     }
 }
 
+void lk(void)
+{
+	system("leaks minishell");
+}
+
 int main(int argc, char const *argv[], char **env)
 {
+	atexit(lk);
     char *line;
     
     t_list *head;
