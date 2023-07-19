@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/19 16:53:43 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/19 17:58:40 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ char *get_type(enum token_type type)
         return "<<";
     if(type == TYPE_APPEND)
         return ">>";
-    if(type == TYPE_R_BR)
-        return ")";
-    if(type == TYPE_L_BR)
-        return "(";
     if(type == TYPE_STAR)
         return "*";
     if(type == TYPE_SPC)
@@ -43,20 +39,20 @@ char *get_type(enum token_type type)
     return NULL;
 }
 
-// void print_tokens(t_list *head)
-// {
-//     token_t *token;
-//     while(head != NULL)
-//     {
-//         token = head->content;
-//         printf("%s\n",token);
-//         if(token->type == 0 || token->type == 15)
-//         //     printf("word ={%s}\n", token->value);
-//         // printf("token type = %s\n", get_type(token->type));
-//         // printf("-----------------------\n");
-//         head = head->next;
-//     }
-// }
+void print_tokens(t_list *head)
+{
+    t_token *token;
+    while(head != NULL)
+    {
+        token = head->content;
+        // printf("%s\n",token);
+        // if(token->type == 0 || token->type == 15)
+            printf("word ={%s}\n", token->value);
+        printf("token type = %s\n", get_type(token->type));
+        printf("-----------------------\n");
+        head = head->next;
+    }
+}
 
 // void sigint_handler(int sig)
 // {
@@ -79,30 +75,37 @@ int main(int argc, char const *argv[], char **en)
     struct stat p;
 
 	env = en;
-        lstat("/tmp/ee",&p);
-        printf("%d \n",S_ISLNK(p.st_mode));
-        lstat("/tmp/ff",&p);
-        printf("%d \n",S_ISLNK(p.st_mode));
-    // printf("%s\n",getcwd(0,0));
-    // printf("%s\n",getenv("PWD"));
-    ft_pwd();
+    //     lstat("/tmp/ee",&p);
+    //     printf("%d \n",S_ISLNK(p.st_mode));
+    //     lstat("/tmp/ff",&p);
+    //     printf("%d \n",S_ISLNK(p.st_mode));
+    // // printf("%s\n",getcwd(0,0));
+    // // printf("%s\n",getenv("PWD"));
+    // ft_pwd();
    rl_line_buffer = readline("\033[0;32mminishell: $->\033[0;37m");
     while( rl_line_buffer != NULL)
     {  
         head = lexer(rl_line_buffer);
         if(head == NULL || !is_valid_syntax(head))
             printf("syntax error !\n");
-        head = remove_quotes(head);
-        if (head && !ft_strncmp(((token_t *)head->content)->value, "pwd",4))
-           ft_pwd();
-        if (head && !ft_strncmp(((token_t *)head->content)->value, "cd",3))
-           ft_cd(((token_t *)head->next->content)->value);
-        else if (head && !ft_strncmp(((token_t *)head->content)->value, "clear",6))
+        head = remove_quotes(head, en);
+			print_tokens(head);
+        // if (head && !ft_strncmp(((t_token *)head->content)->value, "pwd",4))
+        //    ft_pwd();
+		// printf("%s %s\n",((t_token *)head->content)->value,((t_token *)head->next->content)->value);
+        if (head && !ft_strncmp(((t_token *)head->content)->value, "cd",3))
+		{ 
+			if ((t_token *)head->next)
+           		ft_cd(((t_token *)head->next->content)->value);
+			else
+				ft_cd(0);
+		}
+       else if (head && !ft_strncmp(((t_token *)head->content)->value, "clear",6))
         {
             int i  = 0;
             i = fork();
             if (!i)
-                execve("/usr/bin/clear", 0 , env);
+                execve("/usr/bin/clear", 0 , en);
             else
                 usleep(10000);
         }

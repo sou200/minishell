@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:53:19 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/14 17:15:54 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/16 17:23:51 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,19 @@ int in_qoete_handler(int *open_q, char **quote_content, t_list** new_token_lst, 
     return 0;
 }
 
-t_list* remove_quotes(t_list* tokens)
+int is_valid_env(t_list* tokens, int open_q)
+{
+    t_token * token;
+
+    if(tokens->next == NULL || open_q == 1)
+        return 0;
+    token = (t_token *)tokens->next->content;
+    if(token->type == TYPE_WORD && (ft_isalpha(*token->value) || *token->value == '_'))
+        return 1;
+    return (token->type == TYPE_QUOTE || token->type == TYPE_D_QUOTE) && open_q == 0; 
+}
+
+t_list* remove_quotes(t_list* tokens, char **env)
 {
     int open_q;
     t_list* new_token_lst;
@@ -35,14 +47,16 @@ t_list* remove_quotes(t_list* tokens)
     quote_content = NULL;
     while (tokens != NULL)
     {
-        if(((token_t *)tokens->content)->type == TYPE_QUOTE && open_q != 2)
+        if(((t_token *)tokens->content)->type == TYPE_QUOTE && open_q != 2)
             in_qoete_handler(&open_q, &quote_content, &new_token_lst, 1);
-        else if(((token_t *)tokens->content)->type == TYPE_D_QUOTE && open_q != 1)
+        else if(((t_token *)tokens->content)->type == TYPE_D_QUOTE && open_q != 1)
             in_qoete_handler(&open_q, &quote_content, &new_token_lst, 2);
+        else if(((t_token *)tokens->content)->type == TYPE_DOLLAR && is_valid_env(tokens, open_q))
+            expand_env(tokens, env);
         else if(open_q)
-            quote_content = ft_strjoin(quote_content, ((token_t *)tokens->content)->value);
+            quote_content = ft_strjoin(quote_content, ((t_token *)tokens->content)->value);
         else
-            ft_lstadd_back(&new_token_lst, ft_lstnew(new_token(((token_t *)tokens->content)->type, ((token_t *)tokens->content)->value)));
+            ft_lstadd_back(&new_token_lst, ft_lstnew(new_token(((t_token *)tokens->content)->type, ((t_token *)tokens->content)->value)));
         tokens = tokens->next;
     }
     return new_token_lst;

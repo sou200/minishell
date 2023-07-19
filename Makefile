@@ -6,10 +6,11 @@ CC = cc
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 SRCS = minishell.c lexer/lexer.c lexer/tokenization.c parser/quotes_handler.c \
-		parser/syntax_error_handler.c builtins/echo.c  builtins/pwd.c  builtins/cd.c 
+	parser/syntax_error_handler.c builtins/echo.c  builtins/pwd.c  builtins/cd.c \
+		 expander/expander.c tools/leaks.c tools/recyclable.c\
+
 OBJS = $(SRCS:.c=.o)
 
-.PHONY : all clean fclean re bonus
 
 all : $(NAME)
 
@@ -26,3 +27,5 @@ fclean : clean
 	make -C $(LIBFT_DIR) $@
 	$(RM) $(NAME)
 re : fclean all
+
+.PHONY : all clean fclean re bonus

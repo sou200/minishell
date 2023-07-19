@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 14:48:22 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/19 16:57:21 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/19 18:00:43 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ const char *ft_getenv(const char *var)
 	char	**paths;
 
 	i = 0;
-	while (env[i] && ft_strncmp(var, env[i], ft_strlen(var) + 1))
+	// printf("%s %lu\n",var, ft_strlen(var));
+	while (env[i] && ft_strncmp(var, env[i], ft_strlen(var)))
 		i++;
-	if (!env[i])
+	if (!(env[i] + ft_strlen(var)))
 		return (0);
-	if (!*(env[i] + ft_strlen(var) + 1))
-		return (0);
-	return ((env[i] + ft_strlen(var) + 1));
+	return ((env[i] + ft_strlen(var)));
 }
 
 char	**cd_path(char **env)
@@ -81,7 +80,7 @@ char	*trim_backslash(char *s)
 
 	trimed = malloc(sizeof(char) * (get_sizeslach(s) + 1));
 	if (!trimed)
-	return(free(s),ft_exit(ENOMEM));
+	return(free(s),ft_exit(ENOMEM), (char *)0);
 	i = 0;
 	x = 0;
 	while (s[i])
@@ -115,7 +114,7 @@ char	*cd_pathcheck(const char *dirname)
 			ft_exit(ENOMEM);
 		str = ft_strjoin(tmp, dirname);
 		if (!str)
-			return(free(tmp), ft_exit(ENOMEM));
+			return(free(tmp), ft_exit(ENOMEM), (char *) 0);
 		free(tmp);
 		if (!access(str, X_OK))
 			return (trim_backslash(str));
@@ -140,16 +139,18 @@ int abs_path (const char *dirname)
   return (0);
 }
 
-void	ft_cd(char *dirname)
+void	ft_cd(const char *dirname)
 {
 	char	flag;
 	const char	*cdpath;
 
-	cdpath = ft_getenv("CDPATH");
+	// printf("eee %s\n",dirname);
+	cdpath = ft_getenv("CDPATH=");
 	flag = 0;
 	if (!dirname)
 	{
-		dirname = ft_getenv("HOME");
+		dirname = ft_getenv("HOME=");
+		// printf(" home =%s\n",dirname);
 		if (!dirname)
 		{
 			printf("minishell: cd: HOME not set\n");
@@ -158,7 +159,7 @@ void	ft_cd(char *dirname)
 	}
 	else if (dirname[0] == '-' && dirname[1] == '\0')
 	{
-		dirname = ft_getenv("OLDPWD");
+		dirname = ft_getenv("OLDPWD=");
 		if (!dirname)
 		{
 			printf("minishell: cd: OLDPWD not set\n");
@@ -176,22 +177,24 @@ void	ft_cd(char *dirname)
 				printf("%s\n",cdpath);
 			else
 			{
-				printf("cd: %s", strerror(errno));
+				printf("cd: %s\n", strerror(errno));
 				return_value = 1;
 			}
 			free((void *)cdpath);
 		}
 	}
-	else
+	// else
 	{
 		if (!chdir(dirname))
 		{
 			if (flag)
 				printf("%s\n",dirname);
+			else
+				printf("Succes\n");
 		}
 		else
 		{
-			printf("cd: %s", strerror(errno));
+			printf("cd: %s\n", strerror(errno));
 			return_value = 1;
 		}
 	}

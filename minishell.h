@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/19 16:56:52 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/19 17:23:13 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
+#include <stdarg.h>
 
 // char *env[ARG_MAX];
 enum token_type
@@ -38,23 +39,30 @@ enum token_type
     TYPE_DOLLAR,
     TYPE_HERE_DOC,
     TYPE_APPEND,
-    TYPE_R_BR,
-    TYPE_L_BR,
     TYPE_STAR,
     TYPE_SPC
 };
 
-typedef struct token_s
+typedef struct s_global
+{
+    char	return_value;
+    t_list	*garbage;
+	char	error;
+}t_global;
+
+t_global	global;
+
+typedef struct s_token
 {
     enum token_type type;
     char *value;
-} token_t;
+}t_token;
 
-typedef struct smpl_cmnd_s
-{
-    char **cmnd;
-    int built_in;
-} smpl_cmnd_t;
+// typedef struct smpl_cmnd_s
+// {
+//     char **cmnd;
+//     int built_in;
+// } smpl_cmnd_t;
 
 char **env;
 
@@ -68,13 +76,20 @@ void	ft_cd(const char *dirname);
 
 void	ft_pwd(void);
 void	ft_echo(char **cmd);
+t_list	*ft_lstnew1(void *content);
+char	*ft_substr1(char const *s, unsigned int start, size_t len);
+void	ft_free(int number, ...);
+void	ft_exit(int	error);
+void recycle(int n, ...);
 t_list *lexer(char *line);
 char	*space_type(char *line, int *i);
 enum token_type	find_type2(char *line, int *i);
 enum token_type	find_type(char *line, int *i);
-token_t	*new_token(enum token_type type, void *content);
+t_token	*new_token(enum token_type type, void *content);
 int	check_word(char c);
-t_list* remove_quotes(t_list* tokens);
+t_list* remove_quotes(t_list* tokens, char **env);
 int is_valid_syntax(t_list *token_lst);
+
+void expand_env(t_list *tokens, char **env);
 
 #endif

@@ -6,11 +6,13 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 01:28:49 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/17 16:40:26 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/19 17:25:01 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
+#include "dirent.h"
+#include <stdio.h>
 
 #include<stdio.h>
 #include<errno.h>

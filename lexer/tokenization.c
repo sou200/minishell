@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/14 17:12:57 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/19 08:28:06 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char	*space_type(char *line, int *i)
 	}
 	str = malloc(x + 1);
 	if (!str)
-		exit(-1);
+		ft_exit(ENOMEM);
+	recycle(1, str);
 	ft_memset(str, ' ', x);
 	str[x] = '\0';
 	return (str);
@@ -50,10 +51,6 @@ enum token_type	find_type(char *line, int *i)
 {
 	if (line[*i] == '$')
 		return (*i += 1, TYPE_DOLLAR);
-	if (line[*i] == '(')
-		return (*i += 1, TYPE_L_BR);
-	if (line[*i] == ')')
-		return (*i += 1, TYPE_R_BR);
 	if (line[*i] == '*')
 		return (*i += 1, TYPE_STAR);
 	if (line[*i] == '\'')
@@ -63,13 +60,14 @@ enum token_type	find_type(char *line, int *i)
 	return (find_type2(line, i));
 }
 
-token_t	*new_token(enum token_type type, void *content)
+t_token	*new_token(enum token_type type, void *content)
 {
-	token_t	*token;
+	t_token	*token;
 
-	token = malloc(sizeof(token_t));
+	token = malloc(sizeof(t_token));
 	if (!token)
-		exit(-1);
+		ft_exit(ENOMEM);
+	recycle(1, token);
 	token->type = type;
 	token->value = content;
 	return (token);
