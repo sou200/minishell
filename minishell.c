@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/17 12:10:23 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:53:43 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,12 @@ char *get_type(enum token_type type)
 //     // // printf("SIGINT\n");
 // }
 
-int main(int argc, char const *argv[], char **env)
+int main(int argc, char const *argv[], char **en)
 { 
     t_list *head;
     struct stat p;
 
+	env = en;
         lstat("/tmp/ee",&p);
         printf("%d \n",S_ISLNK(p.st_mode));
         lstat("/tmp/ff",&p);
@@ -94,6 +95,8 @@ int main(int argc, char const *argv[], char **env)
         head = remove_quotes(head);
         if (head && !ft_strncmp(((token_t *)head->content)->value, "pwd",4))
            ft_pwd();
+        if (head && !ft_strncmp(((token_t *)head->content)->value, "cd",3))
+           ft_cd(((token_t *)head->next->content)->value);
         else if (head && !ft_strncmp(((token_t *)head->content)->value, "clear",6))
         {
             int i  = 0;

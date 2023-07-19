@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/17 17:16:49 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:56:52 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 #include <readline/history.h>
 #include <errno.h>
 #include <limits.h>
+#include <string.h>
 
-
-char *env[ARG_MAX];
+// char *env[ARG_MAX];
 enum token_type
 {
     TYPE_WORD,
@@ -55,6 +55,16 @@ typedef struct smpl_cmnd_s
     char **cmnd;
     int built_in;
 } smpl_cmnd_t;
+
+char **env;
+
+const char *ft_getenv(const char *var);
+char	**cd_path(char **env);
+int		get_sizeslach(char *s);
+char	*trim_backslash(char *s);
+char	*cd_pathcheck(const char *dirname);
+int abs_path (const char *dirname);
+void	ft_cd(const char *dirname);
 
 void	ft_pwd(void);
 void	ft_echo(char **cmd);
