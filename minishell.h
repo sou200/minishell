@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/16 15:20:24 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:16:49 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@
 #include "./libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <errno.h>
+#include <limits.h>
 
+
+char *env[ARG_MAX];
 enum token_type
 {
     TYPE_WORD,

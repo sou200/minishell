@@ -1,0 +1,15 @@
+
+
+ - IEEE Std 1003 is used to implement shells,https://pubs.opengroup.org/onlinepubs/009695399/
+
+- _ - $OLPWD $CDPATH $PWD $PATH and others are special
+
+- PWD gets its value from cd  
+
+- print error message when using pwd or cd without having rights
+
+- READ!!!!!!
+
+- implement garbage collectore as an array
+
+- implement variables a
