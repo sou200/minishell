@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/19 17:58:40 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/20 18:31:36 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,17 @@ void print_tokens(t_list *head)
 //     // // printf("SIGINT\n");
 // }
 
+
+void *tt(int sig)
+{
+	printf("eqwqe\n");
+}
 int main(int argc, char const *argv[], char **en)
 { 
     t_list *head;
     struct stat p;
 
-	env = en;
+	// env = en;
     //     lstat("/tmp/ee",&p);
     //     printf("%d \n",S_ISLNK(p.st_mode));
     //     lstat("/tmp/ff",&p);
@@ -82,6 +87,15 @@ int main(int argc, char const *argv[], char **en)
     // // printf("%s\n",getcwd(0,0));
     // // printf("%s\n",getenv("PWD"));
     // ft_pwd();
+	signal(SIGINT,tt);
+	int i = 0;
+	printf("eqw\n");
+	// while(en[i])
+	// {
+	// 	printf("%s\n",en[i]);
+	// 	i++;
+	// }
+	// exit(0);
    rl_line_buffer = readline("\033[0;32mminishell: $->\033[0;37m");
     while( rl_line_buffer != NULL)
     {  
@@ -93,14 +107,14 @@ int main(int argc, char const *argv[], char **en)
         // if (head && !ft_strncmp(((t_token *)head->content)->value, "pwd",4))
         //    ft_pwd();
 		// printf("%s %s\n",((t_token *)head->content)->value,((t_token *)head->next->content)->value);
-        if (head && !ft_strncmp(((t_token *)head->content)->value, "cd",3))
-		{ 
-			if ((t_token *)head->next)
-           		ft_cd(((t_token *)head->next->content)->value);
-			else
-				ft_cd(0);
-		}
-       else if (head && !ft_strncmp(((t_token *)head->content)->value, "clear",6))
+        // if (head && !ft_strncmp(((t_token *)head->content)->value, "cd",3))
+		// { 
+		// 	if ((t_token *)head->next)
+        //    		ft_cd(((t_token *)head->next->content)->value);
+		// 	else
+		// 		ft_cd(0);
+		// }
+       if (head && !ft_strncmp(((t_token *)head->content)->value, "clear",6))
         {
             int i  = 0;
             i = fork();

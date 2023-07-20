@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/19 17:23:13 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:29:24 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ enum token_type
     TYPE_SPC
 };
 
+// typedef struct s_env
+// {
+// 	int		size;
+// 	t_list	*env;
+// }t_env;
+
 typedef struct s_global
 {
     char	return_value;
@@ -66,6 +72,9 @@ typedef struct s_token
 
 char **env;
 
+// t_env env;
+char	*ft_strdup1(const char *s);
+char	*ft_strdupenv(const char *s);
 const char *ft_getenv(const char *var);
 char	**cd_path(char **env);
 int		get_sizeslach(char *s);

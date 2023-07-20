@@ -6,7 +6,7 @@
 
 - PWD gets its value from cd  
 
-- print error message when using pwd or cd without having rights
+- print error message when using cdpwd or cd without having rights
 
 - READ!!!!!!
 
