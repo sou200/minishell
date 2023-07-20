@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/20 03:44:28 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/20 23:58:49 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ enum token_type
     TYPE_STAR,
     TYPE_SPC
 };
+
+typedef struct s_global
+{
+    char	return_value;
+    t_list	*garbage;
+	char	error;
+}t_global;
+
+t_global	global;
 
 typedef struct token_s
 {
