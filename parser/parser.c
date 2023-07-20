@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:43:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/19 04:36:59 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/20 03:49:43 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,45 +17,45 @@ int is_redirection(token_t *token)
     return token->type == TYPE_HERE_DOC || token->type == TYPE_APPEND || token->type == TYPE_RD_L || token->type == TYPE_RD_R;
 }
 
-t_list *skip_redi_expnd(t_list *token, t_list **new_tokens)
-{
-    t_list *n_token;
-    char *joined;
-    int in_q;
+// t_list *skip_redi_expnd(t_list *token, t_list **new_tokens)
+// {
+//     t_list *n_token;
+//     char *joined;
+//     int in_q;
 
-    in_q = 0;
-    n_token = *new_tokens;
-    joined = NULL;
-    ft_lstadd_back(new_tokens, ft_lstnew(new_token(((token_t *)token->content)->type, ((token_t *)token->content)->value)));
-    if (token != NULL && ((token_t *)token->content)->type == TYPE_SPC)
-    {
-        ft_lstadd_back(new_tokens, ft_lstnew(new_token(TYPE_SPC, ((token_t *)token->content)->value)));
-        token = token->next;
-    }
+//     in_q = 0;
+//     n_token = *new_tokens;
+//     joined = NULL;
+//     ft_lstadd_back(new_tokens, ft_lstnew(new_token(((token_t *)token->content)->type, ((token_t *)token->content)->value)));
+//     if (token != NULL && ((token_t *)token->content)->type == TYPE_SPC)
+//     {
+//         ft_lstadd_back(new_tokens, ft_lstnew(new_token(TYPE_SPC, ((token_t *)token->content)->value)));
+//         token = token->next;
+//     }
 
-    while (token != NULL && (!in_q || ((token_t *)token->content)->type != TYPE_SPC))
-    {
-        if(in_q || ((token_t *)token->content)->type == TYPE_WORD || ((token_t *)token->content)->type == TYPE_DOLLAR)
-            joined = ft_strjoin(joined, ((token_t *)token->content)->value);
-        if (((token_t *)token->content)->type == TYPE_QUOTE && in_q != 2)
-        {
-        if(in_q == 1)
-            in_q = 0;
-        else   
-            in_q = 1;
-        }
-        if (((token_t *)token->content)->type == TYPE_D_QUOTE && in_q != 1)
-        {
-        if(in_q == 2)
-            in_q = 0;
-        else   
-            in_q = 2;
-        }
-        token = token->next;
-    }
-    ft_lstadd_back(new_tokens, ft_lstnew(new_token(TYPE_WORD, joined)));
-    return token;
-}
+//     while (token != NULL && (!in_q || ((token_t *)token->content)->type != TYPE_SPC))
+//     {
+//         if(in_q || ((token_t *)token->content)->type == TYPE_WORD || ((token_t *)token->content)->type == TYPE_DOLLAR)
+//             joined = ft_strjoin(joined, ((token_t *)token->content)->value);
+//         if (((token_t *)token->content)->type == TYPE_QUOTE && in_q != 2)
+//         {
+//         if(in_q == 1)
+//             in_q = 0;
+//         else   
+//             in_q = 1;
+//         }
+//         if (((token_t *)token->content)->type == TYPE_D_QUOTE && in_q != 1)
+//         {
+//         if(in_q == 2)
+//             in_q = 0;
+//         else   
+//             in_q = 2;
+//         }
+//         token = token->next;
+//     }
+//     ft_lstadd_back(new_tokens, ft_lstnew(new_token(TYPE_WORD, joined)));
+//     return token;
+// }
 
 t_list *to_expanded_tokens(t_list *tokens, char **env)
 {
@@ -77,7 +77,7 @@ t_list *to_expanded_tokens(t_list *tokens, char **env)
         else if (open_q)
             quote_content = ft_strjoin(quote_content, ((token_t *)tokens->content)->value);
         else
-            ft_lstadd_back(&new_token_lst, ft_lstnew(new_token(((token_t *)tokens->content)->type, ((token_t *)tokens->content)->value)));
+            ft_lstadd_back(&new_token_lst, token_lst_dup((token_t *)tokens->content));
         tokens = tokens->next;
     }
     return new_token_lst;
@@ -113,16 +113,16 @@ t_list *join_and_clean_tokens(t_list *tokens)
         else if (token->type != TYPE_WORD)
         {
             if(j_flag)
-                ft_lstadd_back(&new_tokens, ft_lstnew(new_token(TYPE_WORD, joined)));
+                ft_lstadd_back(&new_tokens, ft_lstnew(create_token(TYPE_WORD, joined)));
             joined = NULL;
             j_flag = 0;
             if (token->type != TYPE_SPC)
-                ft_lstadd_back(&new_tokens, ft_lstnew(new_token(token->type, token->value)));
+                ft_lstadd_back(&new_tokens, token_lst_dup(token));
         }
         tokens = tokens->next;
     }
     if(j_flag)
-        ft_lstadd_back(&new_tokens, ft_lstnew(new_token(TYPE_WORD, joined)));
+        ft_lstadd_back(&new_tokens, ft_lstnew(create_token(TYPE_WORD, joined)));
     return new_tokens;
 }
 
@@ -137,5 +137,5 @@ t_list *parce_line(char *line, char **env)
         return printf("syntax error !\n"), NULL;
     expanded_tokens = to_expanded_tokens(tokens, env);
     final_tokens = join_and_clean_tokens(expanded_tokens);
-    return expanded_tokens;
+    return final_tokens;
 }

@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/17 20:19:58 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/20 03:42:42 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ enum token_type	find_type(char *line, int *i)
 	return (find_type2(line, i));
 }
 
-token_t	*new_token(enum token_type type, void *content)
+token_t	*create_token(enum token_type type, void *content)
 {
 	token_t	*token;
 

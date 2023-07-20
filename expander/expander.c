@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:50:04 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/19 04:19:41 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/20 03:42:42 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int check_here_doc_expnd(t_list* tokens, int open_q)
         while(tokens != NULL && ((token_t*)tokens->content)->type != TYPE_D_QUOTE)
             tokens = tokens->prev;
     tokens = tokens->prev;
+    // while(tokens != NULL && ((token_t*)tokens->content)->type != TYPE_SPC && ((token_t*)tokens->content)->type != TYPE_HERE_DOC)
+    //     tokens = tokens->prev;
     while(tokens != NULL && ((token_t*)tokens->content)->type == TYPE_SPC)
         tokens = tokens->prev;
     return tokens != NULL && ((token_t*)tokens->content)->type == TYPE_HERE_DOC;
@@ -84,7 +86,7 @@ char *get_env_var(char **env, char *var)
 t_list *env_lexer(char *env)
 {
     if(env == NULL)
-        return ft_lstnew(new_token(TYPE_WORD, NULL));
+        return ft_lstnew(create_token(TYPE_WORD, NULL));
     return lexer(env);
 }
 
@@ -102,7 +104,7 @@ void insert_env_in_token_lst(char *env_val, char *env_name, t_list **tokens, t_l
     var_lexer->prev = (*tokens)->next;
     (*tokens)->next = var_lexer;
     if(ft_strlen(rest_word) > 0)
-        ft_lstadd_back(tokens, ft_lstnew(new_token(TYPE_WORD, rest_word)));
+        ft_lstadd_back(tokens, ft_lstnew(create_token(TYPE_WORD, rest_word)));
     ft_lstadd_back(tokens, tmp_token);
 }
 

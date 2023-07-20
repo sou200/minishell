@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/19 01:04:36 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/20 03:44:28 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_list *lexer(char *line);
 char	*space_type(char *line, int *i);
 enum token_type	find_type2(char *line, int *i);
 enum token_type	find_type(char *line, int *i);
-token_t	*new_token(enum token_type type, void *content);
+token_t	*create_token(enum token_type type, void *content);
 int	check_word(char c);
 t_list* to_expanded_tokens(t_list* tokens, char **env);
 int is_valid_syntax(t_list *token_lst);
@@ -60,6 +60,7 @@ void expand_env(t_list **tokens, char **env);
 int is_valid_env(t_list* tokens, int open_q);
 t_list* parce_line(char *line, char **env);
 int in_quote_handler(int *open_q, char **quote_content, t_list** new_token_lst, int q_case);
+t_list *token_lst_dup(token_t *token);
 
 
 // tmp
