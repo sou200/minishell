@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:20:46 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/20 17:06:12 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/22 11:42:08 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,26 @@ t_list	*ft_lstnew1(void *content)
 }
 
 
-char	*ft_strdupenv(const char *s)
-{
-	unsigned int	len;
-	char			*p;
-	unsigned int	i;
+// char	*ft_strdupenv(const char *s)
+// {
+// 	unsigned int	len;
+// 	char			*p;
+// 	unsigned int	i;
 
-	len = ft_strlen(s);
-	env.size += len + 1;
-	p = (char *)malloc((len + 1) * sizeof(char));
-	if (p == 0)
-		ft_exit(ENOMEM);
-	recycle(1, p);
-	i = 0;
-	while (i <= len)
-	{
-		*(p + i) = *(s + i);
-		i++;
-	}
-	return (p);
-}
+// 	len = ft_strlen(s);
+// 	env.size += len + 1;
+// 	p = (char *)malloc((len + 1) * sizeof(char));
+// 	if (p == 0)
+// 		ft_exit(ENOMEM);
+// 	recycle(1, p);
+// 	i = 0;
+// 	while (i <= len)
+// 	{
+// 		*(p + i) = *(s + i);
+// 		i++;
+// 	}
+// 	return (p);
+// }
 
 char	*ft_strdup1(const char *s)
 {

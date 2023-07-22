@@ -6,6 +6,8 @@
 
 - PWD gets its value from cd  
 
+echo $FA=ee
+
 - print error message when using cdpwd or cd without having rights
 
 - READ!!!!!!
@@ -13,3 +15,7 @@
 - implement garbage collectore as an array
 
 - implement variables a
+
+- printf error
+
+-

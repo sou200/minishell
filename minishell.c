@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/20 18:31:36 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/22 13:36:33 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,6 @@ void print_tokens(t_list *head)
 // }
 
 
-void *tt(int sig)
-{
-	printf("eqwqe\n");
-}
 int main(int argc, char const *argv[], char **en)
 { 
     t_list *head;
@@ -87,9 +83,9 @@ int main(int argc, char const *argv[], char **en)
     // // printf("%s\n",getcwd(0,0));
     // // printf("%s\n",getenv("PWD"));
     // ft_pwd();
-	signal(SIGINT,tt);
 	int i = 0;
-	printf("eqw\n");
+
+	initialise_env((const char **)en);
 	// while(en[i])
 	// {
 	// 	printf("%s\n",en[i]);
@@ -123,6 +119,17 @@ int main(int argc, char const *argv[], char **en)
             else
                 usleep(10000);
         }
+       if (head && !ft_strncmp(((t_token *)head->content)->value, "env",4))
+	   		ft_env();
+	    if (head && !ft_strncmp(((t_token *)head->content)->value, "getenv",7))
+			if(head->next)
+	   		ft_printenv((char *)((t_token *)head->next->content)->value);
+	    if (head && !ft_strncmp(((t_token *)head->content)->value, "unset",6))
+			if(head->next)
+	   		remove_var((char *)((t_token *)head->next->content)->value);
+	    if (head && !ft_strncmp(((t_token *)head->content)->value, "set",4))
+			if(head->next)
+	   		add_var((char *)((t_token *)head->next->content)->value);
         add_history(rl_line_buffer);
         rl_line_buffer = readline("\033[0;32mminishell: $->\033[0;37m");
     }

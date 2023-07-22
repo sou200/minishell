@@ -6,25 +6,12 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 14:48:22 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/20 17:11:57 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/22 09:24:47 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
 
-// const char *ft_getenv(const char *var)
-// {
-// 	int		i;
-// 	char	*path;
-// 	char	**paths;
-
-// 	i = 0;
-// 	while (env[i] && ft_strncmp(var, env[i], ft_strlen(var)))
-// 		i++;
-// 	if (!(env[i] + ft_strlen(var)))
-// 		return (0);
-// 	return ((env[i] + ft_strlen(var)));
-// }
 
 // char	**cd_path(char **env)
 // {

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/20 17:29:24 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/22 17:58:36 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,27 @@ typedef struct s_token
     char *value;
 }t_token;
 
-// typedef struct smpl_cmnd_s
-// {
-//     char **cmnd;
-//     int built_in;
-// } smpl_cmnd_t;
+typedef struct s_protype
+{
+   	char **cmnd;
+	t_list *left_red;//void * = {< | << ; char *}
+	t_list *right_red;//void * = {> | >> ; char *}
+	struct s_protype *next;
+} t_prototype;
 
 char **env;
-
+int add_var1(const char *var);
+int	check_var1(const char *var);
+int	ft_pathcmp(const char *s1, const char *PATH);
+int	check_var(const char *var);
+void add_var(const char *var);
+void remove_var(const char *var);
 // t_env env;
+void ft_env(void);
+int	size_double(char **str);
+void	initialise_env(const char **en);
+char	**realloc_env(int n);
+void free_table(char **str);
 char	*ft_strdup1(const char *s);
 char	*ft_strdupenv(const char *s);
 const char *ft_getenv(const char *var);
@@ -82,7 +94,7 @@ char	*trim_backslash(char *s);
 char	*cd_pathcheck(const char *dirname);
 int abs_path (const char *dirname);
 void	ft_cd(const char *dirname);
-
+void ft_printenv(const char *var);
 void	ft_pwd(void);
 void	ft_echo(char **cmd);
 t_list	*ft_lstnew1(void *content);
