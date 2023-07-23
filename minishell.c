@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/19 02:53:55 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/21 21:30:07 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,16 @@ int main(int argc, char const *argv[], char **env)
     while(1)
     {
         line = readline("\033[0;32mminishell: $->\033[0;37m ");
-        if (!ft_strlen(line))
-            continue;
+        if (!line)
+            break;
         add_history(line);
         head = parce_line(line, env);
         if(head != NULL)
             print_tokens(head);
+        ft_lstclear(&head, ft_free_token);
+        free(line);
     }
+    // clear_history();
     system("leaks minishell");
     return 0;
 }

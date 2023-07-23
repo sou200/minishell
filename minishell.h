@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/20 23:58:49 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/23 01:36:49 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,12 @@ void expand_env(t_list **tokens, char **env);
 int is_valid_env(t_list* tokens, int open_q);
 t_list* parce_line(char *line, char **env);
 int in_quote_handler(int *open_q, char **quote_content, t_list** new_token_lst, int q_case);
+t_list *tokens_without_spc(t_list *token_lst);
 t_list *token_lst_dup(token_t *token);
+void ft_free_token(void *token);
+char *ft_strjoin_free(char *a, char *b, int i, int j);
+t_list *env_lexer(char *env);
+int env_name_len(char *var);
 
 
 // tmp

@@ -1,35 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   cmnd_builder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/09 23:19:47 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/21 02:14:20 by serhouni         ###   ########.fr       */
+/*   Created: 2023/07/23 22:04:17 by serhouni          #+#    #+#             */
+/*   Updated: 2023/07/23 22:05:49 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-char	*ft_strdup(const char *s)
+t_list *generate_cmnds(t_list *tokens)
 {
-	unsigned int	len;
-	char			*p;
-	unsigned int	i;
-
-	if(s == NULL)
-		return NULL;
-
-	len = ft_strlen(s);
-	p = (char *)malloc((len + 1) * sizeof(char));
-	if (p == 0)
-		return (0);
-	i = 0;
-	while (i <= len)
-	{
-		*(p + i) = *(s + i);
-		i++;
-	}
-	return (p);
+    
 }

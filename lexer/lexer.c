@@ -6,26 +6,25 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 20:19:56 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/20 03:42:42 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/22 20:22:02 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_word(char c)
+int check_word(char c)
 {
-	if (c == '\'' || c == '\"' || c == '|'
-		|| c == '*' || c == '<' || c == '>' || c == '$' || c == ' ' || c == '\t')
+	if (c == '\'' || c == '\"' || c == '|' || c == '*' || c == '<' || c == '>' || c == '$' || c == ' ' || c == '\t')
 		return (0);
 	return (1);
 }
 
-t_list	*lexer(char *line)
+t_list *lexer(char *line)
 {
-	t_list	*head;
-	t_list	*token;
-	int		i;
-	int		x;
+	t_list *head;
+	t_list *token;
+	int i;
+	int x;
 
 	x = 0;
 	i = 0;

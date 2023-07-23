@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_free_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/09 23:19:47 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/21 02:14:20 by serhouni         ###   ########.fr       */
+/*   Created: 2023/07/21 00:40:28 by serhouni          #+#    #+#             */
+/*   Updated: 2023/07/23 01:29:20 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-char	*ft_strdup(const char *s)
+void ft_free_token(void *content)
 {
-	unsigned int	len;
-	char			*p;
-	unsigned int	i;
-
-	if(s == NULL)
-		return NULL;
-
-	len = ft_strlen(s);
-	p = (char *)malloc((len + 1) * sizeof(char));
-	if (p == 0)
-		return (0);
-	i = 0;
-	while (i <= len)
-	{
-		*(p + i) = *(s + i);
-		i++;
-	}
-	return (p);
+    token_t *token;
+    token = (token_t *)content;
+    if(token != NULL)
+        free(token->value);
+    free(token);
 }
