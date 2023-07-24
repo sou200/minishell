@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:43:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/23 01:04:10 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/24 19:53:13 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ t_list *parce_line(char *line, char **env)
     t_list *tokens;
     t_list *expanded_tokens;
     t_list *final_tokens;
+    t_list *smpl_cmnds;
 
     tokens = lexer(line);
     if (!is_valid_syntax(tokens))
@@ -99,5 +100,7 @@ t_list *parce_line(char *line, char **env)
     ft_lstclear(&tokens, ft_free_token);
     final_tokens = join_and_clean_tokens(expanded_tokens);
     ft_lstclear(&expanded_tokens, ft_free_token);
-    return final_tokens;
+    smpl_cmnds = generate_cmnds(final_tokens);
+    ft_lstclear(&final_tokens, ft_free_token);
+    return smpl_cmnds;
 }

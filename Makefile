@@ -5,7 +5,7 @@ CC = cc
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
-SRCS = minishell.c lexer/lexer.c lexer/tokenization.c lexer/ft_free_token.c lexer/token_utils.c parser/quotes_handler.c parser/syntax_error_handler.c parser/parser.c expander/expand_utils.c expander/expander.c tools/ft_strjoin_free.c
+SRCS = minishell.c lexer/lexer.c lexer/tokenization.c lexer/ft_free_token.c lexer/token_utils.c parser/quotes_handler.c parser/syntax_error_handler.c parser/cmnd_builder.c parser/parser.c expander/expand_utils.c expander/expander.c tools/ft_strjoin_free.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY : all clean fclean re bonus

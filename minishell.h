@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/23 01:36:49 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/24 00:34:45 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ typedef struct token_s
 
 typedef struct smpl_cmnd_s
 {
-    char **cmnd;
-    int built_in;
+   	char **cmnd;
+	t_list *left_red;//void * = {< | << ; char *}
+	t_list *right_red;//void * = {> | >> ; char *}
 } smpl_cmnd_t;
 
 t_list *lexer(char *line);
@@ -75,6 +76,8 @@ void ft_free_token(void *token);
 char *ft_strjoin_free(char *a, char *b, int i, int j);
 t_list *env_lexer(char *env);
 int env_name_len(char *var);
+int is_redirection(token_t *token);
+t_list *generate_cmnds(t_list *tokens);
 
 
 // tmp

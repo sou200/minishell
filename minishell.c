@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/21 21:30:07 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/24 19:55:36 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,53 @@ void print_tokens(t_list *head)
     }
 }
 
+// int cmnd_arg_count(t_list *tokens)
+// {
+//     int count;
+
+//     count = 0;
+//     while (tokens != NULL && ((token_t*)tokens->content)->type != TYPE_PIPE)
+//     {
+//         if(is_redirection((token_t*)tokens->content))
+//             tokens = tokens->next;
+//         else
+//             count++;
+//         tokens = tokens->next;
+//     }
+//     return count;
+// }
+
+void print_cmnds(t_list *cmnds)
+{
+    smpl_cmnd_t *cmnd;
+    t_list *left_red;
+    t_list *right_red;
+    int i;
+    while (cmnds != NULL)
+    {
+        i = 0;
+        cmnd = ((smpl_cmnd_t*)cmnds->content);
+        left_red = cmnd->left_red;
+        right_red = cmnd->right_red;
+        while(cmnd->cmnd[i] != NULL)
+            printf("%s\n", cmnd->cmnd[i++]);
+        printf("------------------------------\n");
+        while (left_red != NULL)
+        {
+            printf("%s {%s}\n", get_type(((token_t *)left_red->content)->type), ((token_t *)left_red->content)->value);
+            left_red = left_red->next;
+        }
+        printf("-------------------------------\n");
+        while (right_red != NULL)
+        {
+            printf("%s {%s}\n", get_type(((token_t *)right_red->content)->type), ((token_t *)right_red->content)->value);
+            right_red = right_red->next;
+        }
+        printf("================================\n");
+        cmnds = cmnds->next;
+    }
+}
+
 int main(int argc, char const *argv[], char **env)
 {
     char *line;
@@ -66,8 +113,9 @@ int main(int argc, char const *argv[], char **env)
             break;
         add_history(line);
         head = parce_line(line, env);
-        if(head != NULL)
-            print_tokens(head);
+        // if(head != NULL)
+        //     print_tokens(head);
+        print_cmnds(head);
         ft_lstclear(&head, ft_free_token);
         free(line);
     }
