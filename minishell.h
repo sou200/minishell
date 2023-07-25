@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/22 17:58:36 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/23 14:51:35 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,30 @@ typedef struct s_protype
 	struct s_protype *next;
 } t_prototype;
 
+typedef struct s_var
+{
+	int		fd[2];
+	int		pid1;
+	int		pid2;
+	char	**paths;
+	int		infile;
+	int		outfile;
+	int		i;
+}	t_var;
+
 char **env;
+
+void	ft_dup2(int x, int y);
+void	ft_error(int erno, const char *msg);
+char	**path(void);
+void	ft_close(int n, ...);
+char	*generate_name(void);
+int	ft_input(char *stop);
+int redirect_input(t_list *left_red);
+int redirect_output(t_list *right_red);
+char	*cmd_path(char **paths, char *cmd);
+void simple_cmd(t_var *p, t_prototype *cmd);
+void ft_execute(t_prototype *cmd);
 int add_var1(const char *var);
 int	check_var1(const char *var);
 int	ft_pathcmp(const char *s1, const char *PATH);

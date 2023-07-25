@@ -9,6 +9,7 @@ SRCS = minishell.c lexer/lexer.c lexer/tokenization.c parser/quotes_handler.c \
 	parser/syntax_error_handler.c builtins/echo.c  builtins/pwd.c  builtins/cd.c \
 		 expander/expander.c tools/leaks.c tools/recyclable.c\
 		builtins/env.c builtins/get_next_line_bonus.c builtins/get_next_line_utils_bonus.c\
+		builtins/cmds.c
 
 OBJS = $(SRCS:.c=.o)
 

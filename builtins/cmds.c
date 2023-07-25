@@ -6,22 +6,13 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/22 18:42:38 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:19:16 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
 #include"get_next_line_bonus.h"
-typedef struct s_var
-{
-	int		fd[2];
-	int		pid1;
-	int		pid2;
-	char	**paths;
-	int		infile;
-	int		outfile;
-	int		i;
-}	t_var;
+
 
 int return_value;
 void	ft_error(int erno, const char *msg)
@@ -132,7 +123,7 @@ int redirect_input(t_list *left_red)
 	while(left_red)
 	{
 		holder = (t_token *)left_red->content;
-		if (holder->type =  TYPE_RD_L)
+		if (holder->type ==  TYPE_RD_L)
 		fd = open(holder->value, O_RDONLY);
 		else
 		fd = ft_input(holder->value);
@@ -144,17 +135,13 @@ int redirect_input(t_list *left_red)
 	}
 	return(fd);
 }
-// void	ft_open(char *str, int *fd, int flag)
-// {
-// 	if (flag == -1)
-// 		*fd = open(str, O_RDWR | O_TRUNC | O_CREAT, 0666);
-// 	else if (flag == -2)
-// 		*fd = open(str, O_RDWR | O_APPEND | O_CREAT, 0666);
-// 	else
-// 		*fd = open(str, O_RDONLY);
-// 	if (*fd == -1)
-// 		ft_error(1, "open ");
-// }
+
+void	ft_dup2(int x, int y)
+{
+	if (dup2(x, y) == -1)
+		ft_error(1, "dup2 ");
+}
+
 int redirect_output(t_list *right_red)
 {
 	t_token *holder;
@@ -164,10 +151,10 @@ int redirect_output(t_list *right_red)
 	while(right_red)
 	{
 		holder = (t_token *)right_red->content;
-		if (holder->type =  TYPE_RD_R)
+		if (holder->type ==  TYPE_RD_R)
 		fd = open(holder->value, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		else
-		fd = fd = open(holder->value, O_WRONLY | O_APPEND | O_CREAT, 0666);
+		fd = open(holder->value, O_WRONLY | O_APPEND | O_CREAT, 0666);
 		if (fd == -1)
 			printf("erroor\n");
 		if (right_red->next)
@@ -205,22 +192,23 @@ char	*cmd_path(char **paths, char *cmd)
 
 void simple_cmd(t_var *p, t_prototype *cmd)
 {
+	char *cmdd;
 	p->pid1= fork();
 	if (!p->pid1)
 	{
 		p->infile = redirect_input(cmd->left_red);
 		p->outfile = redirect_output(cmd->right_red);
-		ft_dup2(p->infile, 0);//dup in same file
+		ft_dup2(p->infile, 0);//dup in same file be careful that fd is 0 and you reclose fd of 0
 		ft_dup2(p->outfile, 0);
 		if (p->infile != 0)
 			close(p->infile);
 		if (p->outfile != 1)
 			close(p->outfile);
-	cmd = cmd_path(p->paths, cmd->cmnd[0]);
-	if (!cmd || access(cmd, X_OK))
+	cmdd = cmd_path(p->paths, cmd->cmnd[0]);
+	if (!cmdd || access(cmdd, X_OK))
 		return (ft_error(1, "command not found "));
-	if (execve(cmd, cmd->cmnd, env) == -1)
-		return (free(cmd), cmd = 0, ft_error(1, "execve "));
+	if (execve(cmdd, cmd->cmnd, env) == -1)
+		return (free(cmdd), cmdd = 0, ft_error(1, "execve "));
 	}
 	else
 		waitpid(p->pid1,&return_value, 0);
@@ -233,9 +221,5 @@ void ft_execute(t_prototype *cmd)
 	p.infile = -1337;
 	p.paths = path();
 	if (cmd && !cmd->next)
-		simple_cmd();
-	while (cmd)
-	{
-		
-	}
+		simple_cmd(&p,cmd);
 }
