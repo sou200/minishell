@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/14 00:21:55 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/16 23:50:06 by serhouni         ###   ########.fr       */
+/*   Created: 2023/07/21 02:26:29 by serhouni          #+#    #+#             */
+/*   Updated: 2023/07/21 02:35:04 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "stdio.h"
+#include "../minishell.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+char *ft_strjoin_free(char *a, char *b, int i, int j)
 {
-	t_list	*lastnode;
-
-	if (lst == 0 || new == 0)
-		return ;
-	if (*lst == 0)
-		*lst = new;
-	else
-	{
-		lastnode = ft_lstlast(*lst);
-		new->prev = lastnode;
-		lastnode->next = new;
-	}
+    char *res = ft_strjoin(a, b);
+    if(i && a)
+        free(a);
+    if(j && b)
+        free(b);
+    return res;
 }

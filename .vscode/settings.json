@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
 	"files.associations": {
 		"pipex_bonus.h": "c",
 		"get_next_line_bonus.h": "c",
@@ -20,4 +21,26 @@
 		"type_traits": "c",
 		"vector": "c"
 	}
+=======
+    "files.associations": {
+        "__locale": "c",
+        "__functional_base": "c",
+        "__functional_base_03": "c",
+        "__hash_table": "c",
+        "__tuple": "c",
+        "algorithm": "c",
+        "array": "c",
+        "chrono": "c",
+        "type_traits": "c",
+        "functional": "c",
+        "iterator": "c",
+        "limits": "c",
+        "memory": "c",
+        "ratio": "c",
+        "tuple": "c",
+        "utility": "c",
+        "*.c ": "c",
+        "minishell.h": "c"
+    }
+>>>>>>> soufiane
 }

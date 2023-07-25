@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/23 14:51:35 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:36:53 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,7 @@ enum token_type
     TYPE_SPC
 };
 
-// typedef struct s_env
-// {
-// 	int		size;
-// 	t_list	*env;
-// }t_env;
-
+char **env;
 typedef struct s_global
 {
     char	return_value;
@@ -58,32 +53,18 @@ typedef struct s_global
 
 t_global	global;
 
-typedef struct s_token
+typedef struct token_s
 {
     enum token_type type;
     char *value;
-}t_token;
+} token_t;
 
-typedef struct s_protype
+typedef struct smpl_cmnd_s
 {
    	char **cmnd;
 	t_list *left_red;//void * = {< | << ; char *}
 	t_list *right_red;//void * = {> | >> ; char *}
-	struct s_protype *next;
-} t_prototype;
-
-typedef struct s_var
-{
-	int		fd[2];
-	int		pid1;
-	int		pid2;
-	char	**paths;
-	int		infile;
-	int		outfile;
-	int		i;
-}	t_var;
-
-char **env;
+} smpl_cmnd_t;
 
 void	ft_dup2(int x, int y);
 void	ft_error(int erno, const char *msg);
@@ -129,11 +110,26 @@ t_list *lexer(char *line);
 char	*space_type(char *line, int *i);
 enum token_type	find_type2(char *line, int *i);
 enum token_type	find_type(char *line, int *i);
-t_token	*new_token(enum token_type type, void *content);
+token_t	*create_token(enum token_type type, void *content);
 int	check_word(char c);
-t_list* remove_quotes(t_list* tokens, char **env);
+t_list* to_expanded_tokens(t_list* tokens, char **env);
 int is_valid_syntax(t_list *token_lst);
 
-void expand_env(t_list *tokens, char **env);
+void expand_env(t_list **tokens, char **env);
+int is_valid_env(t_list* tokens, int open_q);
+t_list* parce_line(char *line, char **env);
+int in_quote_handler(int *open_q, char **quote_content, t_list** new_token_lst, int q_case);
+t_list *tokens_without_spc(t_list *token_lst);
+t_list *token_lst_dup(token_t *token);
+void ft_free_token(void *token);
+char *ft_strjoin_free(char *a, char *b, int i, int j);
+t_list *env_lexer(char *env);
+int env_name_len(char *var);
+int is_redirection(token_t *token);
+t_list *generate_cmnds(t_list *tokens);
+
+
+// tmp
+void print_tokens(t_list *head);
 
 #endif

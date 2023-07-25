@@ -6,26 +6,25 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 20:19:56 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/19 17:40:20 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:39:41 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_word(char c)
+int check_word(char c)
 {
-	if (c == '\'' || c == '\"' || c == '|' || c == '&'
-		|| c == '*' || c == '<' || c == '>' || c == '$' || c == ' ')
+	if (c == '\'' || c == '\"' || c == '|' || c == '*' || c == '<' || c == '>' || c == '$' || c == ' ' || c == '\t')
 		return (0);
 	return (1);
 }
 
-t_list	*lexer(char *line)
+t_list *lexer(char *line)
 {
-	t_list	*head;
-	t_list	*token;
-	int		i;
-	int		x;
+	t_list *head;
+	t_list *token;
+	int i;
+	int x;
 
 	x = 0;
 	i = 0;
@@ -36,22 +35,14 @@ t_list	*lexer(char *line)
 		while (line[i] && check_word(line[i]))
 			i++;
 		if (x != i)
-			token = ft_lstnew1(new_token(0, ft_substr1(line, x, i - x)));
-		else if (line[i] == ' ')
-		{
-			// token = ft_lstnew1(new_token(TYPE_SPC, space_type(line, &i)));
-			while(line[i] == ' ')
-				i++;
-				continue ;
-		}
+			token = ft_lstnew(create_token(0, ft_substr(line, x, i - x)));
+		else if (line[i] == ' ' || line[i] == '\t')
+			token = ft_lstnew(create_token(TYPE_SPC, space_type(line, &i)));
 		else
-			token = ft_lstnew1(new_token(find_type(line, &i), ft_substr1(line, x, i - x)));
+			token = ft_lstnew(create_token(find_type(line, &i), ft_substr(line, x, i - x)));
+		if (!token)
+			exit(-1);
 		ft_lstadd_back(&head, token);
 	}
 	return (head);
 }
-
-// char *get_val_by_type()
-// {
-	
-// }
