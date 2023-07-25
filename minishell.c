@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/19 08:46:57 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:32:22 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ char *get_type(enum token_type type)
     return NULL;
 }
 
+
 void print_tokens(t_list *head)
 {
-    t_token *token;
+    token_t *token;
     while(head != NULL)
     {
         token = head->content;
@@ -53,29 +54,73 @@ void print_tokens(t_list *head)
     }
 }
 
-void lk(void)
+// int cmnd_arg_count(t_list *tokens)
+// {
+//     int count;
+
+//     count = 0;
+//     while (tokens != NULL && ((token_t*)tokens->content)->type != TYPE_PIPE)
+//     {
+//         if(is_redirection((token_t*)tokens->content))
+//             tokens = tokens->next;
+//         else
+//             count++;
+//         tokens = tokens->next;
+//     }
+//     return count;
+// }
+
+void print_cmnds(t_list *cmnds)
 {
-	system("leaks minishell");
+    smpl_cmnd_t *cmnd;
+    t_list *left_red;
+    t_list *right_red;
+    int i;
+    while (cmnds != NULL)
+    {
+        i = 0;
+        cmnd = ((smpl_cmnd_t*)cmnds->content);
+        left_red = cmnd->left_red;
+        right_red = cmnd->right_red;
+        while(cmnd->cmnd[i] != NULL)
+            printf("%s\n", cmnd->cmnd[i++]);
+        printf("------------------------------\n");
+        while (left_red != NULL)
+        {
+            printf("%s {%s}\n", get_type(((token_t *)left_red->content)->type), ((token_t *)left_red->content)->value);
+            left_red = left_red->next;
+        }
+        printf("-------------------------------\n");
+        while (right_red != NULL)
+        {
+            printf("%s {%s}\n", get_type(((token_t *)right_red->content)->type), ((token_t *)right_red->content)->value);
+            right_red = right_red->next;
+        }
+        printf("================================\n");
+        cmnds = cmnds->next;
+    }
 }
 
 int main(int argc, char const *argv[], char **env)
 {
-	atexit(lk);
+	// atexit(lk);
     char *line;
     
     t_list *head;
-    line = readline("\033[0;32mminishell: $->\033[0;37m");
-    while(line != NULL)
-    {   
-        head = lexer(line);
-        if(!is_valid_syntax(head))
-            printf("syntax error !\n");
-        head = remove_quotes(head, env);
-        if(head != NULL)
-            print_tokens(head);
+    while(1)
+    {
+        line = readline("\033[0;32mminishell: $->\033[0;37m ");
+        if (!line)
+            break;
         add_history(line);
-        line = readline("\033[0;32mminishell: $->\033[0;37m");
+        head = parce_line(line, env);
+        // if(head != NULL)
+        //     print_tokens(head);
+        print_cmnds(head);
+        ft_lstclear(&head, ft_free_token);
+        free(line);
     }
+    // clear_history();
     system("leaks minishell");
     return 0;
 }

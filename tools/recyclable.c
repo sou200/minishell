@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:20:46 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/19 08:33:48 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:25:06 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,46 @@ t_list	*ft_lstnew1(void *content)
 	newnode.prev = NULL;
 	*node = newnode;
 	return (node);
+}
+
+
+char	*ft_strdupenv(const char *s)
+{
+	unsigned int	len;
+	char			*p;
+	unsigned int	i;
+
+	len = ft_strlen(s);
+	env.size += len + 1;
+	p = (char *)malloc((len + 1) * sizeof(char));
+	if (p == 0)
+		ft_exit(ENOMEM);
+	recycle(1, p);
+	i = 0;
+	while (i <= len)
+	{
+		*(p + i) = *(s + i);
+		i++;
+	}
+	return (p);
+}
+
+char	*ft_strdup1(const char *s)
+{
+	unsigned int	len;
+	char			*p;
+	unsigned int	i;
+
+	len = ft_strlen(s);
+	p = (char *)malloc((len + 1) * sizeof(char));
+	if (p == 0)
+		ft_exit(ENOMEM);
+	recycle(1, p);
+	i = 0;
+	while (i <= len)
+	{
+		*(p + i) = *(s + i);
+		i++;
+	}
+	return (p);
 }

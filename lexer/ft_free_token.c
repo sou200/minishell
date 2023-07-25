@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   ft_free_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/14 00:21:55 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/16 23:50:06 by serhouni         ###   ########.fr       */
+/*   Created: 2023/07/21 00:40:28 by serhouni          #+#    #+#             */
+/*   Updated: 2023/07/23 01:29:20 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "stdio.h"
+#include "../minishell.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void ft_free_token(void *content)
 {
-	t_list	*lastnode;
-
-	if (lst == 0 || new == 0)
-		return ;
-	if (*lst == 0)
-		*lst = new;
-	else
-	{
-		lastnode = ft_lstlast(*lst);
-		new->prev = lastnode;
-		lastnode->next = new;
-	}
+    token_t *token;
+    token = (token_t *)content;
+    if(token != NULL)
+        free(token->value);
+    free(token);
 }
