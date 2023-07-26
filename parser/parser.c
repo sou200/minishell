@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:43:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/24 19:53:13 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:50:49 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int is_redirection(token_t *token)
+int is_redirection(t_token *token)
 {
     return token->type == TYPE_HERE_DOC || token->type == TYPE_APPEND || token->type == TYPE_RD_L || token->type == TYPE_RD_R;
 }
@@ -28,16 +28,16 @@ t_list *to_expanded_tokens(t_list *tokens, char **env)
     quote_content = NULL;
     while (tokens != NULL)
     {
-        if (((token_t *)tokens->content)->type == TYPE_QUOTE && open_q != 2)
+        if (((t_token *)tokens->content)->type == TYPE_QUOTE && open_q != 2)
             in_quote_handler(&open_q, &quote_content, &new_token_lst, 1);
-        else if (((token_t *)tokens->content)->type == TYPE_D_QUOTE && open_q != 1)
+        else if (((t_token *)tokens->content)->type == TYPE_D_QUOTE && open_q != 1)
             in_quote_handler(&open_q, &quote_content, &new_token_lst, 2);
-        else if (((token_t *)tokens->content)->type == TYPE_DOLLAR && is_valid_env(tokens, open_q))
+        else if (((t_token *)tokens->content)->type == TYPE_DOLLAR && is_valid_env(tokens, open_q))
             expand_env(&tokens, env);
         else if (open_q)
-            quote_content = ft_strjoin_free(quote_content, ((token_t *)tokens->content)->value, 1, 0);
+            quote_content = ft_strjoin_free(quote_content, ((t_token *)tokens->content)->value, 1, 0);
         else
-            ft_lstadd_back(&new_token_lst, token_lst_dup((token_t *)tokens->content));
+            ft_lstadd_back(&new_token_lst, token_lst_dup((t_token *)tokens->content));
         tokens = tokens->next;
     }
     return new_token_lst;
@@ -45,9 +45,9 @@ t_list *to_expanded_tokens(t_list *tokens, char **env)
 
 int is_valid_to_join(t_list *tokens)
 {
-    token_t *token;
+    t_token *token;
 
-    token = (token_t *)tokens->content;
+    token = (t_token *)tokens->content;
     if (token->type == TYPE_WORD)
         return 1;
     if (token->type == TYPE_DOLLAR)
@@ -58,7 +58,7 @@ int is_valid_to_join(t_list *tokens)
 t_list *join_and_clean_tokens(t_list *tokens)
 {
     t_list *new_tokens;
-    token_t *token;
+    t_token *token;
     char *joined;
     int j_flag;
 
@@ -67,7 +67,7 @@ t_list *join_and_clean_tokens(t_list *tokens)
     j_flag = 0;
     while (tokens != NULL)
     {
-        token = (token_t *)tokens->content;
+        token = (t_token *)tokens->content;
         if (is_valid_to_join(tokens))
             joined = ft_strjoin_free(joined, token->value, 1, 0) + 0 * j_flag++;
         else if (token->type != TYPE_WORD)

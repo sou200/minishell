@@ -4,7 +4,7 @@
 //ft_substr1 ft_lstnew1 ...
 
 
-/* enum token_type	find_type2(char *line, int *i)
+/* enum t_tokenype	find_type2(char *line, int *i)
 {
 	if (line[*i] == '|')
 		return (*i += 1, TYPE_PIPE);

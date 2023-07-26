@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:50:04 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/23 01:35:17 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:58:56 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,34 @@ void insert_env_in_token_lst(char *env_val, char *env_word, t_list **tokens, t_l
     ft_lstadd_back(tokens, tmp_token);
 }
 
+int is_valid_to_expand(char *s, int *i)
+{
+	if(s[*i + 1] != '\0' && )
+}
+
+void expand_heredoc_line(char *line)
+{
+	int i;
+
+	i = 0;
+	while(line[i] != '\0')
+	{
+		if(line[i] == '$' && is_valid_to_expand(line, &i))
+		{
+			
+		}
+	}
+}
+
 void expand_env(t_list **tokens, char **env)
 {
     t_list *tmp_token;
     char *env_word;
     char *env_val;
-    if(((token_t *)(*tokens)->next->content)->type == TYPE_QUOTE || ((token_t *)(*tokens)->next->content)->type == TYPE_D_QUOTE)
+    if(((t_token *)(*tokens)->next->content)->type == TYPE_QUOTE || ((t_token *)(*tokens)->next->content)->type == TYPE_D_QUOTE)
         return ;
     tmp_token = (*tokens)->next->next;
-    env_word = ((token_t *)(*tokens)->next->content)->value;
+    env_word = ((t_token *)(*tokens)->next->content)->value;
     env_val = get_env_var(env, env_word);
     insert_env_in_token_lst(env_val, env_word, tokens, tmp_token);
     free(env_val);

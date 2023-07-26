@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmnd_builder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 22:04:17 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/24 19:46:32 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/25 21:08:56 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int cmnd_arg_count(t_list *tokens)
     int count;
 
     count = 0;
-    while (tokens != NULL && ((token_t*)tokens->content)->type != TYPE_PIPE)
+    while (tokens != NULL && ((t_token*)tokens->content)->type != TYPE_PIPE)
     {
-        if(is_redirection((token_t*)tokens->content))
+        if(is_redirection((t_token*)tokens->content))
             tokens = tokens->next;
         else
             count++;
@@ -30,9 +30,9 @@ int cmnd_arg_count(t_list *tokens)
 
 void add_smpl_cmnd(t_list **cmnd_lst, char **cmnds, t_list *left_red , t_list *right_red)
 {
-        smpl_cmnd_t* smpl_cmnd;
+        t_prototype* smpl_cmnd;
 
-        smpl_cmnd = malloc(sizeof(smpl_cmnd_t));
+        smpl_cmnd = malloc(sizeof(t_prototype));
         smpl_cmnd->cmnd = cmnds;
         smpl_cmnd->left_red = left_red;
         smpl_cmnd->right_red = right_red;
@@ -43,7 +43,7 @@ void build_smpl_cmnd(t_list **tokens, t_list** smpl_cmnds)
 {
     t_list *left_red;
     t_list *right_red;
-    token_t *token;
+    t_token *token;
     char **cmnds;
     int cmd_index;
 
@@ -51,15 +51,15 @@ void build_smpl_cmnd(t_list **tokens, t_list** smpl_cmnds)
     cmd_index = 0;
     left_red = NULL;
     right_red = NULL;
-    while (*tokens != NULL && ((token_t*)(*tokens)->content)->type != TYPE_PIPE)
+    while (*tokens != NULL && ((t_token*)(*tokens)->content)->type != TYPE_PIPE)
     {
-        token = (token_t*)(*tokens)->content;
+        token = (t_token*)(*tokens)->content;
         if(is_redirection(token))
         {
             if(token->type == TYPE_RD_L || token->type == TYPE_HERE_DOC)
-                ft_lstadd_back(&left_red, ft_lstnew(create_token(token->type, ft_strdup(((token_t*)(*tokens)->next->content)->value))));
+                ft_lstadd_back(&left_red, ft_lstnew(create_token(token->type, ft_strdup(((t_token*)(*tokens)->next->content)->value))));
             else
-                ft_lstadd_back(&right_red, ft_lstnew(create_token(token->type, ((token_t*)(*tokens)->next->content)->value)));
+                ft_lstadd_back(&right_red, ft_lstnew(create_token(token->type, ft_strdup(((t_token*)(*tokens)->next->content)->value))));
             *tokens = (*tokens)->next;
         }
         else
@@ -77,7 +77,7 @@ t_list *generate_cmnds(t_list *tokens)
     smpl_cmnds = NULL;
     while(tokens != NULL)
     {
-        if(((token_t*)tokens->content)->type == TYPE_PIPE)
+        if(((t_token*)tokens->content)->type == TYPE_PIPE)
             tokens = tokens->next;
         build_smpl_cmnd(&tokens, &smpl_cmnds);
     }

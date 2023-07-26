@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:58:25 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/22 13:26:20 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:46:09 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ void add_var(const char *var)
 		return ;
 	if (!check_var1(var))
 	{
-		printf("minishell: unset: `%s': not a valid identifier\n",var);
+		printf("minishell: set: `%s': not a valid identifier\n",var);
 		errno = 1;
 	}
 	if (add_var1(var))

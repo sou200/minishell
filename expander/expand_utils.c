@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 01:32:34 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/23 02:05:41 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:50:49 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ int	check_here_doc_expnd(t_list *tokens, int open_q)
 {
 	if (open_q == 1)
 		while (tokens != NULL
-			&& ((token_t *)tokens->content)->type != TYPE_QUOTE)
+			&& ((t_token *)tokens->content)->type != TYPE_QUOTE)
 			tokens = tokens->prev;
 	else if (open_q == 2)
 		while (tokens != NULL
-			&& ((token_t *)tokens->content)->type != TYPE_D_QUOTE)
+			&& ((t_token *)tokens->content)->type != TYPE_D_QUOTE)
 			tokens = tokens->prev;
 	tokens = tokens->prev;
-	while (tokens != NULL && ((token_t *)tokens->content)->type == TYPE_SPC)
+	while (tokens != NULL && ((t_token *)tokens->content)->type == TYPE_SPC)
 		tokens = tokens->prev;
 	return (tokens != NULL
-		&& ((token_t *)tokens->content)->type == TYPE_HERE_DOC);
+		&& ((t_token *)tokens->content)->type == TYPE_HERE_DOC);
 }
 
 int	env_name_len(char *var)
@@ -48,12 +48,12 @@ t_list	*env_lexer(char *env)
 
 int	is_valid_env(t_list *tokens, int open_q)
 {
-	token_t	*token;
+	t_token	*token;
     if (tokens->next == NULL || open_q == 1)
         return (0);
     if (check_here_doc_expnd(tokens, open_q))
         return 0;
-    token = (token_t *)tokens->next->content;
+    token = (t_token *)tokens->next->content;
     if (token->type == TYPE_WORD && (ft_isalpha(*token->value) || *token->value == '_'))
         return 1;
     return (token->type == TYPE_QUOTE || token->type == TYPE_D_QUOTE) && open_q == 0;

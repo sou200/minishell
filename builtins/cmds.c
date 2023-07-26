@@ -6,12 +6,12 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/23 15:19:16 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:43:18 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
-#include"get_next_line_bonus.h"
+
 
 
 int return_value;
@@ -36,7 +36,7 @@ char	**path(void)
 		ft_error(1, "malloc ");
 	return (paths);
 }
-#include<fcntl.h>
+
 void	ft_close(int n, ...)
 {
 	va_list	t;
@@ -86,6 +86,20 @@ void	ft_open(char *str, int *fd, int flag)
 		ft_error(1, "open ");
 }
 
+int	ft_strrcmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
+	{
+		if (s1[i] != s2[i] && s1[i] && s2[i] != '\n')
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
+}
+
 int	ft_input(char *stop)
 {
 	int		fd;
@@ -100,9 +114,10 @@ int	ft_input(char *stop)
 	unlink(str);
 	free(str);
 	write(1, "> ", 2);
-	str = get_next_line(0);
-	while (str && ft_strncmp(stop, str, ft_strlen(stop) + 1))
+	str = get_next_line(0);//read;ome
+	while (str && ft_strrcmp(stop, str, ft_strlen(stop) + 1))
 	{
+		
 		write(fd, str, ft_strlen(str));
 		write(1, "> ", 2);
 		free(str);
@@ -114,12 +129,12 @@ int	ft_input(char *stop)
 	return (tmp);
 }
 
-int redirect_input(t_list *left_red)
+int redirect_input(t_list *left_red, int pipe)
 {
 	t_token *holder;
 	int	fd;
 
-	fd = 0;
+	fd = pipe;
 	while(left_red)
 	{
 		holder = (t_token *)left_red->content;
@@ -142,12 +157,12 @@ void	ft_dup2(int x, int y)
 		ft_error(1, "dup2 ");
 }
 
-int redirect_output(t_list *right_red)
+int redirect_output(t_list *right_red, int pipe)
 {
 	t_token *holder;
 	int	fd;
 
-	fd = 1;
+	fd = pipe;
 	while(right_red)
 	{
 		holder = (t_token *)right_red->content;
@@ -193,13 +208,16 @@ char	*cmd_path(char **paths, char *cmd)
 void simple_cmd(t_var *p, t_prototype *cmd)
 {
 	char *cmdd;
+
 	p->pid1= fork();
 	if (!p->pid1)
 	{
-		p->infile = redirect_input(cmd->left_red);
-		p->outfile = redirect_output(cmd->right_red);
-		ft_dup2(p->infile, 0);//dup in same file be careful that fd is 0 and you reclose fd of 0
-		ft_dup2(p->outfile, 0);
+		p->infile = redirect_input(cmd->left_red,p->infile);
+		p->outfile = redirect_output(cmd->right_red,p->outfile);
+		if (p->infile != 0)
+			ft_dup2(p->infile, 0);
+		if (p->outfile != 1)
+			ft_dup2(p->outfile, 1);
 		if (p->infile != 0)
 			close(p->infile);
 		if (p->outfile != 1)
@@ -213,13 +231,51 @@ void simple_cmd(t_var *p, t_prototype *cmd)
 	else
 		waitpid(p->pid1,&return_value, 0);
 }
-void ft_execute(t_prototype *cmd)
+void ft_execute(t_list *cmd)
 {
 	t_var	p;
 
-	p.i = 0;
-	p.infile = -1337;
+	p.i = -1;
+	p.infile = 0;
+	p.outfile = 1;
 	p.paths = path();
+	int i = 0;
+	// while (p.paths[i])
+	// 	printf("%s\n",p.paths[i++]);
 	if (cmd && !cmd->next)
-		simple_cmd(&p,cmd);
+		simple_cmd(&p,(t_prototype *)(cmd->content));
+	else if (cmd && cmd->next)
+	{
+		while (cmd  && ++p.i >= 0)
+		{
+			if (p.i != 0)
+			{
+				if (p.i > 2)
+					close(p.infile);
+				p.infile = p.fd[0];
+				close(p.fd[1]);
+			}
+			if (cmd->next)
+			{
+				if (pipe(p.fd) == -1)
+					ft_error(1, "pipe ");
+				p.outfile = p.fd[1];
+			}
+			else
+			{
+				close(p.outfile);
+				p.outfile = 1;
+			}
+			simple_cmd(&p,(t_prototype *)(cmd->content));
+			p.i++;
+			cmd = cmd->next;
+		}
+		close(p.infile);
+		while (waitpid(-1,0,0) != -1)
+			;
+	}
+	// if (cmd && !cmd->next)
+	// 	simple_cmd(&p,(t_prototype *)(cmd->content));
+	// else
+	// 	piped_cmd(&p,(t_prototype *)(cmd->content));
 }

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/25 20:28:28 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:50:49 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*space_type(char *line, int *i)
 	return (str);
 }
 
-enum token_type	find_type2(char *line, int *i)
+enum t_tokenype	find_type2(char *line, int *i)
 {
 	if (line[*i] == '|')
 		return (*i += 1, TYPE_PIPE);
@@ -44,7 +44,7 @@ enum token_type	find_type2(char *line, int *i)
 	exit(-1);
 }
 
-enum token_type	find_type(char *line, int *i)
+enum t_tokenype	find_type(char *line, int *i)
 {
 	if (line[*i] == '$')
 		return (*i += 1, TYPE_DOLLAR);
@@ -57,11 +57,11 @@ enum token_type	find_type(char *line, int *i)
 	return (find_type2(line, i));
 }
 
-token_t	*create_token(enum token_type type, void *content)
+t_token	*create_token(enum t_tokenype type, void *content)
 {
-	token_t	*token;
+	t_token	*token;
 
-	token = malloc(sizeof(token_t));
+	token = malloc(sizeof(t_token));
 	if (!token)
 		ft_exit(ENOMEM);
 	recycle(1, token);

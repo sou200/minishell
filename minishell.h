@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/25 20:36:53 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:12:45 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@
 #include <sys/wait.h>
 #include "./libft/libft.h"
 #include <readline/readline.h>
+#include<fcntl.h>
 #include <readline/history.h>
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
 #include <stdarg.h>
-
+#include"builtins/get_next_line_bonus.h"
 // char *env[ARG_MAX];
-enum token_type
+enum t_tokenype
 {
     TYPE_WORD,
     TYPE_QUOTE,
@@ -43,6 +44,17 @@ enum token_type
     TYPE_SPC
 };
 
+typedef struct s_var
+{
+	int		fd[2];
+	int		pid1;
+	int		pid2;
+	char	**paths;
+	int		infile;
+	int		outfile;
+	int		i;
+}	t_var;
+
 char **env;
 typedef struct s_global
 {
@@ -53,30 +65,32 @@ typedef struct s_global
 
 t_global	global;
 
-typedef struct token_s
+typedef struct s_token
 {
-    enum token_type type;
+    enum t_tokenype type;
     char *value;
-} token_t;
+} t_token;
 
-typedef struct smpl_cmnd_s
+typedef struct s_prototype
 {
    	char **cmnd;
 	t_list *left_red;//void * = {< | << ; char *}
 	t_list *right_red;//void * = {> | >> ; char *}
-} smpl_cmnd_t;
+} t_prototype;
 
+char **env;
 void	ft_dup2(int x, int y);
 void	ft_error(int erno, const char *msg);
 char	**path(void);
 void	ft_close(int n, ...);
 char	*generate_name(void);
 int	ft_input(char *stop);
-int redirect_input(t_list *left_red);
-int redirect_output(t_list *right_red);
+int redirect_input(t_list *left_red, int pipe);
+int redirect_output(t_list *right_red, int pipe);
 char	*cmd_path(char **paths, char *cmd);
 void simple_cmd(t_var *p, t_prototype *cmd);
-void ft_execute(t_prototype *cmd);
+void ft_execute(t_list *cmd);
+
 int add_var1(const char *var);
 int	check_var1(const char *var);
 int	ft_pathcmp(const char *s1, const char *PATH);
@@ -108,9 +122,9 @@ void	ft_exit(int	error);
 void recycle(int n, ...);
 t_list *lexer(char *line);
 char	*space_type(char *line, int *i);
-enum token_type	find_type2(char *line, int *i);
-enum token_type	find_type(char *line, int *i);
-token_t	*create_token(enum token_type type, void *content);
+enum t_tokenype	find_type2(char *line, int *i);
+enum t_tokenype	find_type(char *line, int *i);
+t_token	*create_token(enum t_tokenype type, void *content);
 int	check_word(char c);
 t_list* to_expanded_tokens(t_list* tokens, char **env);
 int is_valid_syntax(t_list *token_lst);
@@ -120,12 +134,12 @@ int is_valid_env(t_list* tokens, int open_q);
 t_list* parce_line(char *line, char **env);
 int in_quote_handler(int *open_q, char **quote_content, t_list** new_token_lst, int q_case);
 t_list *tokens_without_spc(t_list *token_lst);
-t_list *token_lst_dup(token_t *token);
+t_list *token_lst_dup(t_token *token);
 void ft_free_token(void *token);
 char *ft_strjoin_free(char *a, char *b, int i, int j);
 t_list *env_lexer(char *env);
 int env_name_len(char *var);
-int is_redirection(token_t *token);
+int is_redirection(t_token *token);
 t_list *generate_cmnds(t_list *tokens);
 
 
