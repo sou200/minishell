@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:43:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/24 19:53:13 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:27:32 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,31 @@
 int is_redirection(token_t *token)
 {
     return token->type == TYPE_HERE_DOC || token->type == TYPE_APPEND || token->type == TYPE_RD_L || token->type == TYPE_RD_R;
+}
+
+int is_lexable(t_list *tokens, int open_q)
+{
+	if (open_q == 1)
+		while (tokens != NULL
+			&& ((token_t *)tokens->content)->type != TYPE_QUOTE)
+			tokens = tokens->prev;
+	else if (open_q == 2)
+		while (tokens != NULL
+			&& ((token_t *)tokens->content)->type != TYPE_D_QUOTE)
+			tokens = tokens->prev;
+	tokens = tokens->prev;
+	while (tokens != NULL && ((token_t *)tokens->content)->type == TYPE_SPC)
+		tokens = tokens->prev;
+	return (tokens == NULL
+		|| !is_redirection((token_t *)tokens->content));
+}
+
+void costum_env_expand(t_list **tokens, char **env, int q_open)
+{
+    if(is_lexable(*tokens, q_open))
+        expand_env(tokens, env, 1);
+    else
+        expand_env(tokens, env, 0);
 }
 
 t_list *to_expanded_tokens(t_list *tokens, char **env)
@@ -33,7 +58,7 @@ t_list *to_expanded_tokens(t_list *tokens, char **env)
         else if (((token_t *)tokens->content)->type == TYPE_D_QUOTE && open_q != 1)
             in_quote_handler(&open_q, &quote_content, &new_token_lst, 2);
         else if (((token_t *)tokens->content)->type == TYPE_DOLLAR && is_valid_env(tokens, open_q))
-            expand_env(&tokens, env);
+            costum_env_expand(&tokens, env, open_q);
         else if (open_q)
             quote_content = ft_strjoin_free(quote_content, ((token_t *)tokens->content)->value, 1, 0);
         else
