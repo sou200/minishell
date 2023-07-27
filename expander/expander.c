@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:50:04 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/26 01:58:56 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:46:38 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,40 @@ void insert_env_in_token_lst(char *env_val, char *env_word, t_list **tokens, t_l
     ft_lstadd_back(tokens, tmp_token);
 }
 
-int is_valid_to_expand(char *s, int *i)
+int is_valid_to_expand(char *s, int i)
 {
-	if(s[*i + 1] != '\0' && )
+	if(s[i + 1] != '\0' && (ft_isalpha(s[i + 1]) || s[i + 1] == '_'))
+        return 1;
+    return 0;
 }
 
-void expand_heredoc_line(char *line)
+char * expand_heredoc_line(char *line, char **env)
 {
 	int i;
+    int env_name_l;
+    char *env_val;
+    char *result;
+    char *before;
+    char *after;
 
 	i = 0;
 	while(line[i] != '\0')
 	{
-		if(line[i] == '$' && is_valid_to_expand(line, &i))
+		if(line[i] == '$' && is_valid_to_expand(line, i))
 		{
-			
+            before = ft_substr(line, 0, i++);
+            env_name_l = env_name_len(line + i);
+            after = ft_substr(line, env_name_l + i, ft_strlen(line) - i - env_name_l);
+			env_val = get_env_var(env, line + i);
+            result = ft_strjoin_free(before, env_val, 1, 1);
+            result = ft_strjoin_free(result, after, 1, 1);
+            i += env_name_l;
+            free(line);
+            line = result;
 		}
+        i++;
 	}
+    return line;
 }
 
 void expand_env(t_list **tokens, char **env)

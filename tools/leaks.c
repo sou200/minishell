@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/25 20:39:15 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/27 18:06:15 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,40 +27,23 @@ void	ft_free(int number, ...)
 //had lfonction kat exiti ela 7sab error, ila bghina nkhrjo wsafi error = 0m sinon error = ERRor code
 void	ft_exit(int	error)
 {
-	int		i;
-	t_list	*lst;
-
-	i = ft_lstsize(global.garbage);
-	while (i-- > 0)
-	{
-		lst = global.garbage->next;
-		free(global.garbage->content);
-		free(global.garbage);
-		global.garbage = lst;
-	}
 	free_table(env);
-	free_table(env);
-	if (error == ENOMEM)
-		perror("malloc: ");
-	else if (error != 0)
-		perror("");
-	else
-		exit(error);
+	exit(error);
 }
 
 //had lfonction hia bach t9der t ajouti chi address; garbage collector
-void recycle(int n, ...)
-{
-	t_list	*lst;
-	va_list	va;
+// void recycle(int n, ...)
+// {
+// 	t_list	*lst;
+// 	va_list	va;
 
-	va_start(va, n);
-	while (n-- > 0)
-	{
-		lst = ft_lstnew(va_arg(va, void *));
-		if (!lst)
-			ft_exit(ENOMEM);
-		ft_lstadd_back(&global.garbage, lst);
-	}
-	va_end(va);
-}
+// 	va_start(va, n);
+// 	while (n-- > 0)
+// 	{
+// 		lst = ft_lstnew(va_arg(va, void *));
+// 		if (!lst)
+// 			ft_exit(ENOMEM);
+// 		ft_lstadd_back(&global.garbage, lst);
+// 	}
+// 	va_end(va);
+// }

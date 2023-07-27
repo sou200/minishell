@@ -1,21 +1,2 @@
-Makefile
-a
-a.out
-b
-builtins
-c
-expander
-lexer
-libft
-minishell
-minishell.c
-minishell.h
-minishell.o
-note
-notes
-output
-parser
-pipex
-qweq
-test.c
-tools
+this is a builtin
+hello

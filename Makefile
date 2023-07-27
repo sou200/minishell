@@ -1,5 +1,5 @@
 NAME = minishell
-CFLAGS = -W -W -W #-fsanitize=address -g3
+CFLAGS = -Wall  -Wextra #-Werror #-fsanitize=address -g3
 RM = rm -f
 CC = cc
 
@@ -9,7 +9,8 @@ SRCS = minishell.c lexer/lexer.c lexer/tokenization.c parser/quotes_handler.c \
 	 parser/syntax_error_handler.c expander/expander.c tools/leaks.c \
 	 tools/recyclable.c  lexer/ft_free_token.c lexer/token_utils.c parser/quotes_handler.c parser/syntax_error_handler.c parser/cmnd_builder.c \
 	 parser/parser.c expander/expand_utils.c expander/expander.c tools/ft_strjoin_free.c builtins/env.c \
-	  builtins/cmds.c builtins/get_next_line_bonus.c builtins/get_next_line_utils_bonus.c
+	  builtins/cmds.c builtins/get_next_line_bonus.c builtins/get_next_line_utils_bonus.c builtins/echo.c 
+
 OBJS = $(SRCS:.c=.o)
 
 

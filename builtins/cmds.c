@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/26 01:43:18 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/27 18:26:50 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,19 @@ void	ft_open(char *str, int *fd, int flag)
 		ft_error(1, "open ");
 }
 
-int	ft_strrcmp(const char *s1, const char *s2, size_t n)
+int	ft_strrcmp(const char *s1, const char *s2)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
+	while (s1[i] && s2[i])
 	{
-		if (s1[i] != s2[i] && s1[i] && s2[i] != '\n')
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		if (s1[i] != s2[i])
+			return (1);
 		i++;
 	}
+	if (s1[i] != s2[i])
+		return (1);
 	return (0);
 }
 
@@ -114,10 +116,10 @@ int	ft_input(char *stop)
 	unlink(str);
 	free(str);
 	write(1, "> ", 2);
-	str = get_next_line(0);//read;ome
-	while (str && ft_strrcmp(stop, str, ft_strlen(stop) + 1))
+	str = get_next_line(0);
+	while (str && ft_strrcmp(stop, str))
 	{
-		
+		str = expand_heredoc_line(str, env);
 		write(fd, str, ft_strlen(str));
 		write(1, "> ", 2);
 		free(str);
@@ -138,6 +140,8 @@ int redirect_input(t_list *left_red, int pipe)
 	while(left_red)
 	{
 		holder = (t_token *)left_red->content;
+		if (!holder)
+			return (fd);
 		if (holder->type ==  TYPE_RD_L)
 		fd = open(holder->value, O_RDONLY);
 		else
@@ -166,6 +170,8 @@ int redirect_output(t_list *right_red, int pipe)
 	while(right_red)
 	{
 		holder = (t_token *)right_red->content;
+		if (!holder)
+			return (fd);
 		if (holder->type ==  TYPE_RD_R)
 		fd = open(holder->value, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		else
@@ -205,6 +211,18 @@ char	*cmd_path(char **paths, char *cmd)
 	return (0);
 }
 
+void ft_builtins(t_prototype *cmd)
+{
+	if (!ft_strrcmp(cmd->cmnd[0],"echo"))
+		ft_echo(cmd->cmnd + 1);
+	if (!ft_strrcmp(cmd->cmnd[0],"env"))
+		ft_env();
+	if (!ft_strrcmp(cmd->cmnd[0],"exit"))
+		ft_exit(0);
+	if (!ft_strrcmp(cmd->cmnd[0],"getenv"))
+		ft_printenv(cmd->cmnd[1]);
+}
+
 void simple_cmd(t_var *p, t_prototype *cmd)
 {
 	char *cmdd;
@@ -212,6 +230,8 @@ void simple_cmd(t_var *p, t_prototype *cmd)
 	p->pid1= fork();
 	if (!p->pid1)
 	{
+		signal(SIGQUIT,SIG_DFL);
+		signal(SIGINT,SIG_DFL);
 		p->infile = redirect_input(cmd->left_red,p->infile);
 		p->outfile = redirect_output(cmd->right_red,p->outfile);
 		if (p->infile != 0)
@@ -222,15 +242,25 @@ void simple_cmd(t_var *p, t_prototype *cmd)
 			close(p->infile);
 		if (p->outfile != 1)
 			close(p->outfile);
-	cmdd = cmd_path(p->paths, cmd->cmnd[0]);
-	if (!cmdd || access(cmdd, X_OK))
-		return (ft_error(1, "command not found "));
-	if (execve(cmdd, cmd->cmnd, env) == -1)
-		return (free(cmdd), cmdd = 0, ft_error(1, "execve "));
+		if (!(cmd->cmnd)[0])
+			return (exit(0));
+		ft_builtins(cmd);
+		cmdd = cmd_path(p->paths, cmd->cmnd[0]);
+		if (!cmdd || access(cmdd, X_OK))
+			return (ft_error(1, "command not found "));
+
+		if (execve(cmdd, cmd->cmnd, env) == -1)
+			return (free(cmdd), cmdd = 0, ft_error(1, "execve "));
 	}
 	else
+	{
+		if(!ft_strncmp("./minishell",cmd->cmnd[0],12))
+			signal(SIGINT,SIG_IGN);
 		waitpid(p->pid1,&return_value, 0);
+		signal(SIGINT,controlec);
+	}
 }
+
 void ft_execute(t_list *cmd)
 {
 	t_var	p;
@@ -239,43 +269,33 @@ void ft_execute(t_list *cmd)
 	p.infile = 0;
 	p.outfile = 1;
 	p.paths = path();
-	int i = 0;
-	// while (p.paths[i])
-	// 	printf("%s\n",p.paths[i++]);
-	if (cmd && !cmd->next)
-		simple_cmd(&p,(t_prototype *)(cmd->content));
-	else if (cmd && cmd->next)
+	while (cmd  && ++p.i >= 0)
 	{
-		while (cmd  && ++p.i >= 0)
+		if (p.i != 0)
 		{
-			if (p.i != 0)
-			{
-				if (p.i > 2)
-					close(p.infile);
-				p.infile = p.fd[0];
-				close(p.fd[1]);
-			}
-			if (cmd->next)
-			{
-				if (pipe(p.fd) == -1)
-					ft_error(1, "pipe ");
-				p.outfile = p.fd[1];
-			}
-			else
-			{
-				close(p.outfile);
-				p.outfile = 1;
-			}
-			simple_cmd(&p,(t_prototype *)(cmd->content));
-			p.i++;
-			cmd = cmd->next;
+			if (p.i > 2)
+				close(p.infile);
+			p.infile = p.fd[0];
+			close(p.fd[1]);
 		}
-		close(p.infile);
-		while (waitpid(-1,0,0) != -1)
-			;
+		if (cmd->next)
+		{
+			if (pipe(p.fd) == -1)
+				ft_error(1, "pipe ");
+			p.outfile = p.fd[1];
+		}
+		else
+		{
+			if (p.outfile != 1)
+				close(p.outfile);
+			p.outfile = 1;
+		}
+		simple_cmd(&p,(t_prototype *)(cmd->content));
+		cmd = cmd->next;
 	}
-	// if (cmd && !cmd->next)
-	// 	simple_cmd(&p,(t_prototype *)(cmd->content));
-	// else
-	// 	piped_cmd(&p,(t_prototype *)(cmd->content));
+	if (p.infile != 0)
+		close(p.infile);
+	while (waitpid(-1,0,0) != -1)
+		;
+	free_table(p.paths);
 }

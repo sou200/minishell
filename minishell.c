@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/26 01:49:17 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/27 18:23:01 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,110 +101,54 @@ void print_cmnds(t_list *cmnds)
         cmnds = cmnds->next;
     }
 }
+void controlec(int c)
+{
+	(void ) c;
+	write(1,"\n",1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+
+}
+
+void lk()
+{
+	system("leaks a.out");
+}
+
 int main(int argc, char const *argv[], char **en)
 {
-    char *line;
-    
     t_list *head;
-	initialise_env((const char **)en);             
+	char *line;
+	line = NULL;
+	if (argc > 2 || argv[1])
+		{
+			printf("wa bzaf azbi\n");
+			ft_exit(0);
+		}
+	initialise_env((const char **)en);
+	rl_catch_signals = 0;
+	signal(SIGINT,controlec);
+	signal(SIGQUIT,SIG_IGN);
     while(1)
     {
-        line = readline("\033[0;32mminishell: $->\033[0;37m ");
+        line = readline("minishell$ ");
         if (!line)
-            break;
-        head = parce_line(line, env);
-        // if(head != NULL)
-        //     print_tokens(head);
-        // print_cmnds(head);
-		// printf("eee %s\n",((t_token *)(((t_prototype *)(head->content))->left_red->content))->value);
-       if (head && head->content && !ft_strncmp(*(((t_prototype *)head->content)->cmnd), "env",4))
-	   		ft_env();
-	  if (head && head->content && !ft_strncmp(*(((t_prototype *)head->content)->cmnd), "getenv",7))
-	   		ft_printenv((((t_prototype *)head->content)->cmnd)[1]);
-	 else   if (head && head->content && !ft_strncmp(*(((t_prototype *)head->content)->cmnd), "unset",6))
-	   		remove_var((((t_prototype *)head->content)->cmnd)[1]);
-	 else   if (head && head->content && !ft_strncmp(*(((t_prototype *)head->content)->cmnd), "set",4))
-	   		add_var((((t_prototype *)head->content)->cmnd)[1]);
-	
-	// else
-		
-		// ft_execute(head);'
+		{
+			printf("\x1b[Fminishell$  exit\n");
+			ft_exit(0);//return value attention dyal akhir command
+		}
+		head = parce_line(line, env);
+		if (!ft_strrcmp((((t_prototype *)head->content)->cmnd)[0],"exit") && !head->next)
+		{
+			printf("exit\n");
+			ft_exit(0);
+		}
+		ft_execute(head);
 		add_history(line);
-	    ft_lstclear(&head, ft_free_token);
+	    ft_lstclear(&head, ft_free_protoype);
         free(line);
     }
+	ft_exit(0);
     return 0;
 }
-// int main(int argc, char const *argv[], char **en)
-// { 
-//     t_list *head;
-//     struct stat p;
-
-// 	// env = en;
-//     //     lstat("/tmp/ee",&p);
-//     //     printf("%d \n",S_ISLNK(p.st_mode));
-//     //     lstat("/tmp/ff",&p);
-//     //     printf("%d \n",S_ISLNK(p.st_mode));
-//     // // printf("%s\n",getcwd(0,0));
-//     // // printf("%s\n",getenv("PWD"));
-//     // ft_pwd();
-// 	int i = 0;
-
-// 	initialise_env((const char **)en);
-// 	// while(en[i])
-// 	// {
-// 	// 	printf("%s\n",en[i]);
-// 	// 	i++;
-// 	// }
-// 	// exit(0);
-//    rl_line_buffer = readline("\033[0;32mminishell: $->\033[0;37m");
-//     while( rl_line_buffer != NULL)
-//     {  
-//         head = lexer(rl_line_buffer);
-//         if(head == NULL || !is_valid_syntax(head))
-//             printf("syntax error !\n");
-// 			// print_tokens(head);
-//         // if (head && !ft_strncmp(((t_token *)head->content)->value, "pwd",4))
-//         //    ft_pwd();
-// 		// printf("%s %s\n",((t_token *)head->content)->value,((t_token *)head->next->content)->value);
-//         // if (head && !ft_strncmp(((t_token *)head->content)->value, "cd",3))
-// 		// { 
-// 		// 	if ((t_token *)head->next)
-//         //    		ft_cd(((t_token *)head->next->content)->value);
-// 		// 	else
-// 		// 		ft_cd(0);
-// 		// }
-// 		t_prototype a;
-// 		a.cmnd = malloc(sizeof(char *) * 2);
-// 		a.cmnd[0] = ((t_token *)head->content)->value;
-// 		a.cmnd[1] = 0;
-// 		a.left_red = 0;
-// 		a.right_red = 0;
-// 		a.next = 0;
-// 		ft_execute(&a);
-// 	//    if (head && !ft_strncmp(((t_token *)head->content)->value, "clear",6))
-//     //     {
-//     //         int i  = 0;
-//     //         i = fork();
-//     //         if (!i)
-//     //             execve("/usr/bin/clear", 0 , en);
-//     //         else
-//     //             usleep(10000);
-//     //     }
-//     //    if (head && !ft_strncmp(((t_token *)head->content)->value, "env",4))
-// 	//    		ft_env();
-// 	//     if (head && !ft_strncmp(((t_token *)head->content)->value, "getenv",7))
-// 	// 		if(head->next)
-// 	//    		ft_printenv((char *)((t_token *)head->next->content)->value);
-// 	//     if (head && !ft_strncmp(((t_token *)head->content)->value, "unset",6))
-// 	// 		if(head->next)
-// 	//    		remove_var((char *)((t_token *)head->next->content)->value);
-// 	//     if (head && !ft_strncmp(((t_token *)head->content)->value, "set",4))
-// 	// 		if(head->next)
-// 	//    		add_var((char *)((t_token *)head->next->content)->value);
-//         add_history(rl_line_buffer);
-//         rl_line_buffer = readline("\033[0;32mminishell: $->\033[0;37m");
-//     }
-//     // system("leaks minishell");
-//     return 0;
-// }

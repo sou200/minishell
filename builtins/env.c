@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:58:25 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/26 01:46:09 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/27 17:57:26 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	ft_pathcmp(const char *s1, const char *PATH)
 const char *ft_getenv(const char *var)
 {
 	int		i;
-	char	*path;
-	char	**paths;
 
 	i = 0;
 	if (!var)
@@ -241,11 +239,15 @@ void ft_env(void)
 		return ;
 	while (env && env[i])
 		printf("%s\n",env[i++]);
+	exit(0);
 }
 
 void ft_printenv(const char *var)
 {
-	if (!var)
-		return ;
-	printf("%s=%s\n",var,ft_getenv(var));
+	const char	*s;
+
+	s = ft_getenv(var);
+	if (s)
+		printf("%s=%s\n",var,ft_getenv(var));
+	exit(0);
 }

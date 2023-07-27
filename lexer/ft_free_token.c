@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:40:28 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/25 20:50:49 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:31:20 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,20 @@ void ft_free_token(void *content)
     token = (t_token *)content;
     if(token != NULL)
         free(token->value);
+    free(token);
+}
+void ft_free_protoype(void *content)
+{
+    t_prototype *token;
+
+	token = (t_prototype *)content;
+	if(token)
+	{
+		ft_lstclear(&token->left_red,ft_free_token);
+		free(token->left_red);
+		ft_lstclear(&token->right_red,ft_free_token);
+		free(token->right_red);
+		free_table(token->cmnd);
+	}
     free(token);
 }

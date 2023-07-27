@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/26 01:12:45 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/27 18:10:42 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ typedef struct s_var
 }	t_var;
 
 char **env;
-typedef struct s_global
-{
-    char	return_value;
-    t_list	*garbage;
-	char	error;
-}t_global;
+// typedef struct s_global
+// {
+//     char	return_value;
+//     t_list	*garbage;
+// 	char	error;
+// }t_global;
 
-t_global	global;
+// t_global	global;
 
 typedef struct s_token
 {
@@ -79,6 +79,10 @@ typedef struct s_prototype
 } t_prototype;
 
 char **env;
+void  ft_builtins(t_prototype *cmd);
+void	ft_echo(char **cmd);
+int	check_n(char *s);
+int	ft_strrcmp(const char *s1, const char *s2);
 void	ft_dup2(int x, int y);
 void	ft_error(int erno, const char *msg);
 char	**path(void);
@@ -103,23 +107,27 @@ int	size_double(char **str);
 void	initialise_env(const char **en);
 char	**realloc_env(int n);
 void free_table(char **str);
-char	*ft_strdup1(const char *s);
-char	*ft_strdupenv(const char *s);
+// char	*ft_strdup1(const char *s);
+// char	*ft_strdupenv(const char *s);
+void ft_free_protoype(void *content);
 const char *ft_getenv(const char *var);
+char * expand_heredoc_line(char *line, char **env);
 char	**cd_path(char **env);
 int		get_sizeslach(char *s);
 char	*trim_backslash(char *s);
 char	*cd_pathcheck(const char *dirname);
 int abs_path (const char *dirname);
 void	ft_cd(const char *dirname);
+void controlec(int c);
 void ft_printenv(const char *var);
+int is_valid_to_expand(char *s, int i);
 void	ft_pwd(void);
 void	ft_echo(char **cmd);
-t_list	*ft_lstnew1(void *content);
-char	*ft_substr1(char const *s, unsigned int start, size_t len);
+// t_list	*ft_lstnew1(void *content);
+// char	*ft_substr1(char const *s, unsigned int start, size_t len);
 void	ft_free(int number, ...);
 void	ft_exit(int	error);
-void recycle(int n, ...);
+// void recycle(int n, ...);
 t_list *lexer(char *line);
 char	*space_type(char *line, int *i);
 enum t_tokenype	find_type2(char *line, int *i);

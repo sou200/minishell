@@ -1,0 +1,37 @@
+USER=fel-hazz
+MallocNanoZone=0
+PATH=/Users/fel-hazz/.brew/bin:/Users/fel-hazz/goinfre/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin
+LOGNAME=fel-hazz
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.tkUnH3jklS/Listeners
+HOME=/Users/fel-hazz
+SHELL=/bin/zsh
+__CF_USER_TEXT_ENCODING=0x19190:0x0:0x0
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cjk00034ch/T/
+XPC_SERVICE_NAME=0
+XPC_FLAGS=0x0
+ORIGINAL_XDG_CURRENT_DESKTOP=undefined
+SHLVL=1
+PWD=/Users/fel-hazz/Desktop/minishell
+OLDPWD=/Users/fel-hazz/Desktop/minishell
+ZSH=/Users/fel-hazz/.oh-my-zsh
+PAGER=less
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+LS_COLORS=di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43
+HOMEBREW_CACHE=/tmp/fel-hazz/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/fel-hazz/Homebrew/Temp
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.80.1
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+GIT_ASKPASS=/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh
+VSCODE_GIT_ASKPASS_NODE=/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin)
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=--ms-enable-electron-run-as-node
+VSCODE_GIT_ASKPASS_MAIN=/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js
+VSCODE_GIT_IPC_HANDLE=/var/folders/zz/zyxvpxvq6csfxvn_n000cjk00034ch/T/vscode-git-81afc87ecb.sock
+VSCODE_INJECTION=1
+ZDOTDIR=/Users/fel-hazz
+USER_ZDOTDIR=/Users/fel-hazz
+TERM=xterm-256color
+_=/Users/fel-hazz/Desktop/minishell/./minishell
+this is a builtin

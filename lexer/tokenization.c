@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/25 20:50:49 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/26 02:31:43 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ t_token	*create_token(enum t_tokenype type, void *content)
 	token = malloc(sizeof(t_token));
 	if (!token)
 		ft_exit(ENOMEM);
-	recycle(1, token);
 	token->type = type;
 	token->value = content;
 	return (token);
