@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:58:25 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/27 17:57:26 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/28 04:56:35 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ const char *ft_getenv(const char *var)
 		i++;
 	if (!env[i])
 		return (0);
-	return ((env[i] + ft_strlen(var) + 1));
+	return ((env[i]));
 }
 
 void	initialise_env(const char **en)
@@ -69,6 +69,103 @@ void	initialise_env(const char **en)
 			ft_exit(ENOMEM);
 	}
 	env[y] = 0;
+	initialise_export();
+}
+
+char *ft_exportage3(char *s)
+{
+	int		i;
+	char	*str;
+	int		once;
+	int		x;
+	
+	if (!s)
+		return (0);
+	str = malloc(sizeof(char) * (ft_strlen(s) + 13));
+	ft_strlcpy(str, "declare -x ", 100);
+	once = 0;
+	x = 11;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '+' && once++ == 0)
+			i++;
+		if (s[i] == '=' && once++ == 1)
+		{
+			str[x++] = s[i++];
+			str[x++] = '"';
+			continue;
+		}
+		str[x++] = s[i++];
+	}
+	str[x++] = '"';
+	str[x] = '\0';
+	return (str);
+}
+
+char *ft_exportage(char *s)
+{
+	int		i;
+	char	*str;
+	int		once;
+	int		x;
+	
+	if (!s)
+		return (0);
+	str = malloc(sizeof(char) * (ft_strlen(s) + 14));
+	ft_strlcpy(str, "declare -x ", 100);
+	once = 0;
+	x = 11;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '=' && once++ == 0)
+		{
+			str[x++] = s[i++];
+			str[x++] = '"';
+			continue;
+		}
+		str[x++] = s[i++];
+	}
+	str[x++] = '"';
+	str[x] = '\0';
+	return (str);
+}
+
+char *ft_exportage1(char *s)
+{
+	int		i;
+	char	*str;
+	int		once;
+	int		x;
+	
+	if (!s)
+		return (0);
+	str = malloc(sizeof(char) * (ft_strlen(s) + 12));
+	ft_strlcpy(str, "declare -x ", 100);
+	once = 0;
+	x = 11;
+	i = 0;
+	while (s[i])
+		str[x++] = s[i++];
+	str[x] = '\0';
+	return (str);
+}
+
+void	initialise_export(void)
+{
+	int	x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (env[y])
+	{
+		ft_lstaddandsort(&export_list, ft_lstnew(ft_exportage(env[y])));
+		y++;
+	}
+	if (!ft_getenv("OLDPWD"))
+		ft_lstaddandsort(&export_list, ft_lstnew(ft_exportage1("OLDPWD")));
 }
 
 int	size_double(char **str)
@@ -167,6 +264,8 @@ int	check_var1(const char *var)
 	{
 		if (var[i] == '=')
 			break ;
+		if (var[i] == '+' && var[i + 1] == '=')
+			break ;
 		if (!ft_isalnum(var[i]) && var[i] != '_')
 			return (0);
 		i++;
@@ -190,6 +289,8 @@ int add_var1(const char *var)
 				break ;
 			x++;
 		}
+		if (!var[x] && env[i][x] == '=')
+			return (1);
 		if (env[i][x] == var[x] && env[i][x] == '=')
 			break ;
 		i++;
@@ -202,6 +303,266 @@ int add_var1(const char *var)
 		ft_exit(ENOMEM);
 	return (1);
 }
+
+void	print_export(void)
+{
+	t_list	*traveler;
+
+	traveler = export_list;
+	while (traveler != NULL)
+	{
+		printf("%s\n",(char *)(traveler->content));
+		traveler = traveler->next;
+	}
+}
+
+t_list	*export_exists(char *value)
+{
+	t_list	*traveler;
+	char	*str;
+	int		i;
+	int		y;
+
+	traveler = export_list;
+	while (traveler)
+	{
+		i = 11;
+		y = 0;
+		str = ((char *)(traveler->content));
+		while (str[i] && value[y] && (str[i] == value[y]))
+		{
+			if (str[i] == '=' && value[y] == '=')
+				break ;
+			i++;
+			y++;
+		}
+		// sleep (1);
+		if (value[y] == '+')
+			y++;
+		if (str[i] == value[y] || (str[i] == '=' && !value[y]) || (!str[i] && value[y] == '='))
+			return (printf("yes\n"),traveler);
+		traveler = traveler->next;
+	}
+	printf("no\n");
+	return (0);
+}
+
+char *join_export(char *old, char *var)
+{
+	char *str;
+	int		i;
+	int		z;
+	char *tmp;
+	i = 0;
+	z = 0;
+	while (old[i])
+		i++;
+	if (i > 0)
+		i--;
+	if (old[i] == '"')
+		str = malloc(sizeof(char) * ft_strlen(old));
+	else
+		str = malloc(sizeof(char) * (ft_strlen(old) + 1));
+	while (old[z])
+	{
+		if (z == i)
+			break ;
+		str[z] = old[z];
+		z++;
+	}
+	str[z] = '\0';
+	tmp = ft_strjoin(str, ft_strchr(var, '=') + 1);
+	free (str);
+	if (old[i] != '"')
+		return (tmp);
+	str = ft_strjoin(tmp, "\"");
+	return (free(tmp), str);
+}
+
+//export and \"
+// char *join_export(char *old, char *var)
+// {
+// 	char *str;
+// 	int		i;
+// 	int		z;
+// 	char *tmp;
+// 	i = 0;
+// 	z = 0;
+// 	while (old[i])
+// 		i++;
+// 	if (i > 0)
+// 		i--;
+// 	if (old[i] == '"')
+// 		str = malloc(sizeof(char) * ft_strlen(old));
+// 	else
+// 		str = malloc(sizeof(char) * (ft_strlen(old) + 1));
+// 	while (old[z])
+// 	{
+// 		if (z == i)
+// 			break ;
+// 		str[z] = old[z];
+// 	}
+// 	str[z] = '\0';
+// 	tmp = ft_strjoin(str, ft_strchr(var, '=') + 1);
+// 	free (str);
+// 	if (old[i] != '"')
+// 		return (tmp);
+// 	str = ft_strjoin(tmp, "\"");
+// 	return (free(tmp), str);
+// }
+void env_append(char *str, char *var)
+{
+		int	i;
+	int	x;
+	char *s;
+	char *t;
+	i = 0;
+	while (env[i])
+	{
+		x = 0;
+		while (env[i][x] && var[x] && env[i][x] == var[x])
+		{
+			if (env[i][x] == var[x] && env[i][x] == '=')
+				break ;
+			x++;
+		}
+		if (var[x] == '+' && var[x + 1] == '=' && env[i][x] == '=')
+			break ;
+		if (env[i][x] == var[x] && env[i][x] == '=')
+			break ;
+		i++;
+	}
+	free(env[i]);
+	x = 0;
+	while (var[x])
+	{
+		if (var[x] == '+' || var[x] == '=')
+			break ;
+		x++;
+	}
+	s = malloc(x + 1);
+	x = 0;
+	while (var[x])
+	{
+		if (var[x] == '+' || var[x] == '=')
+			break ;
+		s[x] = var[x];
+		x++;
+	}
+	s[x++] = '=';
+	s[x] = '\0';
+	env[i] = ft_substr(ft_strchr(str,'=') + 2, 0, ft_strlen(ft_strchr(str,'=') + 2) - 1);
+	t = ft_strjoin(s, env[i]);
+	free (s);
+	free(env[i]);
+	env[i] = t;
+	if (!env[i])
+		ft_exit(ENOMEM);
+}
+void replace_value(char *var, t_list *tmp)
+{
+	int		i;
+	char	*str;
+
+	if (!check_var1(var))
+	{
+		printf("minishell: set: `%s': not a valid identifier\n",var);
+		errno = 1;
+		return ;
+	}
+	if (!ft_strchr(var, '='))
+		return ;
+	i = which_export(var);
+	if (i == 2)
+		str = join_export((char *)(tmp->content), var);
+	else
+		str = ft_exportage(var);
+	free(tmp->content);
+	tmp->content = str;
+	if (i == 2)
+		env_append(str, var);
+	else
+		add_var(var);
+}
+
+int which_export(char *var)
+{
+	int	i;
+
+	i = 0;
+	while (var[i])
+	{
+		if (var[i] == '=')
+			return (1);
+		if (var[i] == '+' && var[i + 1] == '=')
+			return (2);
+		i++;
+	}
+	return (3);
+}
+void add_value(char *var)
+{
+	int		i;
+
+	if (!check_var1(var))
+	{
+		printf("minishell: set: `%s': not a valid identifier\n",var);
+		errno = 1;
+		return ;
+	}
+	i = which_export(var);
+	if (i == 1)
+		ft_lstaddandsort(&export_list, ft_lstnew(ft_exportage(var)));
+	else if (i == 3)
+		ft_lstaddandsort(&export_list, ft_lstnew(ft_exportage1(var)));
+	else
+		ft_lstaddandsort(&export_list, ft_lstnew(ft_exportage3(var)));
+	if (i == 1)
+		add_var(var);
+	if (i == 2)
+	{
+		int x;
+		char *s;
+			x = 0;
+	while (var[x])
+	{
+		if (var[x] == '+' || var[x] == '=')
+			break ;
+		x++;
+	}
+	s = malloc(x + 1);
+	x = 0;
+	while (var[x])
+	{
+		if (var[x] == '+' || var[x] == '=')
+			break ;
+		s[x] = var[x];
+		x++;
+	}
+	s[x++] = '=';
+	s[x] = '\0';
+	add_var(s);
+	free(s);
+	}
+}
+
+void ft_export(char **args)
+{
+	int 	i;
+	t_list	*tmp;
+	i = -1;
+	
+	if (!args[0])
+		print_export();
+	while (args[++i])
+	{
+		tmp = export_exists(args[i]);
+		if (!tmp)
+			add_value(args[i]);
+		else
+			replace_value(args[i], tmp);
+	}
+}
 void add_var(const char *var)
 {
 	int	i;
@@ -211,11 +572,6 @@ void add_var(const char *var)
 	i = 0;
 	if (!var)
 		return ;
-	if (!check_var1(var))
-	{
-		printf("minishell: set: `%s': not a valid identifier\n",var);
-		errno = 1;
-	}
 	if (add_var1(var))
 		return ;
 	new = realloc_env(size_double(env) + 2);	
@@ -248,6 +604,6 @@ void ft_printenv(const char *var)
 
 	s = ft_getenv(var);
 	if (s)
-		printf("%s=%s\n",var,ft_getenv(var));
+		printf("%s\n",ft_getenv(var));
 	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/27 18:10:42 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/28 04:35:17 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_var
 	int		i;
 }	t_var;
 
-char **env;
 // typedef struct s_global
 // {
 //     char	return_value;
@@ -79,6 +78,22 @@ typedef struct s_prototype
 } t_prototype;
 
 char **env;
+t_list *export_list;
+
+char *ft_exportage3(char *s);
+char *ft_exportage(char *s);
+char *ft_exportage1(char *s);
+void	initialise_export(void);
+void	print_export(void);
+t_list	*export_exists(char *value);
+void replace_value(char *var, t_list *tmp);
+int which_export(char *var);
+void add_value(char *var);
+void ft_export(char **args);
+void env_append(char *str, char *var);
+
+void	ft_lstaddandsort(t_list **lst, t_list *new);
+int	ft_strcmp(const char *s1, const char *s2);
 void  ft_builtins(t_prototype *cmd);
 void	ft_echo(char **cmd);
 int	check_n(char *s);
@@ -100,7 +115,10 @@ int	check_var1(const char *var);
 int	ft_pathcmp(const char *s1, const char *PATH);
 int	check_var(const char *var);
 void add_var(const char *var);
+void	initialise_export(void);
 void remove_var(const char *var);
+char *ft_exportage1(char *s);
+char *ft_exportage(char *s);
 // t_env env;
 void ft_env(void);
 int	size_double(char **str);

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/27 18:23:01 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/28 03:55:36 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ void lk()
 	system("leaks a.out");
 }
 
+//find a way to launch builtins in parent
+//to handle signals better sleep doesnt stop
 int main(int argc, char const *argv[], char **en)
 {
     t_list *head;
@@ -144,7 +146,10 @@ int main(int argc, char const *argv[], char **en)
 			printf("exit\n");
 			ft_exit(0);
 		}
-		ft_execute(head);
+			if (!ft_strrcmp((((t_prototype *)head->content)->cmnd)[0],"export") && !head->next)
+				ft_export(((char **)((t_prototype *)head->content)->cmnd) + 1);
+			else
+			ft_execute(head);
 		add_history(line);
 	    ft_lstclear(&head, ft_free_protoype);
         free(line);
