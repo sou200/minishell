@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:58:25 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/28 04:56:35 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/29 04:47:20 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,10 +340,9 @@ t_list	*export_exists(char *value)
 		if (value[y] == '+')
 			y++;
 		if (str[i] == value[y] || (str[i] == '=' && !value[y]) || (!str[i] && value[y] == '='))
-			return (printf("yes\n"),traveler);
+			return (traveler);
 		traveler = traveler->next;
 	}
-	printf("no\n");
 	return (0);
 }
 
@@ -379,7 +378,7 @@ char *join_export(char *old, char *var)
 	return (free(tmp), str);
 }
 
-//export and \"
+// export and \"
 // char *join_export(char *old, char *var)
 // {
 // 	char *str;
@@ -440,7 +439,7 @@ void env_append(char *str, char *var)
 			break ;
 		x++;
 	}
-	s = malloc(x + 1);
+	s = malloc(x + 2);
 	x = 0;
 	while (var[x])
 	{
@@ -530,7 +529,7 @@ void add_value(char *var)
 			break ;
 		x++;
 	}
-	s = malloc(x + 1);
+	s = malloc(x + 2);
 	x = 0;
 	while (var[x])
 	{

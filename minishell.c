@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/28 03:55:36 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/28 19:24:56 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,12 +141,12 @@ int main(int argc, char const *argv[], char **en)
 			ft_exit(0);//return value attention dyal akhir command
 		}
 		head = parce_line(line, env);
-		if (!ft_strrcmp((((t_prototype *)head->content)->cmnd)[0],"exit") && !head->next)
-		{
-			printf("exit\n");
-			ft_exit(0);
-		}
-			if (!ft_strrcmp((((t_prototype *)head->content)->cmnd)[0],"export") && !head->next)
+		// if (!ft_strrcmp((((t_prototype *)head->content)->cmnd)[0],"exit") && !head->next)
+		// {
+		// 	printf("exit\n");
+		// 	ft_exit(0);
+		// }
+			if ( head && head->content && ((t_prototype *)(head->content))->cmnd && !ft_strrcmp((((t_prototype *)head->content)->cmnd)[0],"export") && !head->next)
 				ft_export(((char **)((t_prototype *)head->content)->cmnd) + 1);
 			else
 			ft_execute(head);

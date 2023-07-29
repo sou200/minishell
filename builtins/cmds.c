@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/27 18:26:50 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/07/29 04:36:46 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,10 @@ int	ft_strrcmp(const char *s1, const char *s2)
 	size_t	i;
 
 	i = 0;
+	if (!s1 && !s2)
+		return (0);
+	if (!s1 || !s2)
+		return (1);
 	while (s1[i] && s2[i])
 	{
 		if (s1[i] != s2[i])
@@ -143,9 +147,15 @@ int redirect_input(t_list *left_red, int pipe)
 		if (!holder)
 			return (fd);
 		if (holder->type ==  TYPE_RD_L)
+		{
+			close(fd);
 		fd = open(holder->value, O_RDONLY);
+		}
 		else
+		{
+			close(fd);
 		fd = ft_input(holder->value);
+		}
 		if (fd == -1)
 			printf("erroor\n");
 		if (left_red->next)
@@ -173,9 +183,15 @@ int redirect_output(t_list *right_red, int pipe)
 		if (!holder)
 			return (fd);
 		if (holder->type ==  TYPE_RD_R)
+		{
+			close(fd);
 		fd = open(holder->value, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+		}
 		else
+		{
+			close(fd);
 		fd = open(holder->value, O_WRONLY | O_APPEND | O_CREAT, 0666);
+		}
 		if (fd == -1)
 			printf("erroor\n");
 		if (right_red->next)
@@ -230,8 +246,14 @@ void simple_cmd(t_var *p, t_prototype *cmd)
 	p->pid1= fork();
 	if (!p->pid1)
 	{
-		signal(SIGQUIT,SIG_DFL);
-		signal(SIGINT,SIG_DFL);
+
+				// printf("eqwe\n");
+		// signal(SIGQUIT,SIG_DFL);
+		// signal(SIGINT,SIG_DFL);
+		if (p->infile != p->fd[0])
+		close(p->fd[0]);
+		// close(0);
+		// close(1);
 		p->infile = redirect_input(cmd->left_red,p->infile);
 		p->outfile = redirect_output(cmd->right_red,p->outfile);
 		if (p->infile != 0)
@@ -248,17 +270,16 @@ void simple_cmd(t_var *p, t_prototype *cmd)
 		cmdd = cmd_path(p->paths, cmd->cmnd[0]);
 		if (!cmdd || access(cmdd, X_OK))
 			return (ft_error(1, "command not found "));
-
 		if (execve(cmdd, cmd->cmnd, env) == -1)
 			return (free(cmdd), cmdd = 0, ft_error(1, "execve "));
 	}
-	else
-	{
-		if(!ft_strncmp("./minishell",cmd->cmnd[0],12))
-			signal(SIGINT,SIG_IGN);
-		waitpid(p->pid1,&return_value, 0);
-		signal(SIGINT,controlec);
-	}
+	// else
+	// {
+	// 	if(!ft_strncmp("./minishell",cmd->cmnd[0],12))
+	// 		signal(SIGINT,SIG_IGN);
+	// 	waitpid(p->pid1,&return_value, 0);
+	// 	signal(SIGINT,controlec);
+	// }
 }
 
 void ft_execute(t_list *cmd)
@@ -269,11 +290,13 @@ void ft_execute(t_list *cmd)
 	p.infile = 0;
 	p.outfile = 1;
 	p.paths = path();
+	p.fd[0] = -1;
+	p.fd[1] = -1;
 	while (cmd  && ++p.i >= 0)
 	{
 		if (p.i != 0)
 		{
-			if (p.i > 2)
+			if (p.i >= 2)
 				close(p.infile);
 			p.infile = p.fd[0];
 			close(p.fd[1]);
@@ -293,6 +316,7 @@ void ft_execute(t_list *cmd)
 		simple_cmd(&p,(t_prototype *)(cmd->content));
 		cmd = cmd->next;
 	}
+	// printf("%d\n",p.i);
 	if (p.infile != 0)
 		close(p.infile);
 	while (waitpid(-1,0,0) != -1)
