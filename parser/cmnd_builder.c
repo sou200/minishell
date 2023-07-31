@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 22:04:17 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/24 19:46:32 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/26 22:55:52 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void build_smpl_cmnd(t_list **tokens, t_list** smpl_cmnds)
             if(token->type == TYPE_RD_L || token->type == TYPE_HERE_DOC)
                 ft_lstadd_back(&left_red, ft_lstnew(create_token(token->type, ft_strdup(((token_t*)(*tokens)->next->content)->value))));
             else
-                ft_lstadd_back(&right_red, ft_lstnew(create_token(token->type, ((token_t*)(*tokens)->next->content)->value)));
+                ft_lstadd_back(&right_red, ft_lstnew(create_token(token->type, ft_strdup(((token_t*)(*tokens)->next->content)->value))));
             *tokens = (*tokens)->next;
         }
         else

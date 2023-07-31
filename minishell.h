@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/26 01:13:30 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/07/31 02:10:31 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_list *env_lexer(char *env);
 int env_name_len(char *var);
 int is_redirection(token_t *token);
 t_list *generate_cmnds(t_list *tokens);
+t_list *get_matched_files(char *pattern, int *flags);
 
 
 // tmp
