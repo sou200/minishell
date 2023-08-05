@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/05 06:45:39 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:19:17 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,12 @@ char **env;
 t_list *export_list;
 int	return_value;
 
+void	*ft_malloc(size_t size);
+void	error_malloc(int condition);
 void	initialise_default(void);
 void	error_write(const char *s);
 void	init(int argc, char const *argv[], char **en);
-void	ft_sortir(t_list *head);
+int		ft_sortir(t_list *head);
 void	print_error(int x, int d, ...);
 void	failed_cmd(char *cmd, char *cmdd);
 void error_write(const char *s);

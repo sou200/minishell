@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:35:13 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 05:53:58 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 17:19:01 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	**path(void)
 	char		**paths;
 
 	path = ft_getenv("PATH");
+	if (!path)
+		path = default_env[1];
 	if (!path)
 		return (0);
 	paths = ft_split(path + 5, ':');

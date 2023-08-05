@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/05 06:45:26 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:02:57 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,7 @@ int	main(int argc, char const *argv[], char **en)
 			return (printf("\x1b[Fminishell$  exit\n"), ft_exit(1));
 		if (line)
 			head = parce_line(line, env);
-		ft_sortir(head);
-		if (head)
+		if (ft_sortir(head) && head)
 			ft_execute(head, (t_var){0, 0, 0, 0, 0, 0});
 		add_history(line);
 		ft_lstclear(&head, ft_free_protoype);

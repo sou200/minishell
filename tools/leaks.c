@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 06:41:51 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:03:33 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_exit(int error)
 	exit(error);
 }
 
-void	ft_sortir(t_list *head)
+int	ft_sortir(t_list *head)
 {
 	if (head && head->content
 		&& !ft_strrcmp(((t_prototype *)(head->content))->cmnd[0]
@@ -38,6 +38,14 @@ void	ft_sortir(t_list *head)
 		error_write("exit\n");
 		ft_exit(0);
 	}
+	if (head && head->content && !head->next
+		&& !ft_strrcmp(((t_prototype *)(head->content))->cmnd[0]
+		, "export"))
+	{
+		ft_export(((t_prototype *)(head->content))->cmnd + 1);
+		return (0);
+	}
+	return (1);
 }
 
 void	init(int argc, char const *argv[], char **en)
