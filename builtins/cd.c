@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 14:48:22 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/04 04:27:04 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 06:47:05 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,6 @@ char	*cd_pathcheck(const char *dirname)
 	}
 	return (0);
 }
-
-char return_value;
 
 int abs_path (const char *dirname)
 {

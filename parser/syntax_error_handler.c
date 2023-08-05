@@ -6,11 +6,16 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:30:06 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/25 20:50:49 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 06:46:21 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int is_valid_neighbor(t_token *token)
+{
+    return token->type == TYPE_WORD || token->type == TYPE_DOLLAR || token->type == TYPE_QUOTE || token->type == TYPE_D_QUOTE || token->type == TYPE_STAR;
+}
 
 int is_valid_pipe(t_list *token_lst)
 {
@@ -23,7 +28,7 @@ int is_valid_redi(t_list *token_lst)
 {
     if(token_lst->next == NULL)
         return 0;
-    return ((t_token *)token_lst->next->content)->type == TYPE_WORD || ((t_token *)token_lst->next->content)->type == TYPE_DOLLAR || ((t_token *)token_lst->next->content)->type == TYPE_QUOTE || ((t_token *)token_lst->next->content)->type == TYPE_D_QUOTE;
+    return is_valid_neighbor((t_token *)token_lst->next->content);
 }
 
 void check_quote(int *q_type, enum t_tokenype cas)

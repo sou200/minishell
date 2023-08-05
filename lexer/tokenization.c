@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/26 02:31:43 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 06:38:02 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,13 @@ enum t_tokenype	find_type(char *line, int *i)
 {
 	if (line[*i] == '$')
 		return (*i += 1, TYPE_DOLLAR);
-	if (line[*i] == '*')
-		return (*i += 1, TYPE_STAR);
 	if (line[*i] == '\'')
 		return (*i += 1, TYPE_QUOTE);
 	if (line[*i] == '\"')
 		return (*i += 1, TYPE_D_QUOTE);
+	if (line[*i] == '*')
+		return (*i += 1, TYPE_STAR);
+		
 	return (find_type2(line, i));
 }
 
