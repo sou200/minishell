@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/25 20:31:57 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 06:28:24 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_exit(int	error)
 		free(global.garbage);
 		global.garbage = lst;
 	}
-	free_table(env);
+	// free_table(env);
 	if (error == ENOMEM)
 		perror("malloc: ");
 	else if (error != 0)
