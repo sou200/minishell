@@ -6,11 +6,20 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:30:06 by serhouni          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/07/25 20:24:40 by fel-hazz         ###   ########.fr       */
+=======
+/*   Updated: 2023/07/31 04:09:30 by serhouni         ###   ########.fr       */
+>>>>>>> e8bf8bb213288a270b303c578114d743af055ca1
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int is_valid_neighbor(token_t *token)
+{
+    return token->type == TYPE_WORD || token->type == TYPE_DOLLAR || token->type == TYPE_QUOTE || token->type == TYPE_D_QUOTE || token->type == TYPE_STAR;
+}
 
 int is_valid_pipe(t_list *token_lst)
 {
@@ -23,7 +32,7 @@ int is_valid_redi(t_list *token_lst)
 {
     if(token_lst->next == NULL)
         return 0;
-    return ((token_t *)token_lst->next->content)->type == TYPE_WORD || ((token_t *)token_lst->next->content)->type == TYPE_DOLLAR || ((token_t *)token_lst->next->content)->type == TYPE_QUOTE || ((token_t *)token_lst->next->content)->type == TYPE_D_QUOTE;
+    return is_valid_neighbor((token_t *)token_lst->next->content);
 }
 
 void check_quote(int *q_type, enum token_type cas)

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/25 20:30:31 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 06:16:39 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	check_word(char c);
 t_list* to_expanded_tokens(t_list* tokens, char **env);
 int is_valid_syntax(t_list *token_lst);
 
-void expand_env(t_list **tokens, char **env);
+void expand_env(t_list **tokens, char **env, int lex_flag);
 int is_valid_env(t_list* tokens, int open_q);
 t_list* parce_line(char *line, char **env);
 int in_quote_handler(int *open_q, char **quote_content, t_list** new_token_lst, int q_case);
@@ -87,6 +87,7 @@ t_list *env_lexer(char *env);
 int env_name_len(char *var);
 int is_redirection(token_t *token);
 t_list *generate_cmnds(t_list *tokens);
+t_list *get_matched_files(char *pattern, int *flags);
 
 
 // tmp
