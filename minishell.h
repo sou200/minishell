@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/05 01:59:42 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 02:41:06 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 #include <limits.h>
 #include <string.h>
 #include <stdarg.h>
-#include"builtins/get_next_line_bonus.h"
 // char *env[ARG_MAX];
 # define MINISHELL_INIT "minishell-init: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
 # define PWD_ENV "job-working-directory: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
@@ -112,7 +111,7 @@ int	ft_input(char *stop);
 int redirect_input(t_list *left_red, int pipe);
 int redirect_output(t_list *right_red, int pipe);
 char	*cmd_path(char **paths, char *cmd);
-void	simple_cmd(t_var *p, t_prototype *cmd);
+void	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd);
 void	ft_execute(t_list *cmd, t_var p);
 
 int add_var1(const char *var);

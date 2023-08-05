@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 02:14:41 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 02:43:34 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,32 @@ int	ft_builtins(t_prototype *cmd)
 // signal(SIGQUIT,SIG_DFL);
 // signal(SIGINT,SIG_DFL);
 
-void failed_cmd(char *str)
+void	failed_cmd(char *str)
 {
 	// if (ft_strchr(st))
 	//is a directory / ou real direct
 	//command not found eqweq
 	//no such file  qewqw/qwe
+	//ambiguous redirect
+	//return value
+	//signals
+	//cd PWD OLDPWD
+	//unset dont forget local variables
+	//shellvl and other things
+	// permission denied
 	printf("Mochkila");
 }
-void	simple_cmd(t_var *p, t_prototype *cmd)
-{
-	char	*cmdd;
 
+void	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
+{
 	p->pid = fork();
 	if (!p->pid)
 	{
 		p->paths = path();
 		if (!p->paths)
 			ft_error(ENOMEM, "malloc: ");
-		close(p->fd[0]);
+		if (p->infile != p->fd[0])
+			close(p->fd[0]);
 		p->infile = redirect_input(cmd->left_red, p->infile);
 		p->outfile = redirect_output(cmd->right_red, p->outfile);
 		p->infile += (p->infile != 0 && close(p->infile) && 0);
@@ -65,7 +72,7 @@ void	simple_cmd(t_var *p, t_prototype *cmd)
 		if (!cmdd || access(cmdd, X_OK))
 			return (failed_cmd(cmd->cmnd[0]));
 		if (execve(cmdd, cmd->cmnd, env) == -1)
-			return (free(cmdd), cmdd = 0, ft_error(1, "execve "));
+			return (free(cmdd), cmdd = 0, ft_error(errno, "execve: "));
 	}
 }
 // else
@@ -96,7 +103,7 @@ void	ft_execute(t_list *cmd, t_var p)
 		}
 		else
 			p.outfile = (p.outfile != 1 && close(p.outfile) && 0) + 1;
-		simple_cmd(&p, (t_prototype *)(cmd->content));
+		simple_cmd(&p, (t_prototype *)(cmd->content), 0);
 		cmd = cmd->next;
 	}
 	p.infile = (p.infile != 0 && close(p.infile));

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 23:29:17 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 01:00:40 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 02:35:57 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*generate_name(void)
 	if (i == 0)
 		i = 554;
 	str = ft_itoa(i);
-	if (str)
+	if (!str)
 		ft_error(ENOMEM, "malloc: ");
 	while (access(str, F_OK) == 0 && i > 0)
 	{
@@ -88,16 +88,16 @@ int	ft_input(char *stop)
 	ft_open(str, &tmp, -1);
 	unlink(str);
 	free(str);
-	write(1, "> ", 2);
-	str = get_next_line(0);
+	str = readline("> ");
 	while (str && ft_strrcmp(stop, str))
 	{
 		str = expand_heredoc_line(str, env);
 		write(fd, str, ft_strlen(str));
-		write(1, "> ", 2);
 		free(str);
-		str = get_next_line(0);
+		str = readline("> ");
 	}
+	if (!str)
+		printf("\x1b[F> ");
 	free(str);
 	str = NULL;
 	ft_close(1, fd);
