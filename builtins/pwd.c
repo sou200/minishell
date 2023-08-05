@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:49:29 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 06:05:20 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:44:29 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 int	ft_pwd(void)
 {
 	char	*pwd;
+	int		a;
 
+	a = 0;
 	pwd = default_env[0];
 	if (!pwd)
-		pwd = getcwd(0, 0);
+		pwd = getcwd(0, 0) + (a++ == -1);
 	if (!pwd)
-	{
-		error_write(PWD_ERROR);
-		return (1);
-	}
+		return (error_write(PWD_ERROR), 1);
 	if (!ft_strncmp(pwd, "/private/", 9))
 	{
 		pwd += 8;
@@ -36,6 +35,7 @@ int	ft_pwd(void)
 		ft_putstr_fd(pwd, 1);
 		write(1, "\n", 1);
 	}
-	free(pwd);
+	if (a == 1)
+		free(pwd);
 	return (0);
 }

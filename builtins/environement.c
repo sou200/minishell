@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 17:00:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 17:28:19 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:09:41 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	initialise_env(const char **en)
 	initialise_export();
 }
 
-//PWD OLDPWD MAKITEXPORTAWCH INITIALISE VARIABLES
 void	initialise_export(void)
 {
 	int		x;

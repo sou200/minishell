@@ -6,13 +6,12 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 17:23:11 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 17:37:09 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:39:13 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//normal export from env
 char	*ft_exportage(char *s)
 {
 	int		i;
@@ -22,9 +21,7 @@ char	*ft_exportage(char *s)
 
 	if (!s)
 		return (0);
-	str = malloc(sizeof(char) * (ft_strlen(s) + 14));
-	if (!str)
-		ft_error(ENOMEM, "malloc: ");
+	str = ft_malloc(sizeof(char) * (ft_strlen(s) + 14));
 	ft_strlcpy(str, "declare -x ", 100);
 	once = 0;
 	x = 11;
@@ -39,12 +36,9 @@ char	*ft_exportage(char *s)
 		}
 		str[x++] = s[i++];
 	}
-	str[x++] = '"';
-	str[x] = '\0';
-	return (str);
+	return (str[x++] = '"', str[x] = '\0', str);
 }
 
-//export export only
 char	*ft_exportage1(char *s)
 {
 	int		i;
@@ -54,20 +48,16 @@ char	*ft_exportage1(char *s)
 
 	if (!s)
 		return (0);
-	str = malloc(sizeof(char) * (ft_strlen(s) + 12));
-	if (!str)
-		ft_error(ENOMEM, "malloc: ");
+	ft_malloc(sizeof(char) * (ft_strlen(s) + 12));
 	ft_strlcpy(str, "declare -x ", 100);
 	once = 0;
 	x = 11;
 	i = 0;
 	while (s[i])
 		str[x++] = s[i++];
-	str[x] = '\0';
-	return (str);
+	return (str[x] = '\0', str);
 }
 
-//export append
 char	*ft_exportage3(char *s)
 {
 	int		i;
@@ -77,9 +67,7 @@ char	*ft_exportage3(char *s)
 
 	if (!s)
 		return (0);
-	str = malloc(sizeof(char) * (ft_strlen(s) + 13));
-	if (!str)
-		ft_error(ENOMEM, "malloc: ");
+	str = ft_malloc(sizeof(char) * (ft_strlen(s) + 13));
 	ft_strlcpy(str, "declare -x ", 100);
 	once = 0;
 	x = 11;
@@ -96,12 +84,9 @@ char	*ft_exportage3(char *s)
 		}
 		str[x++] = s[i++];
 	}
-	str[x++] = '"';
-	str[x] = '\0';
-	return (str);
+	return (str[x++] = '"', str[x] = '\0', str);
 }
 
-//add export to free list
 void	print_export(void)
 {
 	t_list	*traveler;
