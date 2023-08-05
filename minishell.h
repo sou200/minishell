@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/28 23:22:46 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 01:59:42 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@
 #include <stdarg.h>
 #include"builtins/get_next_line_bonus.h"
 // char *env[ARG_MAX];
+# define MINISHELL_INIT "minishell-init: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
+# define PWD_ENV "job-working-directory: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
+# define PWD_ERROR "pwd: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
+
+char **default_env;
 enum t_tokenype
 {
     TYPE_WORD,
@@ -47,8 +52,7 @@ enum t_tokenype
 typedef struct s_var
 {
 	int		fd[2];
-	int		pid1;
-	int		pid2;
+	int		pid;
 	char	**paths;
 	int		infile;
 	int		outfile;
@@ -79,7 +83,9 @@ typedef struct s_prototype
 
 char **env;
 t_list *export_list;
-
+void error_write(const char *s);
+void	initialise_var(t_var *p);
+void waitandreturn(t_var p);
 char *ft_exportage3(char *s);
 char *ft_exportage(char *s);
 char *ft_exportage1(char *s);
@@ -89,13 +95,12 @@ t_list	*export_exists(char *value);
 void replace_value(char *var, t_list *tmp);
 int which_export(char *var);
 void add_value(char *var);
-void ft_export(char **args);
+int ft_export(char **args);
 void env_append(char *str, char *var);
-
+void	ft_open(char *str, int *fd, int flag);
 void	ft_lstaddandsort(t_list **lst, t_list *new);
 int	ft_strcmp(const char *s1, const char *s2);
-void  ft_builtins(t_prototype *cmd);
-void	ft_echo(char **cmd);
+int  ft_builtins(t_prototype *cmd);
 int	check_n(char *s);
 int	ft_strrcmp(const char *s1, const char *s2);
 void	ft_dup2(int x, int y);
@@ -107,8 +112,8 @@ int	ft_input(char *stop);
 int redirect_input(t_list *left_red, int pipe);
 int redirect_output(t_list *right_red, int pipe);
 char	*cmd_path(char **paths, char *cmd);
-void simple_cmd(t_var *p, t_prototype *cmd);
-void ft_execute(t_list *cmd);
+void	simple_cmd(t_var *p, t_prototype *cmd);
+void	ft_execute(t_list *cmd, t_var p);
 
 int add_var1(const char *var);
 int	check_var1(const char *var);
@@ -120,7 +125,7 @@ void remove_var(const char *var);
 char *ft_exportage1(char *s);
 char *ft_exportage(char *s);
 // t_env env;
-void ft_env(void);
+int ft_env(void);
 int	size_double(char **str);
 void	initialise_env(const char **en);
 char	**realloc_env(int n);
@@ -135,16 +140,16 @@ int		get_sizeslach(char *s);
 char	*trim_backslash(char *s);
 char	*cd_pathcheck(const char *dirname);
 int abs_path (const char *dirname);
-void	ft_cd(const char *dirname);
+int	ft_cd(const char *dirname);
 void controlec(int c);
-void ft_printenv(const char *var);
+int ft_printenv(const char *var);
 int is_valid_to_expand(char *s, int i);
-void	ft_pwd(void);
-void	ft_echo(char **cmd);
+int	ft_pwd(void);
+int		ft_echo(char **cmd);
 // t_list	*ft_lstnew1(void *content);
 // char	*ft_substr1(char const *s, unsigned int start, size_t len);
 void	ft_free(int number, ...);
-void	ft_exit(int	error);
+int		ft_exit(int	error);
 // void recycle(int n, ...);
 t_list *lexer(char *line);
 char	*space_type(char *line, int *i);

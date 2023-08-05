@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/28 19:24:56 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 02:15:22 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,37 @@ void lk()
 	system("leaks a.out");
 }
 
+
+void error_write(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		write(2, &s[i] , 1);
+		i++;
+	}
+}
+
+void initialise_default()
+{
+	char *pwd;
+
+	default_env = malloc(sizeof(char *) * 3);
+	if (!default_env)
+		ft_exit(ENOMEM);
+	pwd = getcwd(0, 0);
+	if (!pwd)
+	{
+		error_write(MINISHELL_INIT);
+		default_env[0] = ft_strdup("");
+	}
+	else
+		default_env[0] = pwd;
+	default_env[1] = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+	default_env[2] = 0;
+}
 //find a way to launch builtins in parent
 //to handle signals better sleep doesnt stop
 int main(int argc, char const *argv[], char **en)
@@ -128,6 +159,7 @@ int main(int argc, char const *argv[], char **en)
 			printf("wa bzaf azbi\n");
 			ft_exit(0);
 		}
+	initialise_default();
 	initialise_env((const char **)en);
 	rl_catch_signals = 0;
 	signal(SIGINT,controlec);
@@ -138,18 +170,19 @@ int main(int argc, char const *argv[], char **en)
         if (!line)
 		{
 			printf("\x1b[Fminishell$  exit\n");
-			ft_exit(0);//return value attention dyal akhir command
+			free_table(env);
+			free_table(default_env);
+			exit(0);//return value attention dyal akhir command
 		}
-		head = parce_line(line, env);
-		// if (!ft_strrcmp((((t_prototype *)head->content)->cmnd)[0],"exit") && !head->next)
-		// {
-		// 	printf("exit\n");
-		// 	ft_exit(0);
-		// }
-			if ( head && head->content && ((t_prototype *)(head->content))->cmnd && !ft_strrcmp((((t_prototype *)head->content)->cmnd)[0],"export") && !head->next)
-				ft_export(((char **)((t_prototype *)head->content)->cmnd) + 1);
-			else
-			ft_execute(head);
+		if (line)
+			head = parce_line(line, env);
+		if (head && head->content && !ft_strrcmp(((t_prototype *)(head->content))->cmnd[0], "exit"))
+		{
+			error_write("exit\n");
+			ft_exit(0);
+		}
+		if (head)
+			ft_execute(head, (t_var){0, 0, 0, 0, 0, 0});
 		add_history(line);
 	    ft_lstclear(&head, ft_free_protoype);
         free(line);

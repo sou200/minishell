@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:58:25 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/29 04:47:20 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 01:40:51 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ const char *ft_getenv(const char *var)
 		return (0);
 	while (env[i] && ft_pathcmp(var, env[i]))
 		i++;
-	if (!env[i])
-		return (0);
-	return ((env[i]));
+	if (env[i])	
+		return ((env[i]));
+	return (default_env[1]);
 }
 
 void	initialise_env(const char **en)
@@ -545,7 +545,7 @@ void add_value(char *var)
 	}
 }
 
-void ft_export(char **args)
+int ft_export(char **args)
 {
 	int 	i;
 	t_list	*tmp;
@@ -585,24 +585,24 @@ void add_var(const char *var)
 	env = new;
 }
 
-void ft_env(void)
+int ft_env(void)
 {
 	int	i;
 
 	i = 0;
 	if (!env)
-		return ;
+		return (1);
 	while (env && env[i])
 		printf("%s\n",env[i++]);
-	exit(0);
+	return (0);
 }
 
-void ft_printenv(const char *var)
+int ft_printenv(const char *var)
 {
 	const char	*s;
 
 	s = ft_getenv(var);
 	if (s)
-		printf("%s\n",ft_getenv(var));
-	exit(0);
+		printf("%s\n", ft_getenv(var));
+	return (0);
 }

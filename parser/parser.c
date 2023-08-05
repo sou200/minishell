@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:43:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/25 20:50:49 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/02 01:59:01 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ t_list *parce_line(char *line, char **env)
     t_list *smpl_cmnds;
 
     tokens = lexer(line);
+	if (!tokens)
+		return (0);
     if (!is_valid_syntax(tokens))
         return printf("syntax error !\n"), NULL;
     expanded_tokens = to_expanded_tokens(tokens, env);

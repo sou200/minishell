@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/27 18:06:15 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 00:57:02 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ void	ft_free(int number, ...)
 }
 
 //had lfonction kat exiti ela 7sab error, ila bghina nkhrjo wsafi error = 0m sinon error = ERRor code
-void	ft_exit(int	error)
+int	ft_exit(int	error)
 {
 	free_table(env);
+	free_table(default_env);
 	exit(error);
 }
 

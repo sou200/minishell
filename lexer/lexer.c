@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 20:19:56 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/25 20:39:41 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/02 01:58:34 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_list *lexer(char *line)
 	x = 0;
 	i = 0;
 	head = NULL;
+	if (!line)
+		return (NULL);
 	while (line[i])
 	{
 		x = i;
