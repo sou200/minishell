@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:35:13 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 02:40:09 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 05:53:58 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*cmd_path(char **paths, char *cmd)
 	int		i;
 
 	i = 0;
-	if (!access(cmd, X_OK) || cmd[0] == '/')
+	if (!access(cmd, F_OK) || cmd[0] == '/')
 		return (cmd);
 	while (paths[i])
 	{
@@ -45,7 +45,7 @@ char	*cmd_path(char **paths, char *cmd)
 		tmp = 0;
 		if (!str)
 			return (0);
-		if (!access(str, X_OK))
+		if (!access(str, F_OK))
 			return (str);
 		free(str);
 		i++;
@@ -65,11 +65,14 @@ void	initialise_var(t_var *p)
 
 void	waitandreturn(t_var p)
 {
-	int	return_value;
-
-	return_value = 0;
 	waitpid(p.pid, &return_value, 0);
 	while (waitpid(-1, 0, 0) != -1)
 		;
-	printf("%d\n", WEXITSTATUS(return_value));
+	if (WIFSIGNALED(return_value))
+	{
+		return_value = WTERMSIG(return_value) + 128;
+		printf("%d\n", return_value);
+	}
+	else
+		printf("%d\n", WEXITSTATUS(return_value));
 }

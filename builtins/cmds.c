@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 02:43:34 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 05:43:37 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,47 @@ int	ft_builtins(t_prototype *cmd)
 // signal(SIGQUIT,SIG_DFL);
 // signal(SIGINT,SIG_DFL);
 
-void	failed_cmd(char *str)
+void	print_error(int x, int d, ...)
 {
-	// if (ft_strchr(st))
-	//is a directory / ou real direct
-	//command not found eqweq
-	//no such file  qewqw/qwe
-	//ambiguous redirect
-	//return value
-	//signals
-	//cd PWD OLDPWD
-	//unset dont forget local variables
-	//shellvl and other things
-	// permission denied
-	printf("Mochkila");
+	va_list	ap;
+	int		i;
+
+	i = 0;
+	va_start(ap, d);
+	while (i < d)
+	{
+		error_write(va_arg(ap, char *));
+		i++;
+	}
+	va_end(ap);
+	ft_exit(x);
 }
 
-void	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
+void	failed_cmd(char *cmd, char *cmdd)
+{
+	struct stat	buf;
+
+	if (ft_strchr(cmd, '/') && !cmdd || cmd[0] == '/' && access(cmd, F_OK))
+		print_error(127, 3, "minishell: ", cmd, ": No such file or directory\n");
+	else if (!cmdd)
+		print_error(127, 3, "minishell: ", cmd, ": command not found\n");
+	lstat(cmd, &buf);
+	if (S_ISDIR(buf.st_mode))
+		print_error(126, 3, "minishell: ", cmd, ": is a directory\n");
+	if (access(cmdd, X_OK) || access(cmdd, R_OK))
+		print_error(126, 3, "minishell: ", cmd, ": Permission denied\n");
+}
+//ambiguous redirect
+//return value
+//signals
+//cd PWD OLDPWD
+//unset dont forget local variables
+//shellvl and other things
+//make the return value international
+//make unset better
+//dont forget the export part
+
+int	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
 {
 	p->pid = fork();
 	if (!p->pid)
@@ -63,17 +87,17 @@ void	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
 		p->infile += (p->infile != 0 && close(p->infile) && 0);
 		p->outfile += (p->outfile != 1 && close(p->outfile) && 0);
 		if (!(cmd->cmnd)[0])
-			return (free_table(p->paths), ft_exit(0), free(0));
+			return (free_table(p->paths), ft_exit(0), 0);
 		ft_builtins(cmd);
 		if (!*default_env[0] && !ft_getenv("PWD"))
 			error_write(PWD_ENV);
 		cmdd = cmd_path(p->paths, cmd->cmnd[0]);
 		free_table(p->paths);
-		if (!cmdd || access(cmdd, X_OK))
-			return (failed_cmd(cmd->cmnd[0]));
+		failed_cmd(cmd->cmnd[0], cmdd);
 		if (execve(cmdd, cmd->cmnd, env) == -1)
-			return (free(cmdd), cmdd = 0, ft_error(errno, "execve: "));
+			return (free(cmdd), cmdd = 0, ft_exit(0), 0);
 	}
+	return (0);
 }
 // else
 // {
@@ -98,7 +122,7 @@ void	ft_execute(t_list *cmd, t_var p)
 		if (cmd->next)
 		{
 			if (pipe(p.fd) == -1)
-				ft_error(1, "pipe: ");
+				ft_error(errno, "pipe: ");
 			p.outfile = p.fd[1];
 		}
 		else

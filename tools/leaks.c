@@ -6,14 +6,12 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 00:57:02 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 05:36:16 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../minishell.h"
+#include "../minishell.h"
 
-//number==number of addresses to freee
-//hadi hia lfonction lit9der tfreeyi biha dakchi li allocated w mahadich t7tajo mn b3d
 void	ft_free(int number, ...)
 {
 	va_list	va;
@@ -24,27 +22,43 @@ void	ft_free(int number, ...)
 	va_end(va);
 }
 
-//had lfonction kat exiti ela 7sab error, ila bghina nkhrjo wsafi error = 0m sinon error = ERRor code
-int	ft_exit(int	error)
+int	ft_exit(int error)
 {
 	free_table(env);
 	free_table(default_env);
 	exit(error);
 }
 
-//had lfonction hia bach t9der t ajouti chi address; garbage collector
-// void recycle(int n, ...)
-// {
-// 	t_list	*lst;
-// 	va_list	va;
+void	ft_sortir(t_list *head)
+{
+	if (head && head->content
+		&& !ft_strrcmp(((t_prototype *)(head->content))->cmnd[0]
+		, "exit"))
+	{
+		error_write("exit\n");
+		ft_exit(0);
+	}
+}
 
-// 	va_start(va, n);
-// 	while (n-- > 0)
-// 	{
-// 		lst = ft_lstnew(va_arg(va, void *));
-// 		if (!lst)
-// 			ft_exit(ENOMEM);
-// 		ft_lstadd_back(&global.garbage, lst);
-// 	}
-// 	va_end(va);
-// }
+void	init(int argc, char const *argv[], char **en)
+{
+	if (argc > 2 || argv[1])
+		print_error(7, 2, "minishell: ", ": too many arguments\n");
+	initialise_default();
+	initialise_env((const char **)en);
+	rl_catch_signals = 0;
+	signal(SIGINT, controlec);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	error_write(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		write(2, &s[i], 1);
+		i++;
+	}
+}

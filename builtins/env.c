@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:58:25 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 01:40:51 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 06:08:29 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ const char *ft_getenv(const char *var)
 		return (0);
 	while (env[i] && ft_pathcmp(var, env[i]))
 		i++;
-	if (env[i])	
+	if (env[i])
 		return ((env[i]));
 	return (default_env[1]);
 }
@@ -50,7 +50,7 @@ const char *ft_getenv(const char *var)
 void	initialise_env(const char **en)
 {
 	int	x;
-	int y;
+	int	y;
 
 	x = 0;
 	y = 0;
@@ -561,7 +561,9 @@ int ft_export(char **args)
 		else
 			replace_value(args[i], tmp);
 	}
+	return (0);
 }
+
 void add_var(const char *var)
 {
 	int	i;

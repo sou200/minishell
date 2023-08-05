@@ -6,11 +6,11 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 01:12:44 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/07/28 01:25:31 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 06:13:39 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../minishell.h"
+#include "../minishell.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -38,23 +38,21 @@ void	ft_lstaddandsort(t_list **lst, t_list *new)
 	if (lst == 0 || new == 0)
 		return ;
 	if (*lst == 0)
-		*lst = new;
-	else
+		return (*lst = new, free(0));
+	traveler = *lst;
+	while (traveler)
 	{
-		traveler = *lst;
-		while (traveler)
+		if (ft_strcmp((const char *)(traveler)->content
+			, (const char *)new->content) > 0)
 		{
-			if (ft_strcmp((const char *)(traveler)->content, (const char *)new->content) > 0)
-			{
-				holder = (traveler)->content;
-				(traveler)->content = new->content;
-				new->content = holder;
-			}
-			if (!traveler->next)
-				break ;
-			traveler = traveler->next;
+			holder = (traveler)->content;
+			(traveler)->content = new->content;
+			new->content = holder;
 		}
-		new->prev = traveler;
-		traveler->next = new;
+		if (!traveler->next)
+			break ;
+		traveler = traveler->next;
 	}
+	new->prev = traveler;
+	traveler->next = new;
 }

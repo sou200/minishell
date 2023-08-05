@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 23:29:17 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 02:35:57 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 04:56:27 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,23 @@ void	ft_error(int erno, const char *msg)
 
 void	ft_open(char *str, int *fd, int flag)
 {
+	struct stat	buf;
+
+	lstat(str, &buf);
+	if (S_ISDIR(buf.st_mode))
+		print_error(1, 3, "minishell: ", str, ": Is a directory\n");
+	if ((flag == -1 || flag == -2) 
+		&& !access(str, F_OK) && access(str, W_OK))
+		print_error(1, 3, "minishell: ", str, ": Permission denied\n");
+	else if (!(flag == -1 || flag == -2) 
+		&& !access(str, F_OK) && access(str, R_OK))
+		print_error(1, 3, "minishell: ", str, ": Permission denied\n");
 	if (flag == -1)
-		*fd = open(str, O_RDWR | O_TRUNC | O_CREAT, 0666);
+		*fd = open(str, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 	else if (flag == -2)
-		*fd = open(str, O_RDWR | O_APPEND | O_CREAT, 0666);
+		*fd = open(str, O_WRONLY | O_APPEND | O_CREAT, 0666);
 	else
 		*fd = open(str, O_RDONLY);
-	if (*fd == -1)
-		ft_error(1, "open: ");
 }
 
 char	*generate_name(void)
@@ -100,6 +109,6 @@ int	ft_input(char *stop)
 		printf("\x1b[F> ");
 	free(str);
 	str = NULL;
-	ft_close(1, fd);
+	close(fd);
 	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/05 02:41:06 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/05 05:59:17 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define MINISHELL_H
 
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -31,7 +32,7 @@
 # define MINISHELL_INIT "minishell-init: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
 # define PWD_ENV "job-working-directory: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
 # define PWD_ERROR "pwd: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
-
+# define DEFAULT_PATH "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 char **default_env;
 enum t_tokenype
 {
@@ -82,6 +83,14 @@ typedef struct s_prototype
 
 char **env;
 t_list *export_list;
+int	return_value;
+
+void	initialise_default(void);
+void	error_write(const char *s);
+void	init(int argc, char const *argv[], char **en);
+void	ft_sortir(t_list *head);
+void	print_error(int x, int d, ...);
+void	failed_cmd(char *cmd, char *cmdd);
 void error_write(const char *s);
 void	initialise_var(t_var *p);
 void waitandreturn(t_var p);
@@ -102,16 +111,14 @@ int	ft_strcmp(const char *s1, const char *s2);
 int  ft_builtins(t_prototype *cmd);
 int	check_n(char *s);
 int	ft_strrcmp(const char *s1, const char *s2);
-void	ft_dup2(int x, int y);
 void	ft_error(int erno, const char *msg);
 char	**path(void);
-void	ft_close(int n, ...);
 char	*generate_name(void);
 int	ft_input(char *stop);
 int redirect_input(t_list *left_red, int pipe);
 int redirect_output(t_list *right_red, int pipe);
 char	*cmd_path(char **paths, char *cmd);
-void	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd);
+int		simple_cmd(t_var *p, t_prototype *cmd, char *cmdd);
 void	ft_execute(t_list *cmd, t_var p);
 
 int add_var1(const char *var);
