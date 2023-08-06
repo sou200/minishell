@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 17:23:11 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 02:17:45 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 05:49:16 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	ft_export(char **args)
 	int		i;
 	t_list	*tmp;
 
+	return_value = 0;
 	i = -1;
 	if (!args[0])
 		print_export();
@@ -115,5 +116,5 @@ int	ft_export(char **args)
 		else
 			replace_value(args[i], tmp);
 	}
-	return (0);
+	return (return_value);
 }

@@ -11,16 +11,17 @@
 
 //cd PWD OLDPWD
 
-//unset khas tkun katakhed b3ayn l3tibar l export
-//unset dont forget local variables
-//make unset better
+# //unset khas tkun katakhed b3ayn l3tibar l export 
+# //unset dont forget local variables
+# //make unset better
 
-//signals
-//minishell wst minishell w signals
+# //builtins should not exit on error in main, handle solo builtins better
+# //chof export ila kant error fcommand khas tkmel
 
-//builtins should not exit on error in main, handle solo builtins better
+# //signals
+# //minishell wst minishell w signals
 
 
-//return value
+//return value soufiane les erreurs
 
 //ambiguous redirect soufiane chghandiro flcas dl esplace < $a avec $a= "qewq qweqw" ls < "eqwe qweqw"

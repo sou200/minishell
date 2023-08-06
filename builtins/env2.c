@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 02:56:08 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 02:57:05 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 05:50:49 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,27 @@ int	ft_env(void)
 {
 	int	i;
 
+	return_value = 0;
 	i = 0;
 	if (!env)
-		return (1);
+		return (return_value = 1, return_value);
 	while (env && env[i])
 		printf("%s\n", env[i++]);
-	return (0);
+	return (return_value);
 }
 
 int	ft_printenv(const char *var)
 {
 	const char	*s;
 
+	return_value = 0;
 	s = ft_getenv(var);
 	if (s)
-		printf("%s\n", ft_getenv(var));
+		printf("%s\n", s);
+	else
+		s = ft_getenv2(var);
+	if (s)
+		printf("%s\n", s);
 	return (0);
 }
 
@@ -57,10 +63,5 @@ const char	*ft_getenv(const char *var)
 		return (0);
 	while (env[i] && ft_pathcmp(var, env[i]))
 		i++;
-	if (env[i])
-		return ((env[i]));
-	i = 0;
-	while (default_env[i] && ft_pathcmp(var, default_env[i]))
-		i++;
-	return (default_env[i]);
+	return ((env[i]));
 }

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 00:21:19 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 02:18:35 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 05:40:49 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	env_append(char *str, char *var)
 		return (add_var(str), free(str));
 	env[x] = str;
 }
-
 
 int	env_append_find(char *str, char *var)
 {

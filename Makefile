@@ -13,7 +13,7 @@ SRCS = minishell.c lexer/lexer.c lexer/tokenization.c parser/quotes_handler.c \
 	builtins/cmds.c  builtins/echo.c \
 	builtins/sorted_lst.c builtins/cd.c builtins/pwd.c builtins/heredoc.c builtins/redirections.c \
 	builtins/cmds2.c parser/wildcards.c builtins/environement.c builtins/export1.c \
-	builtins/export2.c builtins/export3.c builtins/export4.c builtins/env2.c
+	builtins/export2.c builtins/export3.c builtins/export4.c builtins/env2.c builtins/unset.c
 
 OBJS = $(SRCS:.c=.o)
 

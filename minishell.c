@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/06 02:55:40 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 06:23:15 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,10 @@ void	controlec(int c)
 {
 	(void ) c;
 	write(1, "\n", 1);
-	rl_replace_line("", 0);
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
 	return_value = 1;
-
 }
 
 // void lk()
@@ -150,7 +149,7 @@ int	main(int argc, char const *argv[], char **en)
 			return (printf("\x1b[Fminishell$  exit\n"), ft_exit(1));
 		if (line)
 			head = parce_line(line, env);
-		if (ft_sortir(head) && head)
+		if (head && ft_sortir(head))
 			ft_execute(head, (t_var){0, 0, 0, 0, 0, 0});
 		add_history(line);
 		ft_lstclear(&head, ft_free_protoype);

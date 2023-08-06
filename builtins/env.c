@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:58:25 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 00:34:30 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 07:02:31 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,29 @@ void	free_table(char **str)
 	free(str);
 }
 
-void	remove_var_check(const char *var)
+void	print_error1(int d, ...)
 {
-	if (!var || !ft_getenv(var))
-		return ;
-	if (!check_var(var))
-		return (print_error(1, 3
-				, "minishell: unset: `", var, "': not a valid identifier\n"));
+	va_list	ap;
+	int		i;
+
+	i = 0;
+	va_start(ap, d);
+	while (i < d)
+	{
+		error_write(va_arg(ap, char *));
+		i++;
+	}
+	va_end(ap);
 }
+
+// void	remove_var_check(const char *var)
+// {
+// 	if (!var || !ft_getenv(var))
+// 		return ;
+// 	if (!check_var(var))
+// 		return (print_error1(1, 3
+// 				, "minishell: unset: `", var, "': not a valid identifier\n"));
+// }
 
 void	remove_var(const char *var)
 {
@@ -72,7 +87,8 @@ void	remove_var(const char *var)
 	int		y;
 
 	i = 0;
-	remove_var_check(var);
+	if (!var || !ft_getenv(var))
+		return ;
 	while (env[i] && ft_pathcmp(var, env[i]))
 		i++;
 	if (!env[i])

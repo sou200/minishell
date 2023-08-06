@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 17:35:22 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 02:29:19 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 07:03:00 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	add_value(char *var)
 	int		i;
 
 	if (!check_var1(var))
-		return (print_error(1, 3
+		return (return_value = 1, print_error1(3
 				, "minishell: export: `", var, "': not a valid identifier\n"));
 	i = which_export(var);
 	if (i == 1)

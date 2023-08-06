@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 02:43:21 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 06:55:55 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,25 @@ int	ft_exit(int error)
 
 int	ft_sortir(t_list *head)
 {
-	if (head && head->content
-		&& !ft_strrcmp(((t_prototype *)(head->content))->cmnd[0]
-		, "exit"))
+	char	**str;
+
+	str = ((t_prototype *)(head->content))->cmnd;
+	if (head && head->content && !head->next && !ft_strrcmp(str[0], "exit"))
 	{
 		error_write("exit\n");
 		ft_exit(0);
 	}
-	if (head && head->content && !head->next
-		&& !ft_strrcmp(((t_prototype *)(head->content))->cmnd[0]
-		, "export"))
+	if (head && head->content && !head->next && !ft_strrcmp(str[0], "export"))
+		return (ft_export(str + 1), 0);
+	if (head && head->content && !head->next && !ft_strrcmp(str[0], "cd"))
+		return (ft_cd(*(str + 1)), 0);
+	if (head && head->content && !head->next && !ft_strrcmp(str[0], "unset"))
+		return (ft_unset(str + 1), 0);
+	if (head && head->content && !head->next && !ft_strrcmp(str[0], "r"))
 	{
-		ft_export(((t_prototype *)(head->content))->cmnd + 1);
+		char *s = ft_itoa(return_value);
+		printf("%s\n",s);
+		free(s);
 		return (0);
 	}
 	return (1);

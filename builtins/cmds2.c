@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:35:13 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 17:19:01 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 07:52:50 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**path(void)
 	path = ft_getenv("PATH");
 	if (!path)
 		path = default_env[1];
-	if (!path)
+	if (!path || !*default_env[1])
 		return (0);
 	paths = ft_split(path + 5, ':');
 	if (!paths)
@@ -34,10 +34,13 @@ char	*cmd_path(char **paths, char *cmd)
 	char	*str;
 	int		i;
 
-	i = 0;
-	if (!access(cmd, F_OK) || cmd[0] == '/')
+	i = -1;
+	if (!paths)
+		return (0);
+	if ((cmd && !ft_strncmp(cmd, "./", 2) && !access(cmd, F_OK))
+		|| cmd[0] == '/')
 		return (cmd);
-	while (paths[i])
+	while (paths[++i])
 	{
 		tmp = ft_strjoin(paths[i], "/");
 		if (!tmp)
@@ -50,7 +53,6 @@ char	*cmd_path(char **paths, char *cmd)
 		if (!access(str, F_OK))
 			return (str);
 		free(str);
-		i++;
 	}
 	return (0);
 }
@@ -67,14 +69,17 @@ void	initialise_var(t_var *p)
 
 void	waitandreturn(t_var p)
 {
+	return_value = 0;
 	waitpid(p.pid, &return_value, 0);
 	while (waitpid(-1, 0, 0) != -1)
 		;
+	signal(SIGINT, controlec);
 	if (WIFSIGNALED(return_value))
 	{
+		if (WTERMSIG(return_value) == 3)
+			printf("Quit: 3\n");
 		return_value = WTERMSIG(return_value) + 128;
-		printf("%d\n", return_value);
 	}
 	else
-		printf("%d\n", WEXITSTATUS(return_value));
+		return_value = WEXITSTATUS(return_value);
 }

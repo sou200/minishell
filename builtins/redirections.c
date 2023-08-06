@@ -6,12 +6,11 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:00:58 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 01:10:31 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 05:41:04 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 int	redirect_input(t_list *left_red, int pipe)
 {

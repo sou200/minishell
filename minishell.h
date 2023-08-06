@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/06 02:59:40 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 07:44:10 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define MINISHELL_INIT "minishell-init: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
 # define PWD_ENV "job-working-directory: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
 # define PWD_ERROR "pwd: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
+# define CD_ERROR "cd: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
 # define DEFAULT_PATH "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 char **default_env;
 enum t_tokenype
@@ -85,6 +86,13 @@ char **env;
 t_list *export_list;
 int	return_value;
 
+int	ft_cd_succes(char *dirname, char *str);
+void	print_error1(int d, ...);
+const char	*ft_getenv2(const char *var);
+int	valid_unset(const char *var);
+void	remove_var1(const char *var);
+void	remove_export(const char *var);
+int		ft_unset(char **cmd);
 void	initialise_env3(int i, char *s, char *tmp);
 void	initialise_env2(void);
 int	is_num(char *s);
@@ -99,7 +107,7 @@ char	*join_export(char *old, char *var);
 void	init(int argc, char const *argv[], char **en);
 int		ft_sortir(t_list *head);
 void	print_error(int x, int d, ...);
-void	failed_cmd(char *cmd, char *cmdd);
+void	failed_cmd(char *cmd, char *cmdd, char **path);
 void error_write(const char *s);
 void	initialise_var(t_var *p);
 void waitandreturn(t_var p);
