@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/06 06:23:15 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:29:20 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int	main(int argc, char const *argv[], char **en)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			return (printf("\x1b[Fminishell$  exit\n"), ft_exit(1));
+			return (printf("\x1b[Fminishell$  exit\n"), ft_exit(return_value));
 		if (line)
 			head = parce_line(line, env);
 		if (head && ft_sortir(head))

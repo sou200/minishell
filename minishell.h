@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/06 07:44:10 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:14:22 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ char **env;
 t_list *export_list;
 int	return_value;
 
+int	ft_exit1(char **cmd);
+int	ft_atoi1(const char *str);
 int	ft_cd_succes(char *dirname, char *str);
 void	print_error1(int d, ...);
 const char	*ft_getenv2(const char *var);
