@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/06 02:46:53 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 02:55:40 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int	main(int argc, char const *argv[], char **en)
 {
 	t_list	*head;
 	char	*line;
+
 	init (argc, argv, en);
 	while (1)
 	{

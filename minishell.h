@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/06 02:05:53 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 02:59:40 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ char **env;
 t_list *export_list;
 int	return_value;
 
-void	initialise_env3(void);
+void	initialise_env3(int i, char *s, char *tmp);
 void	initialise_env2(void);
-
+int	is_num(char *s);
 int	env_append_find(char *str, char *var);
 void	empty_var(char *var);
 void	*ft_malloc(size_t size);
