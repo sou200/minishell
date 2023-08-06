@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 05:43:37 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:52:08 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,6 @@ void	failed_cmd(char *cmd, char *cmdd)
 	if (access(cmdd, X_OK) || access(cmdd, R_OK))
 		print_error(126, 3, "minishell: ", cmd, ": Permission denied\n");
 }
-//ambiguous redirect
-//return value
-//signals
-//cd PWD OLDPWD
-//unset dont forget local variables
-//shellvl and other things
-//make the return value international
-//make unset better
-//dont forget the export part
 
 int	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
 {

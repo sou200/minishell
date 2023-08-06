@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 17:35:22 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 00:15:06 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 02:29:19 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	add_var1(const char *var)
 	{
 		x = 0;
 		while (env[i][x] && var[x] && env[i][x] == var[x]
-			&& (env[i][x] == var[x] && env[i][x] == '='))
+			&& !(env[i][x] == var[x] && env[i][x] == '='))
 			x++;
 		if (!var[x] && env[i][x] == '=')
 			return (1);

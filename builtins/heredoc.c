@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 23:29:17 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 04:56:27 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 01:09:09 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_open(char *str, int *fd, int flag)
 {
 	struct stat	buf;
 
+	if ((flag == -3) && access(str, F_OK))
+		print_error(1, 3, "minishell: ", str, ": No such file or directory\n");
 	lstat(str, &buf);
 	if (S_ISDIR(buf.st_mode))
 		print_error(1, 3, "minishell: ", str, ": Is a directory\n");
@@ -37,6 +39,8 @@ void	ft_open(char *str, int *fd, int flag)
 		*fd = open(str, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 	else if (flag == -2)
 		*fd = open(str, O_WRONLY | O_APPEND | O_CREAT, 0666);
+	else if (flag == -3)
+		*fd = open(str, O_RDONLY);
 	else
 		*fd = open(str, O_RDONLY);
 }

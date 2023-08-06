@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 14:48:22 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 06:47:05 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:51:44 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ int	ft_cd(const char *dirname)
 	char	flag;
 	const char	*cdpath;
 
-	// printf("eee %s\n",dirname);
 	cdpath = ft_getenv1("CDPATH");
 	flag = 0;
 	if (!dirname)

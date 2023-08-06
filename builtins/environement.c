@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 17:00:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 00:09:41 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 02:32:08 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,68 @@ const char	*ft_getenv(const char *var)
 	while (default_env[i] && ft_pathcmp(var, default_env[i]))
 		i++;
 	return (default_env[i]);
+}
+
+int	is_num(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!ft_isdigit(s[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	initialise_env3(void)
+{
+	int		i;
+	char	*s;
+	char	*tmp;
+	char	*two[2];
+
+	two[0] = "SHLVL=1";
+	two[1] = 0;
+	s = (char *)ft_getenv("SHLVL");
+	if (s)
+	{
+		s += 6;
+		if (is_num(s))
+		{
+			i = ft_atoi(s) + 1;
+			s = ft_itoa(i);
+			tmp = ft_strjoin("SHLVL=", s);
+			free(s);
+			two[0] = tmp;
+			two[1] = 0;
+			ft_export(two);
+			free (tmp);
+		}
+		else
+			ft_export(two);
+	}
+	else
+		ft_export(two);
+}
+
+void	initialise_env2(void)
+{
+	char	*tmp;
+	char	*two[2];
+
+	initialise_env3();
+	remove_var("OLDPWD");
+	if (*default_env[0])
+	{
+		tmp = ft_strjoin("PWD=", default_env[0]);
+		two[0] = tmp;
+		two[1] = 0;
+		ft_export(two);
+		free(tmp);
+	}
 }
 
 void	initialise_env(const char **en)
@@ -52,6 +114,7 @@ void	initialise_env(const char **en)
 	}
 	env[y] = 0;
 	initialise_export();
+	initialise_env2();
 }
 
 void	initialise_export(void)

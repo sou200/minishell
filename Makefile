@@ -7,9 +7,9 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRCS = minishell.c lexer/lexer.c lexer/tokenization.c parser/quotes_handler.c \
-	parser/syntax_error_handler.c expander/expander.c tools/leaks.c \
-	tools/recyclable.c  lexer/ft_free_token.c lexer/token_utils.c parser/quotes_handler.c parser/syntax_error_handler.c parser/cmnd_builder.c \
-	parser/parser.c expander/expand_utils.c expander/expander.c tools/ft_strjoin_free.c builtins/env.c \
+	parser/syntax_error_handler.c expander/expander.c builtins/tools.c \
+	  lexer/ft_free_token.c lexer/token_utils.c parser/quotes_handler.c parser/syntax_error_handler.c parser/cmnd_builder.c \
+	parser/parser.c expander/expand_utils.c expander/expander.c  builtins/env.c \
 	builtins/cmds.c  builtins/echo.c \
 	builtins/sorted_lst.c builtins/cd.c builtins/pwd.c builtins/heredoc.c builtins/redirections.c \
 	builtins/cmds2.c parser/wildcards.c builtins/environement.c builtins/export1.c \

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:00:58 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/05 05:09:15 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 01:10:31 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	redirect_input(t_list *left_red, int pipe)
 		holder = (t_token *)left_red->content;
 		if (!holder)
 			return (pipe);
-		if (!holder->value)
-			print_error(1, 2, "minishell: ", ": ambiguous redirect\n");//CMD NAME
+		if (!holder->value || ft_strchr(holder->value, ' '))
+			print_error(1, 2, "minishell: ", ": ambiguous redirect\n");
 		if (!holder->value[0])
 			print_error(1, 3, "minishell: ",
 				holder->value, ": No such file or directory\n");
 		if (holder->type == TYPE_RD_L)
-			ft_open(holder->value, &pipe, 3);
+			ft_open(holder->value, &pipe, -3);
 		else
 			pipe = ft_input(holder->value);
 		if (left_red->next && (pipe != 0))
@@ -50,7 +50,7 @@ int	redirect_output(t_list *right_red, int pipe)
 		if (!holder)
 			return (pipe);
 		if (!holder->value)
-			print_error(1, 2, "minishell: ", ": ambiguous redirect\n");//CMD NAME
+			print_error(1, 2, "minishell: ", ": ambiguous redirect\n");
 		if (!holder->value[0])
 			print_error(1, 3, "minishell: ",
 				holder->value, ": No such file or directory\n");

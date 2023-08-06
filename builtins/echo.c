@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 07:10:11 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/04 18:07:30 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:54:46 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,16 @@ int	ft_echo(char **cmd)
 	if (y)
 		write(1, "\n", 1);
 	return (0);
+}
+
+char	*ft_strjoin_free(char *a, char *b, int i, int j)
+{
+	char	*res;
+
+	res = ft_strjoin(a, b);
+	if (i && a)
+		free(a);
+	if (j && b)
+		free(b);
+	return (res);
 }

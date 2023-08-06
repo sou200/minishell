@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 17:23:11 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 00:39:13 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/06 02:17:45 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_exportage1(char *s)
 
 	if (!s)
 		return (0);
-	ft_malloc(sizeof(char) * (ft_strlen(s) + 12));
+	str = ft_malloc(sizeof(char) * (ft_strlen(s) + 12));
 	ft_strlcpy(str, "declare -x ", 100);
 	once = 0;
 	x = 11;

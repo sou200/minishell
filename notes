@@ -4,21 +4,23 @@
 
 - _ - $OLPWD $CDPATH $PWD $PATH and others are special
 
-- PWD gets its value from cd  
-
-echo $FA=ee
-
-- print error message when using cdpwd or cd without having rights
-
-- READ!!!!!!
-
-- implement garbage collectore as an array
-
-- implement variables a
-
-- printf error
 
 
--//add export to free list
 
-//PWD OLDPWD MAKITEXPORTAWCH INITIALISE VARIABLES nta katgadhum flwl
+
+
+//cd PWD OLDPWD
+
+//unset khas tkun katakhed b3ayn l3tibar l export
+//unset dont forget local variables
+//make unset better
+
+//signals
+//minishell wst minishell w signals
+
+//builtins should not exit on error in main, handle solo builtins better
+
+
+//return value
+
+//ambiguous redirect soufiane chghandiro flcas dl esplace < $a avec $a= "qewq qweqw" ls < "eqwe qweqw"
