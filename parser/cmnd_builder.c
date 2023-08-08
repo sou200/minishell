@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 22:04:17 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/26 22:55:52 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/08 00:50:05 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ int cmnd_arg_count(t_list *tokens)
     {
         if(is_redirection((token_t*)tokens->content))
             tokens = tokens->next;
-        else
+        else if(((token_t*)tokens->content)->value != NULL)
             count++;
         tokens = tokens->next;
+        //tokens = (tokens != NULL)?tokens->next:NULL;
     }
     return count;
 }
@@ -37,6 +38,19 @@ void add_smpl_cmnd(t_list **cmnd_lst, char **cmnds, t_list *left_red , t_list *r
         smpl_cmnd->left_red = left_red;
         smpl_cmnd->right_red = right_red;
         ft_lstadd_back(cmnd_lst, ft_lstnew(smpl_cmnd));
+}
+
+void *create_rd(enum token_type type, void *content, int p)
+{
+    t_rd	*rd;
+
+	rd = malloc(sizeof(t_rd));
+	if (!rd)
+		exit(-1);
+	rd->type = type;
+	rd->value = content;
+    rd->is_pseudo = p;
+	return (rd);
 }
 
 void build_smpl_cmnd(t_list **tokens, t_list** smpl_cmnds)
@@ -56,13 +70,13 @@ void build_smpl_cmnd(t_list **tokens, t_list** smpl_cmnds)
         token = (token_t*)(*tokens)->content;
         if(is_redirection(token))
         {
-            if(token->type == TYPE_RD_L || token->type == TYPE_HERE_DOC)
-                ft_lstadd_back(&left_red, ft_lstnew(create_token(token->type, ft_strdup(((token_t*)(*tokens)->next->content)->value))));
+            if(token->type == TYPE_RD_L || token->type == TYPE_HERE_DOC || token->type == TYPE_HERE_DOC_NX)
+                ft_lstadd_back(&left_red, ft_lstnew(create_rd(token->type, ft_strdup(((token_t*)(*tokens)->next->content)->value), ((token_t*)(*tokens)->next->content)->type == TYPE_P_WORD)));
             else
-                ft_lstadd_back(&right_red, ft_lstnew(create_token(token->type, ft_strdup(((token_t*)(*tokens)->next->content)->value))));
+                ft_lstadd_back(&right_red, ft_lstnew(create_rd(token->type, ft_strdup(((token_t*)(*tokens)->next->content)->value), ((token_t*)(*tokens)->next->content)->type == TYPE_P_WORD)));
             *tokens = (*tokens)->next;
         }
-        else
+        else if(token->value != NULL)
             cmnds[cmd_index++] = ft_strdup(token->value);
         *tokens = (*tokens)->next;
     }

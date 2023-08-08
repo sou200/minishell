@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/31 02:10:31 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:24:07 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 enum token_type
 {
     TYPE_WORD,
+    TYPE_P_WORD,
     TYPE_QUOTE,
     TYPE_D_QUOTE,
     TYPE_RD_R,
@@ -30,6 +31,7 @@ enum token_type
     TYPE_PIPE,
     TYPE_DOLLAR,
     TYPE_HERE_DOC,
+    TYPE_HERE_DOC_NX,
     TYPE_APPEND,
     TYPE_STAR,
     TYPE_SPC
@@ -49,6 +51,13 @@ typedef struct token_s
     enum token_type type;
     char *value;
 } token_t;
+
+typedef struct s_rd
+{
+    enum token_type type;
+    char *value;
+    int is_pseudo;
+} t_rd;
 
 typedef struct smpl_cmnd_s
 {
@@ -79,6 +88,10 @@ int env_name_len(char *var);
 int is_redirection(token_t *token);
 t_list *generate_cmnds(t_list *tokens);
 t_list *get_matched_files(char *pattern, int *flags);
+int is_wildcard(t_list *tokens, int *is_lex);
+void yes_it_is_wild(t_list **new_token_list, t_list **tokens, int is_lex);
+char *get_pattern(t_list **tokens, int **p_flags);
+void check_quote(int *q_type, enum token_type cas);
 
 
 // tmp

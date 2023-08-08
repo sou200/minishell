@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 01:24:45 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/23 01:24:54 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/02 01:19:40 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ t_list *token_lst_dup(token_t *token)
 
 t_list *tokens_without_spc(t_list *token_lst)
 {
-    int open_q;
     t_list* new_token_lst;
 
-    open_q = 0;
     new_token_lst = NULL;
     while (token_lst != NULL)
     {
