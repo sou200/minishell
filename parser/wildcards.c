@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 19:04:42 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/08 02:28:10 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/08 18:00:43 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int get_pattern_len(t_list *tokens)
     len = 0;
     while (tokens != NULL && ((token_t *)tokens->content)->type != TYPE_SPC)
     {
-        len += ft_strlen(((token_t *)tokens->content)->value);
+        len += !((token_t *)tokens->content)->value?0:ft_strlen(((token_t *)tokens->content)->value);
         tokens = tokens->next;
     }
     return len;
@@ -55,7 +55,7 @@ char *get_pattern(t_list **tokens, int **p_flags)
         if (((token_t *)(*tokens)->content)->type == TYPE_STAR)
             flags[i] = 1;
         pattern = ft_strjoin_free(pattern, ((token_t *)(*tokens)->content)->value, 1, 0);
-        i += ft_strlen(((token_t *)(*tokens)->content)->value);
+        i += !((token_t *)(*tokens)->content)->value?0:ft_strlen(((token_t *)(*tokens)->content)->value);
         (*tokens) = (*tokens)->next;
     }
     *p_flags = flags;

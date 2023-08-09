@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/07 16:24:07 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:39:12 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ enum token_type
 
 typedef struct s_global
 {
+    int exit_status;
     char	return_value;
     t_list	*garbage;
 	char	error;

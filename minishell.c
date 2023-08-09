@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/08 01:05:55 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:08:43 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,12 @@ int main(int argc, char const *argv[], char **env)
     char *line;
 
     t_list *head;
+    global.exit_status = 0;
     while (1)
     {
         line = readline("\033[0;32mminishell: $->\033[0;37m ");
         if (!line)
-            break;
+            continue;
         add_history(line);
         head = parce_line(line, env);
         // if(head != NULL)
