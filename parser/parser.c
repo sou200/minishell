@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:43:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/31 06:30:25 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/08 01:06:04 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int is_redirection(token_t *token)
 {
-    return token->type == TYPE_HERE_DOC || token->type == TYPE_APPEND || token->type == TYPE_RD_L || token->type == TYPE_RD_R;
+    return token->type == TYPE_HERE_DOC || token->type == TYPE_APPEND || token->type == TYPE_RD_L || token->type == TYPE_RD_R || token->type == TYPE_HERE_DOC_NX;
 }
 
 int is_lexable(t_list *tokens, int open_q)
@@ -31,101 +31,12 @@ int is_lexable(t_list *tokens, int open_q)
     return (tokens == NULL || !is_redirection((token_t *)tokens->content));
 }
 
-int is_lexable_wild(t_list *tokens)
-{
-    tokens = tokens->prev;
-    while (tokens != NULL && ((token_t *)tokens->content)->type == TYPE_SPC)
-        tokens = tokens->prev;
-    return (tokens == NULL || !is_redirection((token_t *)tokens->content));
-}
-
 void costum_env_expand(t_list **tokens, char **env, int q_open)
 {
     if (is_lexable(*tokens, q_open))
         expand_env(tokens, env, 1);
     else
         expand_env(tokens, env, 0);
-}
-
-int is_wildcard(t_list *tokens, int *is_lex)
-{
-    *is_lex = is_lexable_wild(tokens);
-    while (tokens != NULL)
-    {
-        if (((token_t *)tokens->content)->type == TYPE_SPC)
-            return 0;
-        if (((token_t *)tokens->content)->type == TYPE_STAR)
-            return 1;
-        tokens = tokens->next;
-    }
-    return 0;
-}
-
-char *join_lst_to_string(t_list *list)
-{
-    char *result;
-
-    result = NULL;
-    while (list != NULL)
-    {
-        result = ft_strjoin_free(result, ((token_t *)list->content)->value, 1, 0);
-        list = list->next;
-    }
-    return result;
-}
-
-int get_pattern_len(t_list *tokens)
-{
-    int len;
-
-    len = 0;
-    while (tokens != NULL && ((token_t *)tokens->content)->type != TYPE_SPC)
-    {
-        len += ft_strlen(((token_t *)tokens->content)->value);
-        tokens = tokens->next;
-    }
-    return len;
-}
-
-char *get_pattern(t_list **tokens, int **p_flags)
-{
-    int *flags;
-    int i;
-    char *pattern;
-
-    flags = ft_calloc(get_pattern_len(*tokens), sizeof(int));
-    i = 0;
-    pattern = NULL;
-    while ((*tokens) != NULL && ((token_t *)(*tokens)->content)->type != TYPE_SPC)
-    {
-        if (((token_t *)(*tokens)->content)->type == TYPE_STAR)
-            flags[i] = 1;
-        pattern = ft_strjoin(pattern, ((token_t *)(*tokens)->content)->value);
-        i += ft_strlen(((token_t *)(*tokens)->content)->value);
-        (*tokens) = (*tokens)->next;
-    }
-    *p_flags = flags;
-    return pattern;
-}
-
-void yes_it_is_wild(t_list **new_token_list, t_list **tokens, int is_lex)
-{
-    t_list *files_lst;
-    char *pattern;
-    int *flags;
-    char *files;
-
-    pattern = get_pattern(tokens, &flags);
-    files_lst = get_matched_files(pattern, flags);
-    if (files_lst == NULL)
-        ft_lstadd_back(new_token_list, ft_lstnew(create_token(TYPE_WORD, pattern)));
-    else if (is_lex)
-        ft_lstadd_back(new_token_list, files_lst);
-    else
-    {
-        files = join_lst_to_string(files_lst);
-        ft_lstadd_back(new_token_list, ft_lstnew(create_token(TYPE_WORD, files)));
-    }
 }
 
 t_list *wildcard_it(t_list *tokens)
@@ -152,6 +63,26 @@ t_list *wildcard_it(t_list *tokens)
     return new_token_list;
 }
 
+int abdellah_and_hakim(t_list *tokens)
+{
+    tokens = tokens->next;
+    if(tokens != NULL && ((token_t *)tokens->content)->type == TYPE_SPC)
+        tokens = tokens->next;
+    while(tokens != NULL && ((token_t *)tokens->content)->type == TYPE_WORD)
+        tokens = tokens->next;
+    if(tokens != NULL && (((token_t *)tokens->content)->type == TYPE_QUOTE || ((token_t *)tokens->content)->type == TYPE_D_QUOTE))
+        return 1;
+    return 0;
+}
+// << 'a' << "b" << c
+void f(t_list **new_token_lst, t_list *tokens)
+{
+    if(((token_t *)tokens->content)->type == TYPE_HERE_DOC && abdellah_and_hakim(tokens))
+        ft_lstadd_back(new_token_lst, ft_lstnew(create_token(TYPE_HERE_DOC_NX, ft_strdup(((token_t *)tokens->content)->value))));
+    else
+        ft_lstadd_back(new_token_lst, token_lst_dup((token_t *)tokens->content));
+}
+
 t_list *to_expanded_tokens(t_list *tokens, char **env)
 {
     int open_q;
@@ -172,13 +103,14 @@ t_list *to_expanded_tokens(t_list *tokens, char **env)
         else if (open_q)
             quote_content = ft_strjoin_free(quote_content, ((token_t *)tokens->content)->value, 1, 0);
         else
-            ft_lstadd_back(&new_token_lst, token_lst_dup((token_t *)tokens->content));
+            f(&new_token_lst, tokens);
+            // ft_lstadd_back(&new_token_lst, token_lst_dup((token_t *)tokens->content));
         tokens = tokens->next;
     }
     return new_token_lst;
 }
 
-int is_valid_to_join(t_list *tokens)
+int is_valid_to_join(t_list *tokens, int *is_pseudo)
 {
     token_t *token;
 
@@ -187,8 +119,44 @@ int is_valid_to_join(t_list *tokens)
         return 1;
     if (token->type == TYPE_DOLLAR)
         return 1;
+    if(token->type == TYPE_P_WORD)
+    {
+        *is_pseudo = 1;
+        return 1;
+    }
     return 0;
 }
+
+// t_list *join_and_clean_tokens(t_list *tokens)
+// {
+//     t_list *new_tokens;
+//     token_t *token;
+//     char *joined;
+//     int is_pseudo;
+
+//     is_pseudo = 0;
+//     new_tokens = NULL;
+//     joined = NULL;
+//     while (tokens != NULL)
+//     {
+//         token = (token_t *)tokens->content;
+//         if (is_valid_to_join(tokens, &is_pseudo))
+//             joined = ft_strjoin_free(joined, token->value, 1, 0);
+//         else
+//         {
+//             if (joined != NULL)
+//                 ft_lstadd_back(&new_tokens, ft_lstnew(create_token(is_pseudo?TYPE_P_WORD:TYPE_WORD, joined)));
+//             joined = NULL;
+//             is_pseudo = 0;
+//             if (token->type != TYPE_SPC)
+//                 ft_lstadd_back(&new_tokens, token_lst_dup(token));
+//         }
+//         tokens = tokens->next;
+//     }
+//     if (joined != NULL)
+//         ft_lstadd_back(&new_tokens, ft_lstnew(create_token(is_pseudo?TYPE_P_WORD:TYPE_WORD, joined)));
+//     return new_tokens;
+// }
 
 t_list *join_and_clean_tokens(t_list *tokens)
 {
@@ -196,6 +164,9 @@ t_list *join_and_clean_tokens(t_list *tokens)
     token_t *token;
     char *joined;
     int j_flag;
+    int is_pseudo;
+
+    is_pseudo = 0;
 
     new_tokens = NULL;
     joined = NULL;
@@ -203,12 +174,12 @@ t_list *join_and_clean_tokens(t_list *tokens)
     while (tokens != NULL)
     {
         token = (token_t *)tokens->content;
-        if (is_valid_to_join(tokens))
+        if (is_valid_to_join(tokens, &is_pseudo))
             joined = ft_strjoin_free(joined, token->value, 1, 0) + 0 * j_flag++;
         else if (token->type != TYPE_WORD)
         {
             if (j_flag)
-                ft_lstadd_back(&new_tokens, ft_lstnew(create_token(TYPE_WORD, joined)));
+                ft_lstadd_back(&new_tokens, ft_lstnew(create_token(is_pseudo?TYPE_P_WORD:TYPE_WORD, joined)));
             joined = NULL;
             j_flag = 0;
             if (token->type != TYPE_SPC)
@@ -217,7 +188,7 @@ t_list *join_and_clean_tokens(t_list *tokens)
         tokens = tokens->next;
     }
     if (j_flag)
-        ft_lstadd_back(&new_tokens, ft_lstnew(create_token(TYPE_WORD, joined)));
+        ft_lstadd_back(&new_tokens, ft_lstnew(create_token(is_pseudo?TYPE_P_WORD:TYPE_WORD, joined)));
     return new_tokens;
 }
 
@@ -236,9 +207,9 @@ t_list *parce_line(char *line, char **env)
     wildcarded_tokens = wildcard_it(expanded_tokens);
     final_tokens = join_and_clean_tokens(wildcarded_tokens);
     smpl_cmnds = generate_cmnds(final_tokens);
-    ft_lstclear(&tokens, ft_free_token);
-    ft_lstclear(&expanded_tokens, ft_free_token);
-    ft_lstclear(&wildcarded_tokens, ft_free_token);
-    ft_lstclear(&final_tokens, ft_free_token);
+    // ft_lstclear(&tokens, ft_free_token);
+    // ft_lstclear(&expanded_tokens, ft_free_token);
+    // ft_lstclear(&wildcarded_tokens, ft_free_token);
+    // ft_lstclear(&final_tokens, ft_free_token);
     return smpl_cmnds;
 }

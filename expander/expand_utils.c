@@ -6,11 +6,27 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 01:32:34 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/26 01:09:56 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/02 02:20:36 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_list *skip_to_get_heredoc(t_list *tokens)
+{
+	int open_q;
+
+	open_q = 0;
+	while(tokens != NULL)
+	{
+		if(((token_t *)tokens->content)->type == TYPE_SPC && !open_q)
+			break;
+		else if(((token_t *)tokens->content)->type == TYPE_QUOTE || ((token_t *)tokens->content)->type == TYPE_D_QUOTE)
+			check_quote(&open_q, ((token_t *)tokens->content)->type);
+		tokens = tokens->prev;
+	}
+	return tokens;
+}
 
 int	check_here_doc_expnd(t_list *tokens, int open_q)
 {
@@ -23,6 +39,7 @@ int	check_here_doc_expnd(t_list *tokens, int open_q)
 			&& ((token_t *)tokens->content)->type != TYPE_D_QUOTE)
 			tokens = tokens->prev;
 	tokens = tokens->prev;
+	tokens = skip_to_get_heredoc(tokens);
 	while (tokens != NULL && ((token_t *)tokens->content)->type == TYPE_SPC)
 		tokens = tokens->prev;
 	return (tokens != NULL
@@ -51,10 +68,10 @@ int	is_valid_env(t_list *tokens, int open_q)
 	token_t	*token;
     if (tokens->next == NULL || open_q == 1)
         return (0);
+    token = (token_t *)tokens->next->content;
+	if((token->type == TYPE_QUOTE || token->type == TYPE_D_QUOTE) && open_q == 0)
+		return 1;
     if (check_here_doc_expnd(tokens, open_q))
         return 0;
-    token = (token_t *)tokens->next->content;
-    if (token->type == TYPE_WORD && (ft_isalpha(*token->value) || *token->value == '_'))
-        return 1;
-    return (token->type == TYPE_QUOTE || token->type == TYPE_D_QUOTE) && open_q == 0;
+    return token->type == TYPE_WORD && (ft_isalpha(*token->value) || *token->value == '_');
 }

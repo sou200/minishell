@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 19:04:42 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/31 03:24:51 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/08 02:28:10 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,40 @@ int pattern_match(char *pattern, char *text, int i, int *flags)
     } else if (pattern[i] == *text && !flags[i])
         return pattern_match(pattern, text + 1, i + 1, flags);
     return 0;
+}
+
+int get_pattern_len(t_list *tokens)
+{
+    int len;
+
+    len = 0;
+    while (tokens != NULL && ((token_t *)tokens->content)->type != TYPE_SPC)
+    {
+        len += ft_strlen(((token_t *)tokens->content)->value);
+        tokens = tokens->next;
+    }
+    return len;
+}
+
+char *get_pattern(t_list **tokens, int **p_flags)
+{
+    int *flags;
+    int i;
+    char *pattern;
+
+    flags = ft_calloc(get_pattern_len(*tokens), sizeof(int));
+    i = 0;
+    pattern = NULL;
+    while ((*tokens) != NULL && ((token_t *)(*tokens)->content)->type != TYPE_SPC)
+    {
+        if (((token_t *)(*tokens)->content)->type == TYPE_STAR)
+            flags[i] = 1;
+        pattern = ft_strjoin_free(pattern, ((token_t *)(*tokens)->content)->value, 1, 0);
+        i += ft_strlen(((token_t *)(*tokens)->content)->value);
+        (*tokens) = (*tokens)->next;
+    }
+    *p_flags = flags;
+    return pattern;
 }
 
 // void listFilesAndDirectories(const char *path) {
