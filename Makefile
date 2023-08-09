@@ -25,3 +25,5 @@ fclean : clean
 	make -C $(LIBFT_DIR) $@
 	$(RM) $(NAME)
 re : fclean all
+
+# ls     "  '  ls    '$USER"

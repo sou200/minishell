@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:43:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/08 01:06:04 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/09 11:51:27 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int abdellah_and_hakim(t_list *tokens)
     tokens = tokens->next;
     if(tokens != NULL && ((token_t *)tokens->content)->type == TYPE_SPC)
         tokens = tokens->next;
-    while(tokens != NULL && ((token_t *)tokens->content)->type == TYPE_WORD)
+    while(tokens != NULL && (((token_t *)tokens->content)->type == TYPE_WORD || ((token_t *)tokens->content)->type == TYPE_DOLLAR))
         tokens = tokens->next;
     if(tokens != NULL && (((token_t *)tokens->content)->type == TYPE_QUOTE || ((token_t *)tokens->content)->type == TYPE_D_QUOTE))
         return 1;
@@ -202,7 +202,7 @@ t_list *parce_line(char *line, char **env)
 
     tokens = lexer(line);
     if (!is_valid_syntax(tokens))
-        return printf("syntax error !\n"), NULL;
+        return printf("syntax error !\n"), global.exit_status = 258, NULL;
     expanded_tokens = to_expanded_tokens(tokens, env);
     wildcarded_tokens = wildcard_it(expanded_tokens);
     final_tokens = join_and_clean_tokens(wildcarded_tokens);

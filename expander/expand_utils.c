@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 01:32:34 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/02 02:20:36 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/09 11:48:47 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	env_name_len(char *var)
 	int	i;
 
 	i = 0;
+	if(*var == '?')
+		return 1;
 	while (var[i] != '\0' && (ft_isalnum(var[i]) || var[i] == '_'))
 		i++;
 	return (i);
@@ -73,5 +75,5 @@ int	is_valid_env(t_list *tokens, int open_q)
 		return 1;
     if (check_here_doc_expnd(tokens, open_q))
         return 0;
-    return token->type == TYPE_WORD && (ft_isalpha(*token->value) || *token->value == '_');
+    return token->type == TYPE_WORD && (ft_isalpha(*token->value) || *token->value == '_' || *token->value == '?');
 }

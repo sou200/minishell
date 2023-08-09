@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:50:04 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/07 16:18:28 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/09 11:48:35 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ void	expand_env(t_list **tokens, char **env, int lex_flag)
 		return ;
 	tmp_token = (*tokens)->next->next;
 	env_word = ((token_t *)(*tokens)->next->content)->value;
-	env_val = get_env_var(env, env_word);
+	if(*env_word == '?')
+		env_val = ft_itoa(global.exit_status);
+	else
+		env_val = get_env_var(env, env_word);
 	if (lex_flag)
 		insert_env_in_token_lst(env_val, env_word, tokens, tmp_token);
 	else

@@ -18,6 +18,7 @@
         "utility": "c",
         "*.c ": "c",
         "minishell.h": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "history.h": "c"
     }
 }

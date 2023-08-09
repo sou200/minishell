@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/09 05:06:46 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 11:52:30 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ enum token_type
 char **env;
 typedef struct s_global
 {
+    int exit_status;
     char	return_value;
     t_list	*garbage;
 	char	error;
@@ -97,6 +98,10 @@ int env_name_len(char *var);
 int is_redirection(token_t *token);
 t_list *generate_cmnds(t_list *tokens);
 t_list *get_matched_files(char *pattern, int *flags);
+int is_wildcard(t_list *tokens, int *is_lex);
+void yes_it_is_wild(t_list **new_token_list, t_list **tokens, int is_lex);
+char *get_pattern(t_list **tokens, int **p_flags);
+void check_quote(int *q_type, enum token_type cas);
 int is_wildcard(t_list *tokens, int *is_lex);
 void yes_it_is_wild(t_list **new_token_list, t_list **tokens, int is_lex);
 char *get_pattern(t_list **tokens, int **p_flags);
