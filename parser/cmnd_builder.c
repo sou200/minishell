@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 22:04:17 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/05 06:46:21 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:11:16 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ int cmnd_arg_count(t_list *tokens)
     int count;
 
     count = 0;
-    while (tokens != NULL && ((t_token*)tokens->content)->type != TYPE_PIPE)
+    while (tokens != NULL && ((token_t*)tokens->content)->type != TYPE_PIPE)
     {
-        if(is_redirection((t_token*)tokens->content))
+        if(is_redirection((token_t*)tokens->content))
             tokens = tokens->next;
-        else
+        else if(((token_t*)tokens->content)->value != NULL)
             count++;
         tokens = tokens->next;
+        //tokens = (tokens != NULL)?tokens->next:NULL;
     }
     return count;
 }
@@ -39,11 +40,24 @@ void add_smpl_cmnd(t_list **cmnd_lst, char **cmnds, t_list *left_red , t_list *r
         ft_lstadd_back(cmnd_lst, ft_lstnew(smpl_cmnd));
 }
 
+void *create_rd(enum t_tokentype type, void *content, int p)
+{
+    token_t	*rd;
+
+	rd = malloc(sizeof(token_t));
+	if (!rd)
+		exit(-1);
+	rd->type = type;
+	rd->value = content;
+    rd->is_pseudo = p;
+	return (rd);
+}
+
 void build_smpl_cmnd(t_list **tokens, t_list** smpl_cmnds)
 {
     t_list *left_red;
     t_list *right_red;
-    t_token *token;
+    token_t *token;
     char **cmnds;
     int cmd_index;
 
@@ -51,18 +65,18 @@ void build_smpl_cmnd(t_list **tokens, t_list** smpl_cmnds)
     cmd_index = 0;
     left_red = NULL;
     right_red = NULL;
-    while (*tokens != NULL && ((t_token*)(*tokens)->content)->type != TYPE_PIPE)
+    while (*tokens != NULL && ((token_t*)(*tokens)->content)->type != TYPE_PIPE)
     {
-        token = (t_token*)(*tokens)->content;
+        token = (token_t*)(*tokens)->content;
         if(is_redirection(token))
         {
-            if(token->type == TYPE_RD_L || token->type == TYPE_HERE_DOC)
-                ft_lstadd_back(&left_red, ft_lstnew(create_token(token->type, ft_strdup(((t_token*)(*tokens)->next->content)->value))));
+            if(token->type == TYPE_RD_L || token->type == TYPE_HERE_DOC || token->type == TYPE_HERE_DOC_NX)
+                ft_lstadd_back(&left_red, ft_lstnew(create_rd(token->type, ft_strdup(((token_t*)(*tokens)->next->content)->value), ((token_t*)(*tokens)->next->content)->type == TYPE_P_WORD)));
             else
-                ft_lstadd_back(&right_red, ft_lstnew(create_token(token->type, ft_strdup(((t_token*)(*tokens)->next->content)->value))));
+                ft_lstadd_back(&right_red, ft_lstnew(create_rd(token->type, ft_strdup(((token_t*)(*tokens)->next->content)->value), ((token_t*)(*tokens)->next->content)->type == TYPE_P_WORD)));
             *tokens = (*tokens)->next;
         }
-        else
+        else if(token->value != NULL)
             cmnds[cmd_index++] = ft_strdup(token->value);
         *tokens = (*tokens)->next;
     }
@@ -77,7 +91,7 @@ t_list *generate_cmnds(t_list *tokens)
     smpl_cmnds = NULL;
     while(tokens != NULL)
     {
-        if(((t_token*)tokens->content)->type == TYPE_PIPE)
+        if(((token_t*)tokens->content)->type == TYPE_PIPE)
             tokens = tokens->next;
         build_smpl_cmnd(&tokens, &smpl_cmnds);
     }

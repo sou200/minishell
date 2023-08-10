@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/05 06:38:02 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:09:44 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*space_type(char *line, int *i)
 	return (str);
 }
 
-enum t_tokenype	find_type2(char *line, int *i)
+enum t_tokentype	find_type2(char *line, int *i)
 {
 	if (line[*i] == '|')
 		return (*i += 1, TYPE_PIPE);
@@ -44,7 +44,7 @@ enum t_tokenype	find_type2(char *line, int *i)
 	exit(-1);
 }
 
-enum t_tokenype	find_type(char *line, int *i)
+enum t_tokentype	find_type(char *line, int *i)
 {
 	if (line[*i] == '$')
 		return (*i += 1, TYPE_DOLLAR);
@@ -58,11 +58,11 @@ enum t_tokenype	find_type(char *line, int *i)
 	return (find_type2(line, i));
 }
 
-t_token	*create_token(enum t_tokenype type, void *content)
+token_t	*create_token(enum t_tokentype type, void *content)
 {
-	t_token	*token;
+	token_t	*token;
 
-	token = malloc(sizeof(t_token));
+	token = malloc(sizeof(token_t));
 	if (!token)
 		ft_exit(ENOMEM);
 	token->type = type;

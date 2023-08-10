@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 00:40:28 by serhouni          #+#    #+#             */
-/*   Updated: 2023/07/26 17:31:20 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:02:22 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void ft_free_token(void *content)
 {
-    t_token *token;
-    token = (t_token *)content;
+    token_t *token;
+    token = (token_t *)content;
     if(token != NULL)
         free(token->value);
     free(token);

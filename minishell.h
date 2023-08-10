@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/06 18:14:22 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:38:23 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@
 # define PWD_ERROR "pwd: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
 # define CD_ERROR "cd: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
 # define DEFAULT_PATH "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
-char **default_env;
-enum t_tokenype
+
+enum t_tokentype
 {
     TYPE_WORD,
+    TYPE_P_WORD,
     TYPE_QUOTE,
     TYPE_D_QUOTE,
     TYPE_RD_R,
@@ -45,11 +46,12 @@ enum t_tokenype
     TYPE_PIPE,
     TYPE_DOLLAR,
     TYPE_HERE_DOC,
+    TYPE_HERE_DOC_NX,
     TYPE_APPEND,
     TYPE_STAR,
     TYPE_SPC
 };
-
+//look in default too!!
 typedef struct s_var
 {
 	int		fd[2];
@@ -71,9 +73,10 @@ typedef struct s_var
 
 typedef struct s_token
 {
-    enum t_tokenype type;
+    enum t_tokentype type;
     char *value;
-} t_token;
+	int is_pseudo;
+} token_t;
 
 typedef struct s_prototype
 {
@@ -82,10 +85,18 @@ typedef struct s_prototype
 	t_list *right_red;//void * = {> | >> ; char *}
 } t_prototype;
 
-char **env;
-t_list *export_list;
-int	return_value;
+typedef struct s_global
+{
+	char **env;
+	t_list *export_list;
+	int	return_value;
+	char **default_env;
+}t_global ;
 
+t_global gl;
+	// char **env;
+	// t_list *export_list;
+	// int	return_value;
 int	ft_exit1(char **cmd);
 int	ft_atoi1(const char *str);
 int	ft_cd_succes(char *dirname, char *str);
@@ -178,9 +189,9 @@ int		ft_exit(int	error);
 // void recycle(int n, ...);
 t_list *lexer(char *line);
 char	*space_type(char *line, int *i);
-enum t_tokenype	find_type2(char *line, int *i);
-enum t_tokenype	find_type(char *line, int *i);
-t_token	*create_token(enum t_tokenype type, void *content);
+enum t_tokentype	find_type2(char *line, int *i);
+enum t_tokentype	find_type(char *line, int *i);
+token_t	*create_token(enum t_tokentype type, void *content);
 int	check_word(char c);
 t_list* to_expanded_tokens(t_list* tokens, char **env);
 int is_valid_syntax(t_list *token_lst);
@@ -190,14 +201,22 @@ int is_valid_env(t_list* tokens, int open_q);
 t_list* parce_line(char *line, char **env);
 int in_quote_handler(int *open_q, char **quote_content, t_list** new_token_lst, int q_case);
 t_list *tokens_without_spc(t_list *token_lst);
-t_list *token_lst_dup(t_token *token);
+t_list *token_lst_dup(token_t *token);
 void ft_free_token(void *token);
 char *ft_strjoin_free(char *a, char *b, int i, int j);
 t_list *env_lexer(char *env);
 int env_name_len(char *var);
-int is_redirection(t_token *token);
+int is_redirection(token_t *token);
 t_list *generate_cmnds(t_list *tokens);
 t_list *get_matched_files(char *pattern, int *flags);
+int is_wildcard(t_list *tokens, int *is_lex);
+void yes_it_is_wild(t_list **new_token_list, t_list **tokens, int is_lex);
+char *get_pattern(t_list **tokens, int **p_flags);
+void check_quote(int *q_type, enum t_tokentype  cas);
+int is_wildcard(t_list *tokens, int *is_lex);
+void yes_it_is_wild(t_list **new_token_list, t_list **tokens, int is_lex);
+char *get_pattern(t_list **tokens, int **p_flags);
+// void check_quote(int *q_type, enum token_type cas);
 
 
 // tmp

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 00:21:19 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 05:40:49 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:27:38 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ void	env_append(char *str, char *var)
 	str = ft_strjoin(s, t);
 	error_malloc(!str);
 	ft_free(2, s, t);
-	if (!env[x])
+	if (!gl.env[x])
 		return (add_var(str), free(str));
-	env[x] = str;
+	gl.env[x] = str;
 }
 
 int	env_append_find(char *str, char *var)
@@ -89,19 +89,19 @@ int	env_append_find(char *str, char *var)
 	int	x;
 
 	i = 0;
-	while (env[i])
+	while (gl.env[i])
 	{
 		x = 0;
-		while (env[i][x] && var[x] && env[i][x] == var[x]
-				&& !(env[i][x] == var[x] && env[i][x] == '='))
+		while (gl.env[i][x] && var[x] && gl.env[i][x] == var[x]
+				&& !(gl.env[i][x] == var[x] && gl.env[i][x] == '='))
 			x++;
-		if (var[x] == '+' && var[x + 1] == '=' && env[i][x] == '=')
+		if (var[x] == '+' && var[x + 1] == '=' && gl.env[i][x] == '=')
 			break ;
-		if (env[i][x] == var[x] && env[i][x] == '=')
+		if (gl.env[i][x] == var[x] && gl.env[i][x] == '=')
 			break ;
 		i++;
 	}
-	free(env[i]);
+	free(gl.env[i]);
 	return (i);
 }
 
@@ -112,7 +112,7 @@ t_list	*export_exists(char *value)
 	int		i;
 	int		y;
 
-	traveler = export_list;
+	traveler = gl.export_list;
 	while (traveler)
 	{
 		i = 11;

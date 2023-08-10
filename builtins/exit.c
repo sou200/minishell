@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 17:53:30 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 18:26:50 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:27:38 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_atoi1(const char *str)
 	}
 	if (str[i])
 		return (print_error1(3, "minishell: exit: ", str
-				, ": numeric argument required\n"), return_value = 255, 0);
+				, ": numeric argument required\n"), gl.return_value = 255, 0);
 	return ((z * s) % 256);
 }
 
@@ -45,16 +45,16 @@ int	ft_exit1(char **cmd)
 	int	r;
 
 	error_write("exit\n");
-	return_value = 0;
+	gl.return_value = 0;
 	if (!cmd || !cmd[0])
 		ft_exit(0);
 	r = ft_atoi1(cmd[0]);
-	if (return_value != 0)
-		ft_exit(return_value);
+	if (gl.return_value != 0)
+		ft_exit(gl.return_value);
 	if (!cmd[1])
 		ft_exit(r);
 	else
 		return (print_error1(1, "minishell: exit: too many arguments\n")
-			, return_value = 1, 1);
+			, gl.return_value = 1, 1);
 	return (0);
 }

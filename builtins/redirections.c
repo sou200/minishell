@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:00:58 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 05:41:04 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:19:09 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	redirect_input(t_list *left_red, int pipe)
 {
-	t_token	*holder;
+	token_t	*holder;
 
 	while (left_red)
 	{
-		holder = (t_token *)left_red->content;
+		holder = (token_t *)left_red->content;
 		if (!holder)
 			return (pipe);
-		if (!holder->value || ft_strchr(holder->value, ' '))
+		if (!holder->value || (ft_strchr(holder->value, ' ') && holder->is_pseudo == 1))
 			print_error(1, 2, "minishell: ", ": ambiguous redirect\n");
 		if (!holder->value[0])
 			print_error(1, 3, "minishell: ",
@@ -41,14 +41,14 @@ int	redirect_input(t_list *left_red, int pipe)
 
 int	redirect_output(t_list *right_red, int pipe)
 {
-	t_token	*holder;
+	token_t	*holder;
 
 	while (right_red)
 	{
-		holder = (t_token *)right_red->content;
+		holder = (token_t *)right_red->content;
 		if (!holder)
 			return (pipe);
-		if (!holder->value)
+		if (!holder->value || (ft_strchr(holder->value, ' ') && holder->is_pseudo == 1))
 			print_error(1, 2, "minishell: ", ": ambiguous redirect\n");
 		if (!holder->value[0])
 			print_error(1, 3, "minishell: ",

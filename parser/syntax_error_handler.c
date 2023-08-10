@@ -6,13 +6,13 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:30:06 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/05 06:46:21 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:09:50 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int is_valid_neighbor(t_token *token)
+int is_valid_neighbor(token_t *token)
 {
     return token->type == TYPE_WORD || token->type == TYPE_DOLLAR || token->type == TYPE_QUOTE || token->type == TYPE_D_QUOTE || token->type == TYPE_STAR;
 }
@@ -21,17 +21,17 @@ int is_valid_pipe(t_list *token_lst)
 {
     if(token_lst->prev == NULL || token_lst->next == NULL)
         return 0;
-   return ((t_token *)token_lst->next->content)->type != TYPE_PIPE;
+   return ((token_t *)token_lst->next->content)->type != TYPE_PIPE;
 }
 
 int is_valid_redi(t_list *token_lst)
 {
     if(token_lst->next == NULL)
         return 0;
-    return is_valid_neighbor((t_token *)token_lst->next->content);
+    return is_valid_neighbor((token_t *)token_lst->next->content);
 }
 
-void check_quote(int *q_type, enum t_tokenype cas)
+void check_quote(int *q_type, enum t_tokentype cas)
 {
     if(cas == TYPE_QUOTE && *q_type != 2)
     {
@@ -50,7 +50,7 @@ void check_quote(int *q_type, enum t_tokenype cas)
 
 int is_valid_syntax(t_list *token_lst)
 {
-    t_token *token;
+    token_t *token;
     int q_type;
     t_list *s_tokenpc;
 
@@ -59,7 +59,7 @@ int is_valid_syntax(t_list *token_lst)
     token_lst = s_tokenpc;
     while(token_lst != NULL)
     {
-        token = (t_token *)token_lst->content;
+        token = (token_t *)token_lst->content;
         if(token->type == TYPE_QUOTE || token->type == TYPE_D_QUOTE)
             check_quote(&q_type, token->type);
         else if(token->type == TYPE_PIPE && !is_valid_pipe(token_lst) && !q_type)

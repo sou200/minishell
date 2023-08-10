@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 14:48:22 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 08:01:41 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:35:30 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ const char	*ft_getenv1(const char *var)
 	i = 0;
 	if (!var)
 		return (0);
-	while (env[i] && ft_pathcmp(var, env[i]))
+	while (gl.env[i] && ft_pathcmp(var, gl.env[i]))
 		i++;
-	if (!env[i])
+	if (!gl.env[i])
 		return (0);
 	x = 0;
-	while (env[i][x] && env[i][x] != '=')
+	while (gl.env[i][x] && gl.env[i][x] != '=')
 		x++;
 	x++;
-	return ((env[i] + x));
+	return ((gl.env[i] + x));
 }
 
 int	abs_path(const char *dirname)
@@ -54,7 +54,7 @@ char	*get_dirname(char *dirname)
 	if (!pwd)
 	{
 		error_write(CD_ERROR);
-		pwd = ft_strjoin(default_env[0], "/");
+		pwd = ft_strjoin(gl.default_env[0], "/");
 		tmp = pwd;
 		pwd = ft_strjoin(tmp, dirname);
 		free(tmp);
@@ -78,27 +78,27 @@ int	ft_cd_succes(char *dirname, char *str)
 			ft_export(s);
 			free(str);
 		}
-		free(default_env[0]);
-		default_env[0] = ft_strdup(dirname);
-		error_malloc(!default_env[0]);
+		free(gl.default_env[0]);
+		gl.default_env[0] = ft_strdup(dirname);
+		error_malloc(!gl.default_env[0]);
 		str = ft_strjoin("PWD=", dirname);
 		error_malloc(!str);
 		return (s[0] = str, s[1] = 0, ft_export(s), free(str), 1);
 	}
 	else
 		return (print_error1(5, "cd: ", dirname, ": "
-				, strerror(errno), "\n"), return_value = 1, 0);
+				, strerror(errno), "\n"), gl.return_value = 1, 0);
 }
 
 int	ft_cd(const char *dirname)
 {
-	return_value = 0;
+	gl.return_value = 0;
 	if (!dirname)
 	{
 		dirname = ft_getenv1("HOME");
 		if (!dirname)
 			return (error_write("minishell: cd: HOME not set\n")
-				, return_value = 1, 1);
+				, gl.return_value = 1, 1);
 		else
 			ft_cd_succes((char *)dirname, 0);
 	}
@@ -107,11 +107,11 @@ int	ft_cd(const char *dirname)
 		dirname = ft_getenv1("OLDPWD");
 		if (!dirname)
 			return (error_write("minishell: cd: OLDPWD not set\n")
-				, return_value = 1, 1);
+				, gl.return_value = 1, 1);
 		if (ft_cd_succes((char *)dirname, 0))
 			printf("%s\n", dirname);
 	}
 	else
 		ft_cd_succes((char *)dirname, 0);
-	return (return_value);
+	return (gl.return_value);
 }

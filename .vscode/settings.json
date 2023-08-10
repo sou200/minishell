@@ -40,7 +40,9 @@
         "tuple": "c",
         "utility": "c",
         "*.c ": "c",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "libft.h": "c",
+        "history.h": "c"
     }
 >>>>>>> soufiane
 }

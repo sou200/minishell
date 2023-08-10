@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:35:13 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 18:51:25 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:35:30 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	**path(void)
 
 	path = ft_getenv("PATH");
 	if (!path)
-		path = default_env[1];
-	if (!path || !*default_env[1])
+		path = gl.default_env[1];
+	if (!path || !*gl.default_env[1])
 		return (0);
 	paths = ft_split(path + 5, ':');
 	if (!paths)
@@ -69,19 +69,19 @@ void	initialise_var(t_var *p)
 
 void	waitandreturn(t_var p)
 {
-	return_value = 0;
-	waitpid(p.pid, &return_value, 0);
+	gl.return_value = 0;
+	waitpid(p.pid, &gl.return_value, 0);
 	while (waitpid(-1, 0, 0) != -1)
 		;
 	
 	signal(SIGINT, controlec);
 	rl_catch_signals = 0;
-	if (WIFSIGNALED(return_value))
+	if (WIFSIGNALED(gl.return_value))
 	{
-		if (WTERMSIG(return_value) == 3)
+		if (WTERMSIG(gl.return_value) == 3)
 			printf("Quit: 3\n");
-		return_value = WTERMSIG(return_value) + 128;
+		gl.return_value = WTERMSIG(gl.return_value) + 128;
 	}
 	else
-		return_value = WEXITSTATUS(return_value);
+		gl.return_value = WEXITSTATUS(gl.return_value);
 }

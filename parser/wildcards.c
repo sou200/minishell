@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 19:04:42 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/05 06:46:21 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:02:22 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,40 @@ int pattern_match(char *pattern, char *text, int i, int *flags)
     } else if (pattern[i] == *text && !flags[i])
         return pattern_match(pattern, text + 1, i + 1, flags);
     return 0;
+}
+
+int get_pattern_len(t_list *tokens)
+{
+    int len;
+
+    len = 0;
+    while (tokens != NULL && ((token_t *)tokens->content)->type != TYPE_SPC)
+    {
+        len += !((token_t *)tokens->content)->value?0:ft_strlen(((token_t *)tokens->content)->value);
+        tokens = tokens->next;
+    }
+    return len;
+}
+
+char *get_pattern(t_list **tokens, int **p_flags)
+{
+    int *flags;
+    int i;
+    char *pattern;
+
+    flags = ft_calloc(get_pattern_len(*tokens), sizeof(int));
+    i = 0;
+    pattern = NULL;
+    while ((*tokens) != NULL && ((token_t *)(*tokens)->content)->type != TYPE_SPC)
+    {
+        if (((token_t *)(*tokens)->content)->type == TYPE_STAR)
+            flags[i] = 1;
+        pattern = ft_strjoin_free(pattern, ((token_t *)(*tokens)->content)->value, 1, 0);
+        i += !((token_t *)(*tokens)->content)->value?0:ft_strlen(((token_t *)(*tokens)->content)->value);
+        (*tokens) = (*tokens)->next;
+    }
+    *p_flags = flags;
+    return pattern;
 }
 
 // void listFilesAndDirectories(const char *path) {
@@ -59,8 +93,8 @@ int pattern_match(char *pattern, char *text, int i, int *flags)
 
 void add_file_to_lst(t_list **lst, char *name, int is_space)
 {
-    t_token *word;
-    t_token *spc;
+    token_t *word;
+    token_t *spc;
 
     word = create_token(TYPE_WORD, ft_strdup(name));
     ft_lstadd_back(lst, ft_lstnew(word));

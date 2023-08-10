@@ -6,62 +6,63 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/06 18:29:20 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:35:30 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_type(enum t_tokenype type)
+char	*get_type(enum t_tokentype type)
 {
-	if (type == TYPE_WORD)
-		return ("word");
-	if (type == TYPE_QUOTE)
-		return ("\'");
-	if (type == TYPE_D_QUOTE)
-		return ("\"");
-	if (type == TYPE_RD_R)
-		return (">");
-	if (type == TYPE_RD_L)
-		return ("<");
-	if (type == TYPE_PIPE)
-		return ("|");
-	if (type == TYPE_DOLLAR)
-		return ("$");
-	if (type == TYPE_HERE_DOC)
-		return ("<<");
-	if (type == TYPE_APPEND)
-		return (">>");
-	if (type == TYPE_STAR)
-		return ("*");
-	if (type == TYPE_SPC)
-		return ("Space");
-	return (NULL);
+    if (type == TYPE_WORD)
+        return "word";
+    if (type == TYPE_QUOTE)
+        return "\'";
+    if (type == TYPE_D_QUOTE)
+        return "\"";
+    if (type == TYPE_RD_R)
+        return ">";
+    if (type == TYPE_RD_L)
+        return "<";
+    if (type == TYPE_PIPE)
+        return "|";
+    if (type == TYPE_DOLLAR)
+        return "$";
+    if (type == TYPE_HERE_DOC)
+        return "<<";
+    if (type == TYPE_HERE_DOC_NX)
+        return "<<<";
+    if (type == TYPE_APPEND)
+        return ">>";
+    if (type == TYPE_STAR)
+        return "*";
+    if (type == TYPE_SPC)
+        return "Space";
+    return NULL;
 }
 
-// void	print_tokens(t_list *head)
-// {
-//     t_token *token;
-//     while(head != NULL)
-//     {
-//         token = head->content;
-//         // printf("%s\n",token);
-//         // if(token->type == 0 || token->type == 15)
-//             printf("word ={%s}\n", token->value);
-//         printf("token type = %s\n", get_type(token->type));
-//         printf("-----------------------\n");
-//         head = head->next;
-//     }
-// }
+void print_tokens(t_list *head)
+{
+    token_t *token;
+    while (head != NULL)
+    {
+        token = head->content;
+        if (token->type == TYPE_WORD || token->type == TYPE_P_WORD)
+            printf("word ={%d:%s}\n", token->type, token->value);
+        printf("token type = %s\n", get_type(token->type));
+        printf("-----------------------\n");
+        head = head->next;
+    }
+}
 
 // int cmnd_arg_count(t_list *tokens)
 // {
 //     int count;
 
 //     count = 0;
-//     while (tokens != NULL && ((t_token*)tokens->content)->type != TYPE_PIPE)
+//     while (tokens != NULL && ((token_t*)tokens->content)->type != TYPE_PIPE)
 //     {
-//         if(is_redirection((t_token*)tokens->content))
+//         if(is_redirection((token_t*)tokens->content))
 //             tokens = tokens->next;
 //         else
 //             count++;
@@ -87,13 +88,13 @@ char	*get_type(enum t_tokenype type)
 //         printf("------------------------------\n");
 //         while (left_red != NULL)
 //         {
-//             printf("%s {%s}\n", get_type(((t_token *)left_red->content)->type), ((t_token *)left_red->content)->value);
+//             printf("%s {%s}\n", get_type(((token_t *)left_red->content)->type), ((token_t *)left_red->content)->value);
 //             left_red = left_red->next;
 //         }
 //         printf("-------------------------------\n");
 //         while (right_red != NULL)
 //         {
-//             printf("%s {%s}\n",get_type(((t_token *)right_red->content)->type), ((t_token *)right_red->content)->value);
+//             printf("%s {%s}\n",get_type(((token_t *)right_red->content)->type), ((token_t *)right_red->content)->value);
 //             right_red = right_red->next;
 //         }
 //         printf("================================\n");
@@ -107,7 +108,7 @@ void	controlec(int c)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	return_value = 1;
+	gl.return_value = 1;
 }
 
 // void lk()
@@ -119,19 +120,19 @@ void	initialise_default(void)
 {
 	char	*pwd;
 
-	default_env = malloc(sizeof(char *) * 3);
-	if (!default_env)
+	gl.default_env = malloc(sizeof(char *) * 3);
+	if (!gl.default_env)
 		ft_exit(ENOMEM);
 	pwd = getcwd(0, 0);
 	if (!pwd)
 	{
 		error_write(MINISHELL_INIT);
-		default_env[0] = ft_strdup("");
+		gl.default_env[0] = ft_strdup("");
 	}
 	else
-		default_env[0] = pwd;
-	default_env[1] = ft_strdup(DEFAULT_PATH);
-	default_env[2] = 0;
+		gl.default_env[0] = pwd;
+	gl.default_env[1] = ft_strdup(DEFAULT_PATH);
+	gl.default_env[2] = 0;
 }
 //find a way to launch builtins in parent
 //to handle signals better sleep doesnt stop
@@ -146,9 +147,9 @@ int	main(int argc, char const *argv[], char **en)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			return (printf("\x1b[Fminishell$  exit\n"), ft_exit(return_value));
+			return (printf("\x1b[Fminishell$  exit\n"), ft_exit(gl.return_value));
 		if (line)
-			head = parce_line(line, env);
+			head = parce_line(line, gl.env);
 		if (head && ft_sortir(head))
 			ft_execute(head, (t_var){0, 0, 0, 0, 0, 0});
 		add_history(line);

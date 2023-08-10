@@ -5,7 +5,6 @@ CC = cc
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
-
 SRCS = minishell.c lexer/lexer.c lexer/tokenization.c parser/quotes_handler.c \
 	parser/syntax_error_handler.c expander/expander.c builtins/tools.c \
 	  lexer/ft_free_token.c lexer/token_utils.c parser/quotes_handler.c parser/syntax_error_handler.c parser/cmnd_builder.c \
@@ -14,8 +13,8 @@ SRCS = minishell.c lexer/lexer.c lexer/tokenization.c parser/quotes_handler.c \
 	builtins/sorted_lst.c builtins/cd.c builtins/pwd.c builtins/heredoc.c builtins/redirections.c \
 	builtins/cmds2.c parser/wildcards.c builtins/environement.c builtins/export1.c \
 	builtins/export2.c builtins/export3.c builtins/export4.c builtins/env2.c builtins/unset.c \
-	builtins/exit.c
-
+	builtins/exit.c minishell.c lexer/lexer.c lexer/tokenization.c lexer/ft_free_token.c lexer/token_utils.c parser/quotes_handler.c parser/syntax_error_handler.c \
+parser/cmnd_builder.c parser/parser.c parser/wildcards.c expander/expand_utils.c expander/expander.c  parser/cmnd_build_utils.c parser/wildcards_utils.c
 OBJS = $(SRCS:.c=.o)
 
 

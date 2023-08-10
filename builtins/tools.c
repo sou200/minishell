@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 18:18:02 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:35:30 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	ft_free(int number, ...)
 
 int	ft_exit(int error)
 {
-	free_table(env);
-	free_table(default_env);
-	ft_lstclear(&export_list, free);
+	free_table(gl.env);
+	free_table(gl.default_env);
+	ft_lstclear(&gl.export_list, free);
 	exit(error);
 }
 
@@ -45,7 +45,7 @@ int	ft_sortir(t_list *head)
 		return (ft_unset(str + 1), 0);
 	if (head && head->content && !head->next && !ft_strrcmp(str[0], "r"))
 	{
-		char *s = ft_itoa(return_value);
+		char *s = ft_itoa(gl.return_value);
 		printf("%s\n",s);
 		free(s);
 		return (0);

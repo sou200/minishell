@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   gl.env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -89,21 +89,21 @@ void	remove_var(const char *var)
 	i = 0;
 	if (!var || !ft_getenv(var))
 		return ;
-	while (env[i] && ft_pathcmp(var, env[i]))
+	while (gl.env[i] && ft_pathcmp(var, gl.env[i]))
 		i++;
-	if (!env[i])
+	if (!gl.env[i])
 		return ;
-	new = realloc_env(size_double(env));
+	new = realloc_env(size_double(gl.env));
 	y = -1;
-	while (env[++y] && (y != i))
-		new[y] = env[y];
-	if (!env[y])
+	while (gl.env[++y] && (y != i))
+		new[y] = gl.env[y];
+	if (!gl.env[y])
 		return ;
-	free(env[y]);
+	free(gl.env[y]);
 	y--;
-	while (env[++y + 1])
-		new[y] = env[y + 1];
+	while (gl.env[++y + 1])
+		new[y] = gl.env[y + 1];
 	new[y] = 0;
-	free(env);
-	env = new;
+	free(gl.env);
+	gl.env = new;
 }

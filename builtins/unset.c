@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 04:54:21 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 07:03:07 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:35:30 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	remove_var1(const char *var)
 	i = 0;
 	if (!var || !ft_getenv2(var))
 		return ;
-	while (default_env[i] && ft_pathcmp(var, default_env[i]))
+	while (gl.default_env[i] && ft_pathcmp(var, gl.default_env[i]))
 		i++;
-	if (!default_env[i])
+	if (!gl.default_env[i])
 		return ;
-	free (default_env[i]);
-	default_env[i] = ft_strdup("");
-	error_malloc(!default_env[i]);
+	free (gl.default_env[i]);
+	gl.default_env[i] = ft_strdup("");
+	error_malloc(!gl.default_env[i]);
 }
 
 void	remove_export(const char *var)
@@ -61,7 +61,7 @@ int	ft_unset(char **cmd)
 {
 	int	i;
 
-	return_value = 0;
+	gl.return_value = 0;
 	if (!cmd[0])
 		return (0);
 	i = -1;
@@ -69,7 +69,7 @@ int	ft_unset(char **cmd)
 	{
 		if (valid_unset(cmd[i]))
 		{
-			return_value = 1;
+			gl.return_value = 1;
 			continue ;
 		}
 		remove_var(cmd[i]);
@@ -87,7 +87,7 @@ const char	*ft_getenv2(const char *var)
 	if (!var)
 		return (0);
 	i = 0;
-	while (default_env[i] && ft_pathcmp(var, default_env[i]))
+	while (gl.default_env[i] && ft_pathcmp(var, gl.default_env[i]))
 		i++;
-	return (default_env[i]);
+	return (gl.default_env[i]);
 }

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 18:57:17 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:35:30 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_builtins(t_prototype *cmd)
 		ft_exit(ft_export(cmd->cmnd + 1));
 	else if (!ft_strrcmp(cmd->cmnd[0], "unset"))
 		ft_exit(ft_export(cmd->cmnd + 1));
-	else if (!ft_strrcmp(cmd->cmnd[0], "env"))
+	else if (!ft_strrcmp(cmd->cmnd[0], "gl.env"))
 		ft_exit(ft_env());
 	else if (!ft_strrcmp(cmd->cmnd[0], "getenv"))
 		ft_exit(ft_printenv(cmd->cmnd[1]));
@@ -82,12 +82,12 @@ int	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
 			return (free_table(p->paths), ft_exit(0), 0);
 		signal(SIGQUIT, SIG_DFL);
 		ft_builtins(cmd);
-		if (!*default_env[0] && !ft_getenv("PWD"))
+		if (!*gl.default_env[0] && !ft_getenv("PWD"))
 			error_write(PWD_ENV);
 		cmdd = cmd_path(p->paths, cmd->cmnd[0]);
 		failed_cmd(cmd->cmnd[0], cmdd, p->paths);
 		free_table(p->paths);
-		if (execve(cmdd, cmd->cmnd, env) == -1)
+		if (execve(cmdd, cmd->cmnd, gl.env) == -1)
 			return (free(cmdd), cmdd = 0, ft_exit(0), 0);
 	}
 	return (0);
