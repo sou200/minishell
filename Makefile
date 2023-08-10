@@ -1,5 +1,5 @@
 NAME = minishell
-CFLAGS = -W -W -W -fsanitize=address -g3
+CFLAGS = -W -W -W #-fsanitize=address -g3
 RM = rm -f
 CC = cc
 
