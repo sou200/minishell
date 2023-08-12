@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:50:04 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/08 23:03:16 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/12 19:45:49 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,16 @@ void	smpl_env(char *env_val, char *env_word, t_list *tokens)
 
 void	expand_env(t_list **tokens, char **env, int lex_flag)
 {
-	t_list *tmp_token;
-	char *env_word;
-	char *env_val;
+	t_list	*tmp_token;
+	char	*env_word;
+	char	*env_val;
+
 	if (((token_t *)(*tokens)->next->content)->type == TYPE_QUOTE
 		|| ((token_t *)(*tokens)->next->content)->type == TYPE_D_QUOTE)
 		return ;
 	tmp_token = (*tokens)->next->next;
 	env_word = ((token_t *)(*tokens)->next->content)->value;
-	if(*env_word == '?')
+	if (*env_word == '?')
 		env_val = ft_itoa(global.exit_status);
 	else
 		env_val = get_env_var(env, env_word);

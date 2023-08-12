@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/08 16:39:12 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/12 23:41:20 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,12 @@ int is_wildcard(t_list *tokens, int *is_lex);
 void yes_it_is_wild(t_list **new_token_list, t_list **tokens, int is_lex);
 char *get_pattern(t_list **tokens, int **p_flags);
 void check_quote(int *q_type, enum token_type cas);
+int	is_lexable(t_list *tokens, int open_q);
+t_list	*wildcard_it(t_list *tokens);
+void	costum_env_expand(t_list **tokens, char **env, int q_open);
+void	f(t_list **new_token_lst, t_list *tokens);
+t_list	*join_and_clean_tokens(t_list *tokens);
+void	build_smpl_cmnd(t_list **tokens, t_list **smpl_cmnds);
 
 
 // tmp
