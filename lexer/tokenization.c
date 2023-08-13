@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/09 05:08:01 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 07:24:44 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ enum token_type	find_type(char *line, int *i)
 		return (*i += 1, TYPE_D_QUOTE);
 	if (line[*i] == '*')
 		return (*i += 1, TYPE_STAR);
-		
 	return (find_type2(line, i));
 }
 

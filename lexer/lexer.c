@@ -6,25 +6,26 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 20:19:56 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/09 11:51:53 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 07:24:39 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int check_word(char c)
+int	check_word(char c)
 {
-	if (c == '\'' || c == '\"' || c == '|'|| c == '*' || c == '<' || c == '>' || c == '$' || c == ' ' || c == '\t')
+	if (c == '\'' || c == '\"' || c == '|' || c == '*' || c == '<' || c == '>'
+		|| c == '$' || c == ' ' || c == '\t')
 		return (0);
 	return (1);
 }
 
-t_list *lexer(char *line)
+t_list	*lexer(char *line)
 {
-	t_list *head;
-	t_list *token;
-	int i;
-	int x;
+	t_list	*head;
+	t_list	*token;
+	int		i;
+	int		x;
 
 	x = 0;
 	i = 0;
@@ -39,7 +40,8 @@ t_list *lexer(char *line)
 		else if (line[i] == ' ' || line[i] == '\t')
 			token = ft_lstnew(create_token(TYPE_SPC, space_type(line, &i)));
 		else
-			token = ft_lstnew(create_token(find_type(line, &i), ft_substr(line, x, i - x)));
+			token = ft_lstnew(create_token(find_type(line, &i), ft_substr(line,
+							x, i - x)));
 		if (!token)
 			exit(-1);
 		ft_lstadd_back(&head, token);
