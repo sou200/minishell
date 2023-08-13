@@ -1,5 +1,5 @@
 NAME = minishell
-CFLAGS = -fsanitize=address -g3 -Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 CC = cc
 

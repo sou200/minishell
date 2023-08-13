@@ -11,8 +11,8 @@ while true
 do
 	leaks minishell
 
-	if [ "$?" -ne "0" ] ; then
-	exit
-	fi
+	# if [ "$?" -ne "0" ] ; then
+	# exit
+	# fi
 	sleep 1
 done 

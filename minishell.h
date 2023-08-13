@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 08:30:30 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 20:14:44 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int	ft_strrcmp(const char *s1, const char *s2);
 void	ft_error(int erno, const char *msg);
 char	**path(void);
 char	*generate_name(void);
-int	ft_input(char *stop);
+int	ft_input(char *stop, enum t_tokentype type);
 int redirect_input(t_list *left_red, int pipe);
 int redirect_output(t_list *right_red, int pipe);
 char	*cmd_path(char **paths, char *cmd);

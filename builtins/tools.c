@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/13 07:56:27 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 20:43:34 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void	init(int argc, char const *argv[], char **en)
 		print_error(7, 2, "minishell: ", ": too many arguments\n");
 	initialise_default();
 	initialise_env((const char **)en);
-	rl_catch_signals = 0;
-	signal(SIGINT, controlec);
-	signal(SIGQUIT, SIG_IGN);
+	// rl_catch_signals = 0;
+	// signal(SIGINT, controlec);
+	// signal(SIGQUIT, SIG_IGN);
 }
 
 void	error_write(const char *s)

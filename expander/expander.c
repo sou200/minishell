@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:50:04 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 08:00:55 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 19:58:52 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ void	smpl_env(char *env_val, char *env_word, t_list *tokens)
 	if (word_len - env_len > 0)
 		rest_word = ft_substr(env_word, env_len, word_len - env_len);
 	result = ft_strjoin(env_val, rest_word);
+	free(rest_word);
 	((t_token *)tokens->next->content)->type = TYPE_P_WORD;
 	((t_token *)tokens->next->content)->value = result;
+	free(env_word);
 }
 
 void	expand_env(t_list **tokens, char **env, int lex_flag)
