@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:50:04 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/09 12:29:33 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:58:50 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ char	*get_env_var(char **env, char *var)
 	i = env_name_len(var);
 	if (ft_strlen(*env) <= i)
 		return (NULL);
+	while (*env != NULL)
+	{
+		if (ft_strlen(*env) > i && !ft_strncmp(*env, var, i)
+			&& (*env)[i] == '=')
+			return (ft_substr(*env, i + 1, ft_strlen(*env) - i));
+		env++;
+	}
 	while (*env != NULL)
 	{
 		if (ft_strlen(*env) > i && !ft_strncmp(*env, var, i)
