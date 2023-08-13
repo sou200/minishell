@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 00:21:19 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/09 12:27:38 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 08:30:19 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	env_append(char *str, char *var)
 		s[x] = var[x];
 	s[x++] = '=';
 	s[x] = '\0';
-	x = env_append_find(str, var);
+	x = env_append_find(var);
 	if (!ft_strchr(str, '='))
 		return (add_var(s), free(s));
 	t = ft_substr(ft_strchr(str, '=') + 2, 0,
@@ -83,7 +83,7 @@ void	env_append(char *str, char *var)
 	gl.env[x] = str;
 }
 
-int	env_append_find(char *str, char *var)
+int	env_append_find(char *var)
 {
 	int	i;
 	int	x;

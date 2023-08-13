@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/09 12:35:30 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 07:56:27 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,6 @@ int	ft_sortir(t_list *head)
 		return (ft_cd(*(str + 1)), 0);
 	if (head && head->content && !head->next && !ft_strrcmp(str[0], "unset"))
 		return (ft_unset(str + 1), 0);
-	if (head && head->content && !head->next && !ft_strrcmp(str[0], "r"))
-	{
-		char *s = ft_itoa(gl.return_value);
-		printf("%s\n",s);
-		free(s);
-		return (0);
-	}
 	return (1);
 }
 

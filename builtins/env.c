@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gl.env.c                                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:58:25 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 07:02:31 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 07:58:11 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,6 @@ void	print_error1(int d, ...)
 	}
 	va_end(ap);
 }
-
-// void	remove_var_check(const char *var)
-// {
-// 	if (!var || !ft_getenv(var))
-// 		return ;
-// 	if (!check_var(var))
-// 		return (print_error1(1, 3
-// 				, "minishell: unset: `", var, "': not a valid identifier\n"));
-// }
 
 void	remove_var(const char *var)
 {

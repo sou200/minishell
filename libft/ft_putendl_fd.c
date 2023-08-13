@@ -6,11 +6,11 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 20:15:42 by serhouni          #+#    #+#             */
-/*   Updated: 2022/10/19 18:45:29 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/12 19:47:48 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 void	ft_putendl_fd(char *s, int fd)
 {

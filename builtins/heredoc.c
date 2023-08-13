@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 23:29:17 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/09 12:27:38 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 08:10:01 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	ft_input(char *stop)
 	str = readline("> ");
 	while (str && ft_strrcmp(stop, str))
 	{
-		str = expand_heredoc_line(str, gl.env);
+		str = expand_heredoc_line(str);
 		write(fd, str, ft_strlen(str));
 		free(str);
 		str = readline("> ");

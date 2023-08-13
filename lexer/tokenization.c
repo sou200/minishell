@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/09 12:09:44 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 08:25:19 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*space_type(char *line, int *i)
 		x++;
 	str = malloc(x + 1);
 	if (!str)
-		exit(-1);
+		ft_exit(ENOMEM);
 	ft_memmove(str, line + *i, x);
 	*i += x;
 	str[x] = '\0';
@@ -41,7 +41,7 @@ enum t_tokentype	find_type2(char *line, int *i)
 		return (*i += 1, TYPE_RD_R);
 	else if (line[*i] == '>')
 		return (*i += 2, TYPE_APPEND);
-	exit(-1);
+	return (ft_exit(-1), -1);
 }
 
 enum t_tokentype	find_type(char *line, int *i)
@@ -54,15 +54,14 @@ enum t_tokentype	find_type(char *line, int *i)
 		return (*i += 1, TYPE_D_QUOTE);
 	if (line[*i] == '*')
 		return (*i += 1, TYPE_STAR);
-		
 	return (find_type2(line, i));
 }
 
-token_t	*create_token(enum t_tokentype type, void *content)
+t_token	*create_token(enum t_tokentype type, void *content)
 {
-	token_t	*token;
+	t_token	*token;
 
-	token = malloc(sizeof(token_t));
+	token = malloc(sizeof(t_token));
 	if (!token)
 		ft_exit(ENOMEM);
 	token->type = type;

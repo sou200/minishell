@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 04:54:21 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/09 12:35:30 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 08:30:55 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	valid_unset(const char *var)
 void	remove_var1(const char *var)
 {
 	int		i;
-	char	**new;
-	int		y;
 
 	i = 0;
 	if (!var || !ft_getenv2(var))
@@ -40,7 +38,6 @@ void	remove_var1(const char *var)
 
 void	remove_export(const char *var)
 {
-	int		i;
 	t_list	*tmp;
 
 	tmp = export_exists((char *)var);

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 17:35:22 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/09 12:27:38 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/13 07:57:18 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ int	add_var1(const char *var)
 	}
 	if (!gl.env[i] || !(gl.env[i][x] == var[x] && gl.env[i][x] == '='))
 		return (0);
-	return (free(gl.env[i]), gl.env[i] = ft_strdup(var), error_malloc(!gl.env[i]), 1);
+	return (free(gl.env[i]), gl.env[i] = ft_strdup(var)
+		, error_malloc(!gl.env[i]), 1);
 }
 
 void	empty_var(char *var)
