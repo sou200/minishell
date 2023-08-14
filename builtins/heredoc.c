@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 23:29:17 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/13 20:44:57 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 07:03:57 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	ft_open(char *str, int *fd, int flag)
 		*fd = open(str, O_WRONLY | O_APPEND | O_CREAT, 0666);
 	else if (flag == -3)
 		*fd = open(str, O_RDONLY);
+	else if (flag == -4)
+		*fd = open(str, O_RDWR | O_TRUNC | O_CREAT, 0666);
 	else
 		*fd = open(str, O_RDONLY);
 }
@@ -97,8 +99,8 @@ int	ft_input(char *stop, enum t_tokentype type)
 	str = generate_name();
 	if (!str)
 		ft_error(1, "here_doc: ");
-	ft_open(str, &fd, -1);
-	ft_open(str, &tmp, -1);
+	ft_open(str, &fd, -4);
+	ft_open(str, &tmp, -4);
 	unlink(str);
 	free(str);
 	str = readline("> ");
@@ -112,5 +114,5 @@ int	ft_input(char *stop, enum t_tokentype type)
 	}
 	if (!str)
 		printf("\x1b[F> ");
-	return (free(str), str = NULL/*, close(fd)*/, tmp);
+	return (free(str), str = NULL, close(fd), tmp);
 }

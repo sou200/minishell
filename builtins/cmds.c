@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/13 20:44:22 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 06:59:38 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,17 @@ int	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
 	p->pid = fork();
 	if (!p->pid)
 	{
-		// signal(SIGINT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		p->paths = path();
-		// if (p->infile != p->fd[0])
-		// 	close(p->fd[0]);
+		if (p->infile != p->fd[0])
+			close(p->fd[0]);
 		p->infile = redirect_input(cmd->left_red, p->infile);
 		p->outfile = redirect_output(cmd->right_red, p->outfile);
-		// p->infile += (p->infile != 0 && close(p->infile) && 0);
-		// p->outfile += (p->outfile != 1 && close(p->outfile) && 0);
+		p->infile += (p->infile != 0 && close(p->infile) && 0);
+		p->outfile += (p->outfile != 1 && close(p->outfile) && 0);
 		if (!(cmd->cmnd)[0])
 			return (free_table(p->paths), ft_exit(0), 0);
-		// signal(SIGQUIT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		ft_builtins(cmd);
 		if (!*gl.default_env[0] && !ft_getenv("PWD"))
 			error_write(PWD_ENV);
@@ -113,11 +113,11 @@ void	ft_execute(t_list *cmd, t_var p)
 		}
 		else
 			p.outfile = (p.outfile != 1 && close(p.outfile) && 0) + 1;
-		// signal(SIGINT, SIG_IGN);
-		// rl_catch_signals = 1;
+		signal(SIGINT, SIG_IGN);
+		rl_catch_signals = 1;
 		simple_cmd(&p, (t_prototype *)(cmd->content), 0);
 		cmd = cmd->next;
 	}
-	// p.infile = (p.infile != 0 && close(p.infile));
+	p.infile = (p.infile != 0 && close(p.infile));
 	waitandreturn(p);
 }

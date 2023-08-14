@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:43:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 19:26:43 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 07:07:15 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ t_list	*parce_line(char *line, char **env)
 
 	tokens = lexer(line);
 	if (!is_valid_syntax(tokens))
-		return (printf("syntax error !\n"), gl.return_value = 258, NULL);
+		return (ft_lstclear(&tokens, ft_free_token)
+			, printf("syntax error !\n"), gl.return_value = 258, NULL);
 	expanded_tokens = to_expanded_tokens(tokens, env);
 	wildcarded_tokens = wildcard_it(expanded_tokens);
 	final_tokens = join_and_clean_tokens(wildcarded_tokens);
