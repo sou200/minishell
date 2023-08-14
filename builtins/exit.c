@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 17:53:30 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/09 12:27:38 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:59:26 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	ft_atoi1(const char *str)
 	z = 0;
 	s = 1;
 	i = 0;
-	if (!str)
-		return (0);
 	while (str && ((str[i] >= 9 && str[i] <= 13) || str[i] == 32))
 		i++;
 	if (str && (str[i] == '-' || str[i] == '+') && str[i++] == '-')
@@ -30,7 +28,9 @@ int	ft_atoi1(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		z = z * 10 + (str[i] - 48);
-		if ((z * s > LONG_MAX) || (z * s < LONG_MIN))
+		if ((z * s > LONG_MAX) || (z * s < LONG_MIN)
+			|| ((((z * 10 + (str[i] - 48))
+						/ 10 - ((str[i] - 48) / 10))) * s != z * s))
 			break ;
 		i++;
 	}
@@ -44,7 +44,6 @@ int	ft_exit1(char **cmd)
 {
 	int	r;
 
-	error_write("exit\n");
 	gl.return_value = 0;
 	if (!cmd || !cmd[0])
 		ft_exit(0);

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 06:59:49 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:54:17 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_sortir(t_list *head)
 
 	str = ((t_prototype *)(head->content))->cmnd;
 	if (head && head->content && !head->next && !ft_strrcmp(str[0], "exit"))
-		return (ft_exit1(str + 1), 0);
+		return (error_write("exit\n"), ft_exit1(str + 1), 0);
 	if (head && head->content && !head->next && !ft_strrcmp(str[0], "export"))
 		return (ft_export(str + 1), 0);
 	if (head && head->content && !head->next && !ft_strrcmp(str[0], "cd"))

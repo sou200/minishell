@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 23:29:17 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 07:03:57 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:21:25 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	ft_input(char *stop, enum t_tokentype type)
 		if (type == TYPE_HERE_DOC)
 			str = expand_heredoc_line(str);
 		write(fd, str, ft_strlen(str));
+		write(fd, "\n", 1);
 		free(str);
 		str = readline("> ");
 	}

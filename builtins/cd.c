@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 14:48:22 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/09 12:35:30 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:06:06 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	ft_cd_succes(char *dirname, char *str)
 			free(str);
 		}
 		free(gl.default_env[0]);
-		gl.default_env[0] = ft_strdup(dirname);
+		gl.default_env[0] = dirname;
 		error_malloc(!gl.default_env[0]);
 		str = ft_strjoin("PWD=", dirname);
 		error_malloc(!str);

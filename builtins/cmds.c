@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 06:59:38 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:27:36 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,9 @@ void	failed_cmd(char *cmd, char *cmdd, char **path)
 {
 	struct stat	buf;
 
-	if (!path || (ft_strchr(cmd, '/') && !cmdd)
-		|| (cmd[0] == '/' && access(cmd, F_OK)))
+	if (!cmdd && access(cmd, F_OK) && !path)
 		print_error(127, 3, "minishell: ", cmd, ": No such file or directory\n");
-	else if (!cmdd)
+	if (!cmdd && access(cmd, F_OK))
 		print_error(127, 3, "minishell: ", cmd, ": command not found\n");
 	lstat(cmd, &buf);
 	if (S_ISDIR(buf.st_mode))
@@ -84,7 +83,7 @@ int	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
 		ft_builtins(cmd);
 		if (!*gl.default_env[0] && !ft_getenv("PWD"))
 			error_write(PWD_ENV);
-		cmdd = cmd_path(p->paths, cmd->cmnd[0]);
+		cmdd = cmd_path(p->paths, cmd->cmnd[0], 0, 0);
 		failed_cmd(cmd->cmnd[0], cmdd, p->paths);
 		free_table(p->paths);
 		if (execve(cmdd, cmd->cmnd, gl.env) == -1)

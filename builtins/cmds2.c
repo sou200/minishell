@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:35:13 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 06:59:53 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:27:58 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ char	**path(void)
 	return (paths);
 }
 
-char	*cmd_path(char **paths, char *cmd)
+char	*cmd_path(char **paths, char *cmd, char *tmp, char *str)
 {
-	char	*tmp;
-	char	*str;
 	int		i;
 
 	i = -1;
+	if (!paths && cmd && cmd[0] == '/')
+		return (cmd);
 	if (!paths)
 		return (0);
 	if ((cmd && !ft_strncmp(cmd, "./", 2) && !access(cmd, F_OK))

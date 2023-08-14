@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 20:14:44 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:27:19 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ char	*generate_name(void);
 int	ft_input(char *stop, enum t_tokentype type);
 int redirect_input(t_list *left_red, int pipe);
 int redirect_output(t_list *right_red, int pipe);
-char	*cmd_path(char **paths, char *cmd);
+char	*cmd_path(char **paths, char *cmd, char *tmp, char *str);
 int		simple_cmd(t_var *p, t_prototype *cmd, char *cmdd);
 void	ft_execute(t_list *cmd, t_var p);
 

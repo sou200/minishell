@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 07:10:11 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/06 00:54:46 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:41:20 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,22 @@ int	check_n(char *s)
 int	ft_echo(char **cmd)
 {
 	int	y;
+	int	x;
 
+	x = 1;
 	if (!cmd)
 		return (0);
-	y = check_n(cmd[0]);
-	if (y == 0)
-		cmd++;
+	while (1)
+	{
+		y = check_n(cmd[0]);
+		if (y == 0)
+		{
+			x = 0;
+			cmd++;
+		}
+		else
+			break ;
+	}
 	while (*cmd)
 	{
 		ft_putstr_fd(*cmd, 1);
@@ -46,9 +56,7 @@ int	ft_echo(char **cmd)
 		if (*cmd)
 			write(1, " ", 1);
 	}
-	if (y)
-		write(1, "\n", 1);
-	return (0);
+	return (write(1, "\n", x), 0);
 }
 
 char	*ft_strjoin_free(char *a, char *b, int i, int j)

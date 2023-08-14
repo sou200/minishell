@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:50:04 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 19:58:52 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:00:45 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*get_env_var(char **env, char *var)
 {
 	size_t	i;
+	char	**tmp;
 
 	i = env_name_len(var);
 	if (ft_strlen(*env) <= i)
@@ -25,6 +26,14 @@ char	*get_env_var(char **env, char *var)
 			&& (*env)[i] == '=')
 			return (ft_substr(*env, i + 1, ft_strlen(*env) - i));
 		env++;
+	}
+	tmp = gl.default_env;
+	while (*tmp != NULL)
+	{
+		if (ft_strlen(*tmp) > i && !ft_strncmp(*tmp, var, i)
+			&& (*tmp)[i] == '=')
+			return (ft_substr(*tmp, i + 1, ft_strlen(*tmp) - i));
+		tmp++;
 	}
 	return (NULL);
 }
