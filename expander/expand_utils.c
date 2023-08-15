@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 01:32:34 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 07:53:12 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 19:44:40 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ t_list	*env_lexer(char *env)
 {
 	if (env == NULL)
 		return (ft_lstnew(create_token(TYPE_WORD, NULL)));
+	else if(*env == '\0')
+		return (ft_lstnew(create_token(TYPE_WORD, ft_strdup(""))));
 	return (lexer(env));
 }
 
