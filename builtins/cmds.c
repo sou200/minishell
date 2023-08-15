@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/15 17:13:21 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:47:24 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ int	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
 		if (p->infile != p->fd[0])
 			close(p->fd[0]);
 		p->infile = redirect_input(cmd->left_red, p->infile);
+		signal(SIGQUIT, SIG_DFL);
 		p->outfile = redirect_output(cmd->right_red, p->outfile);
 		p->infile += (p->infile != 0 && close(p->infile) && 0);
 		p->outfile += (p->outfile != 1 && close(p->outfile) && 0);
 		if (!(cmd->cmnd)[0])
 			return (free_table(p->paths), ft_exit(0), 0);
-		signal(SIGQUIT, SIG_DFL);
 		ft_builtins(cmd);
 		if (!*gl.default_env[0] && !ft_getenv("PWD"))
 			error_write(PWD_ENV);

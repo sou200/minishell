@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 17:13:34 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/15 17:15:51 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 19:02:18 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	heredocsigs(t_list *cmd, t_var *p)
 	int		save;
 	t_token	*ho;
 
-	signal(SIGINT, SIG_IGN);
-	rl_catch_signals = 1;
 	j = (t_list *)(((t_prototype *)(cmd->content))->left_red);
 	if (p->y == 1)
 	{

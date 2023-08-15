@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:35:13 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/15 17:10:28 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 19:03:57 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	initialise_var(t_var *p)
 	p->paths = 0;
 	p->fd[0] = -1;
 	p->fd[1] = -1;
+	signal(SIGINT, SIG_IGN);
+	rl_catch_signals = 1;
 }
 
 void	waitandreturn(t_var p)
