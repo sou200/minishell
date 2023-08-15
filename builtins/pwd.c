@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:49:29 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/09 12:35:30 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:13:26 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,8 @@ int	ft_pwd(void)
 		pwd = getcwd(0, 0) + (a++ == -1);
 	if (!pwd)
 		return (error_write(PWD_ERROR), gl.return_value = 1, gl.return_value);
-	if (!ft_strncmp(pwd, "/private/", 9))
-	{
-		pwd += 8;
-		ft_putstr_fd(pwd, 1);
-		write(1, "\n", 1);
-		pwd -= 8;
-	}
-	else
-	{
-		ft_putstr_fd(pwd, 1);
-		write(1, "\n", 1);
-	}
+	ft_putstr_fd(pwd, 1);
+	write(1, "\n", 1);
 	if (a == 1)
 		free(pwd);
 	return (0);

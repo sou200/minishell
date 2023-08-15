@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 18:27:36 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:13:21 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,7 @@ void	ft_execute(t_list *cmd, t_var p)
 		}
 		else
 			p.outfile = (p.outfile != 1 && close(p.outfile) && 0) + 1;
-		signal(SIGINT, SIG_IGN);
-		rl_catch_signals = 1;
+		heredocsigs(cmd, &p);
 		simple_cmd(&p, (t_prototype *)(cmd->content), 0);
 		cmd = cmd->next;
 	}

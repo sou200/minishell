@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:00:58 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 07:00:46 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:06:07 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	redirect_input(t_list *left_red, int pipe)
 		if (!holder->value || (ft_strchr(holder->value, ' ')
 				&& holder->is_pseudo == 1))
 			print_error(1, 2, "minishell: ", ": ambiguous redirect\n");
-		if (!holder->value[0] /*&& holder->type == TYPE_RD_L*/)
+		if (!holder->value[0])
 			print_error(1, 3, "minishell: ",
 				holder->value, ": No such file or directory\n");
 		if (holder->type == TYPE_RD_L)
@@ -36,9 +36,7 @@ int	redirect_input(t_list *left_red, int pipe)
 		left_red = left_red->next;
 	}
 	if (pipe != 0)
-	{
 		dup2(pipe, 0);
-	}
 	return (pipe);
 }
 

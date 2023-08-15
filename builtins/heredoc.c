@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 23:29:17 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 16:21:25 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:05:50 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,18 @@ int	ft_input(char *stop, enum t_tokentype type)
 	ft_open(str, &tmp, -4);
 	unlink(str);
 	free(str);
-	str = readline("> ");
-	while (str && ft_strrcmp(stop, str))
+	while (1)
 	{
+		str = readline("> ");
+		if (!str || !ft_strrcmp(stop, str))
+			break ;
 		if (type == TYPE_HERE_DOC)
 			str = expand_heredoc_line(str);
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
-		str = readline("> ");
 	}
 	if (!str)
 		printf("\x1b[F> ");
-	return (free(str), str = NULL, close(fd), tmp);
+	return (kill(0, SIGUSR1), free(str), str = NULL, close(fd), tmp);
 }

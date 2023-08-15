@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/14 16:17:42 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:15:15 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,12 @@ void	controlec(int c)
 	gl.return_value = 1;
 }
 
+
 void	initialise_default(void)
 {
 	char	*pwd;
 
-	gl.default_env = malloc(sizeof(char *) * 3);
+	gl.default_env = malloc(sizeof(char *) * 5);
 	if (!gl.default_env)
 		ft_exit(ENOMEM);
 	pwd = getcwd(0, 0);
@@ -82,7 +83,9 @@ void	initialise_default(void)
 	else
 		gl.default_env[0] = pwd;
 	gl.default_env[1] = ft_strdup(DEFAULT_PATH);
-	gl.default_env[2] = 0;
+	gl.default_env[2] = ft_strdup("");
+	gl.default_env[3] = ft_strdup("");
+	gl.default_env[4] = 0;
 }
 
 int	main(int argc, char const *argv[], char **en)
@@ -95,11 +98,12 @@ int	main(int argc, char const *argv[], char **en)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			return (printf("\x1b[Fminishell$  exit\n"), ft_exit(gl.return_value));
+			return (controlec1(1),
+				printf("\x1b[Fminishell$ exit\n"), ft_exit(gl.return_value));
 		if (line)
 			head = parce_line(line, gl.env);
 		if (head && ft_sortir(head))
-			ft_execute(head, (t_var){{0, 0}, 0, 0, 0, 0, 0});
+			ft_execute(head, (t_var){{0, 0}, 0, 0, 0, 0, 0, 0});
 		add_history(line);
 		ft_lstclear(&head, ft_free_protoype);
 		free(line);

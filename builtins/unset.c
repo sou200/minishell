@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 04:54:21 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/13 08:30:55 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:38:54 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_unset(char **cmd)
 	int	i;
 
 	gl.return_value = 0;
-	if (!cmd[0])
+	if (!cmd || !cmd[0])
 		return (0);
 	i = -1;
 	while (cmd[++i])

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:35:13 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 18:27:58 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:10:28 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*cmd_path(char **paths, char *cmd, char *tmp, char *str)
 void	initialise_var(t_var *p)
 {
 	p->i = -1;
+	p->y = 0;
 	p->infile = 0;
 	p->outfile = 1;
 	p->paths = 0;

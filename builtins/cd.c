@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 14:48:22 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 16:06:06 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:58:41 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,26 +68,19 @@ int	ft_cd_succes(char *dirname, char *str)
 
 	if (!chdir(dirname))
 	{
+		ft_cd_1(0);
 		dirname = get_dirname(dirname);
-		if (ft_getenv1("PWD"))
-		{
-			str = ft_strjoin("OLDPWD=", ft_getenv1("PWD"));
-			error_malloc(!str);
-			s[0] = str;
-			s[1] = 0;
-			ft_export(s);
-			free(str);
-		}
 		free(gl.default_env[0]);
 		gl.default_env[0] = dirname;
 		error_malloc(!gl.default_env[0]);
 		str = ft_strjoin("PWD=", dirname);
 		error_malloc(!str);
-		return (s[0] = str, s[1] = 0, ft_export(s), free(str), 1);
+		if (ft_getenv1("PWD"))
+			return (s[0] = str, s[1] = 0, ft_export(s), free(str), 1);
+		return (free(gl.default_env[2]), gl.default_env[2] = str, 1);
 	}
-	else
-		return (print_error1(5, "cd: ", dirname, ": "
-				, strerror(errno), "\n"), gl.return_value = 1, 0);
+	return (print_error1(5, "cd: ", dirname, ": "
+			, strerror(errno), "\n"), gl.return_value = 1, 0);
 }
 
 int	ft_cd(const char *dirname)
@@ -105,6 +98,8 @@ int	ft_cd(const char *dirname)
 	else if (dirname[0] == '-' && dirname[1] == '\0')
 	{
 		dirname = ft_getenv1("OLDPWD");
+		if (!dirname)
+			dirname = ft_getenv2("OLDPWD");
 		if (!dirname)
 			return (error_write("minishell: cd: OLDPWD not set\n")
 				, gl.return_value = 1, 1);

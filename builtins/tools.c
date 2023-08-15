@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 17:54:17 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:01:16 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	init(int argc, char const *argv[], char **en)
 	rl_catch_signals = 0;
 	signal(SIGINT, controlec);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGUSR1, SIG_IGN);
 }
 
 void	error_write(const char *s)
