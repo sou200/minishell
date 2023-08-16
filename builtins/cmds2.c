@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:35:13 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/15 19:03:57 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/16 12:42:21 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,17 @@ void	initialise_var(t_var *p)
 
 void	waitandreturn(t_var p)
 {
+	int	x;
+
+	x = gl.return_value;
 	gl.return_value = 0;
 	waitpid(p.pid, &gl.return_value, 0);
 	while (waitpid(-1, 0, 0) != -1)
 		;
 	signal(SIGINT, controlec);
 	rl_catch_signals = 0;
+	if (x == 400)
+		return (gl.return_value = 1, free(0));
 	if (WIFSIGNALED(gl.return_value))
 	{
 		if (WTERMSIG(gl.return_value) == 3)

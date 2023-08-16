@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:19:32 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 08:18:18 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:17:41 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	add_smpl_cmnd(t_list **cmnd_lst, char **cmnds, t_list *left_red,
 	ft_lstadd_back(cmnd_lst, ft_lstnew(smpl_cmnd));
 }
 
-void	*create_rd(enum t_tokentype type, void *content, int p)
+void	*create_rd(enum e_tokentype type, void *content, int p)
 {
 	t_token	*rd;
 

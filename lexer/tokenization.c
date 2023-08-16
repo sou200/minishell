@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:26:51 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 08:25:19 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:17:41 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*space_type(char *line, int *i)
 	return (str);
 }
 
-enum t_tokentype	find_type2(char *line, int *i)
+enum e_tokentype	find_type2(char *line, int *i)
 {
 	if (line[*i] == '|')
 		return (*i += 1, TYPE_PIPE);
@@ -44,7 +44,7 @@ enum t_tokentype	find_type2(char *line, int *i)
 	return (ft_exit(-1), -1);
 }
 
-enum t_tokentype	find_type(char *line, int *i)
+enum e_tokentype	find_type(char *line, int *i)
 {
 	if (line[*i] == '$')
 		return (*i += 1, TYPE_DOLLAR);
@@ -57,7 +57,7 @@ enum t_tokentype	find_type(char *line, int *i)
 	return (find_type2(line, i));
 }
 
-t_token	*create_token(enum t_tokentype type, void *content)
+t_token	*create_token(enum e_tokentype type, void *content)
 {
 	t_token	*token;
 

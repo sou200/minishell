@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/15 17:14:10 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:17:41 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define CD_ERROR "cd: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
 # define DEFAULT_PATH "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
-enum t_tokentype
+enum e_tokentype
 {
     TYPE_WORD,
     TYPE_P_WORD,
@@ -74,7 +74,7 @@ typedef struct s_var
 
 typedef struct s_token
 {
-    enum t_tokentype type;
+    enum e_tokentype type;
     char *value;
 	int is_pseudo;
 } t_token;
@@ -161,7 +161,7 @@ int	ft_strrcmp(const char *s1, const char *s2);
 void	ft_error(int erno, const char *msg);
 char	**path(void);
 char	*generate_name(void);
-int	ft_input(char *stop, enum t_tokentype type);
+int	ft_input(char *stop, enum e_tokentype type);
 int redirect_input(t_list *left_red, int pipe);
 int redirect_output(t_list *right_red, int pipe);
 char	*cmd_path(char **paths, char *cmd, char *tmp, char *str);
@@ -206,9 +206,9 @@ int		ft_exit(int	error);
 // void recycle(int n, ...);
 t_list *lexer(char *line);
 char	*space_type(char *line, int *i);
-enum t_tokentype	find_type2(char *line, int *i);
-enum t_tokentype	find_type(char *line, int *i);
-t_token	*create_token(enum t_tokentype type, void *content);
+enum e_tokentype	find_type2(char *line, int *i);
+enum e_tokentype	find_type(char *line, int *i);
+t_token	*create_token(enum e_tokentype type, void *content);
 int	check_word(char c);
 t_list* to_expanded_tokens(t_list* tokens, char **env);
 int is_valid_syntax(t_list *token_lst);
@@ -229,7 +229,7 @@ t_list *get_matched_files(char *pattern, int *flags);
 int is_wildcard(t_list *tokens, int *is_lex);
 void yes_it_is_wild(t_list **new_token_list, t_list **tokens, int is_lex);
 char *get_pattern(t_list **tokens, int **p_flags);
-void check_quote(int *q_type, enum t_tokentype  cas);
+void check_quote(int *q_type, enum e_tokentype  cas);
 int	is_lexable(t_list *tokens, int open_q);
 t_list	*wildcard_it(t_list *tokens);
 void	costum_env_expand(t_list **tokens, char **env, int q_open);

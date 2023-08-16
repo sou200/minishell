@@ -6,13 +6,13 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/15 18:59:34 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:17:41 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_type(enum t_tokentype type)
+char	*get_type(enum e_tokentype type)
 {
 	if (type == TYPE_WORD)
 		return ("word");

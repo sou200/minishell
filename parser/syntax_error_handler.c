@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:30:06 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 08:24:46 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:17:41 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_valid_redi(t_list *token_lst)
 	return (is_valid_neighbor((t_token *)token_lst->next->content));
 }
 
-void	check_quote(int *q_type, enum t_tokentype cas)
+void	check_quote(int *q_type, enum e_tokentype cas)
 {
 	if (cas == TYPE_QUOTE && *q_type != 2)
 	{

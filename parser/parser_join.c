@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 23:22:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 07:53:12 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:17:41 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	is_valid_to_join(t_list *tokens, int *is_pseudo)
 	return (0);
 }
 
-enum t_tokentype	word_or_pword(int is_pseudo)
+enum e_tokentype	word_or_pword(int is_pseudo)
 {
 	if (is_pseudo)
 		return (TYPE_P_WORD);

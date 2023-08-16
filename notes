@@ -28,3 +28,8 @@
 
 
 leaks === <>$""
+
+redirection errors order matters > f2 < a \minishell$ > f2 < a cat
+minishell: a: No such file or directory
+
+<< he cat | pwd handle signals

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/15 18:47:24 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/16 12:41:08 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ int	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
 	p->pid = fork();
 	if (!p->pid)
 	{
-		signal(SIGINT, SIG_DFL);
 		p->paths = path();
 		if (p->infile != p->fd[0])
 			close(p->fd[0]);
+		// signal(SIGINT, SIG_DFL);
 		p->infile = redirect_input(cmd->left_red, p->infile);
 		signal(SIGQUIT, SIG_DFL);
 		p->outfile = redirect_output(cmd->right_red, p->outfile);
@@ -97,6 +97,7 @@ void	ft_execute(t_list *cmd, t_var p)
 	initialise_var(&p);
 	while (cmd && ++p.i >= 0)
 	{
+
 		if (p.i != 0)
 		{
 			if (p.i >= 2)
@@ -113,6 +114,8 @@ void	ft_execute(t_list *cmd, t_var p)
 		else
 			p.outfile = (p.outfile != 1 && close(p.outfile) && 0) + 1;
 		heredocsigs(cmd, &p);
+		if (gl.return_value == 400)
+			break ;
 		simple_cmd(&p, (t_prototype *)(cmd->content), 0);
 		cmd = cmd->next;
 	}
