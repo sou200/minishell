@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/16 11:17:41 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:28:17 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_prototype
    	char **cmnd;
 	t_list *left_red;//void * = {< | << ; char *}
 	t_list *right_red;//void * = {> | >> ; char *}
+	t_list *redire;
 } t_prototype;
 
 typedef struct s_global
