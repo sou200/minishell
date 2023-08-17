@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/16 18:28:17 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:36:04 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_helper
 	char	*before;
 	char	*after;
 }	t_helper;
+
 typedef struct s_prototype
 {
    	char **cmnd;
@@ -109,8 +110,13 @@ t_global gl;
 	// t_list *export_list;
 	// int	return_value;
 
+void	controlec2(int c);
 void	holder(int c);
-void	heredocsigs(t_list *cmd, t_var *p);
+void	holder1(int c);
+void	redirection(t_prototype *cmd, int *infile
+	, int *outfile, t_token *holder);
+void	holder(int c);
+void	heredocsigs(t_list *cmd, t_var *p, int save, t_list	*j);
 const char	*ft_getenv1(const char *var);
 void	ft_cd_1(char *str);
 void	controlec1(int c);
@@ -162,11 +168,11 @@ int	ft_strrcmp(const char *s1, const char *s2);
 void	ft_error(int erno, const char *msg);
 char	**path(void);
 char	*generate_name(void);
-int	ft_input(char *stop, enum e_tokentype type);
+int	ft_input(char *stop, enum e_tokentype type, int fd, int tmp);
 int redirect_input(t_list *left_red, int pipe);
 int redirect_output(t_list *right_red, int pipe);
 char	*cmd_path(char **paths, char *cmd, char *tmp, char *str);
-int		simple_cmd(t_var *p, t_prototype *cmd, char *cmdd);
+void	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd);
 void	ft_execute(t_list *cmd, t_var p);
 
 int add_var1(const char *var);

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:35:13 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/16 12:42:21 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:09:50 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	waitandreturn(t_var p)
 {
 	int	x;
 
+	p.infile = (p.infile != 0 && close(p.infile));
 	x = gl.return_value;
 	gl.return_value = 0;
 	waitpid(p.pid, &gl.return_value, 0);

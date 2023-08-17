@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 23:29:17 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/16 13:08:34 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:36:50 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,9 @@ int	ft_strrcmp(const char *s1, const char *s2)
 	return (0);
 }
 
-
-void	controlec2(int c)
+int	ft_input(char *stop, enum e_tokentype type, int fd, int tmp)
 {
-	(void ) c;
-	kill(0, SIGUSR2);
-	exit(0);
-}
-
-int	ft_input(char *stop, enum e_tokentype type)
-{
-	int		fd;
 	char	*str;
-	int		tmp;
 
 	signal(SIGINT, controlec2);
 	str = generate_name();

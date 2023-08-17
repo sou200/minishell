@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/16 12:41:08 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:35:26 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	failed_cmd(char *cmd, char *cmdd, char **path)
 		print_error(126, 3, "minishell: ", cmd, ": Permission denied\n");
 }
 
-int	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
+void	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
 {
 	p->pid = fork();
 	if (!p->pid)
@@ -72,14 +72,15 @@ int	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
 		p->paths = path();
 		if (p->infile != p->fd[0])
 			close(p->fd[0]);
-		// signal(SIGINT, SIG_DFL);
-		p->infile = redirect_input(cmd->left_red, p->infile);
+		signal(SIGINT, SIG_DFL);
+		redirection(cmd, &p->infile, &p->outfile, 0);
+		if (p->infile != 0)
+			dup2(p->infile, 0);
 		signal(SIGQUIT, SIG_DFL);
-		p->outfile = redirect_output(cmd->right_red, p->outfile);
 		p->infile += (p->infile != 0 && close(p->infile) && 0);
 		p->outfile += (p->outfile != 1 && close(p->outfile) && 0);
 		if (!(cmd->cmnd)[0])
-			return (free_table(p->paths), ft_exit(0), 0);
+			return (free_table(p->paths), ft_exit(0), free(0));
 		ft_builtins(cmd);
 		if (!*gl.default_env[0] && !ft_getenv("PWD"))
 			error_write(PWD_ENV);
@@ -87,9 +88,8 @@ int	simple_cmd(t_var *p, t_prototype *cmd, char *cmdd)
 		failed_cmd(cmd->cmnd[0], cmdd, p->paths);
 		free_table(p->paths);
 		if (execve(cmdd, cmd->cmnd, gl.env) == -1)
-			return (free(cmdd), cmdd = 0, ft_exit(0), 0);
+			return (free(cmdd), cmdd = 0, ft_exit(0), free(0));
 	}
-	return (0);
 }
 
 void	ft_execute(t_list *cmd, t_var p)
@@ -97,7 +97,6 @@ void	ft_execute(t_list *cmd, t_var p)
 	initialise_var(&p);
 	while (cmd && ++p.i >= 0)
 	{
-
 		if (p.i != 0)
 		{
 			if (p.i >= 2)
@@ -113,12 +112,11 @@ void	ft_execute(t_list *cmd, t_var p)
 		}
 		else
 			p.outfile = (p.outfile != 1 && close(p.outfile) && 0) + 1;
-		heredocsigs(cmd, &p);
+		heredocsigs(cmd, &p, 0, 0);
 		if (gl.return_value == 400)
 			break ;
 		simple_cmd(&p, (t_prototype *)(cmd->content), 0);
 		cmd = cmd->next;
 	}
-	p.infile = (p.infile != 0 && close(p.infile));
 	waitandreturn(p);
 }
