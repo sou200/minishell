@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/16 11:17:41 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:02:50 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	controlec(int c)
 	gl.return_value = 1;
 }
 
-
 void	initialise_default(void)
 {
 	char	*pwd;
@@ -77,7 +76,7 @@ void	initialise_default(void)
 	pwd = getcwd(0, 0);
 	if (!pwd)
 	{
-		error_write(MINISHELL_INIT);
+		big_error(MINISHELL_INIT);
 		gl.default_env[0] = ft_strdup("");
 	}
 	else

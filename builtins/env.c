@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:58:25 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/13 07:58:11 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:02:26 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ void	remove_var(const char *var)
 	y = -1;
 	while (gl.env[++y] && (y != i))
 		new[y] = gl.env[y];
-	if (!gl.env[y])
-		return ;
 	free(gl.env[y]);
 	y--;
 	while (gl.env[++y + 1])

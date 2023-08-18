@@ -33,3 +33,20 @@ redirection errors order matters > f2 < a \minishell$ > f2 < a cat
 minishell: a: No such file or directory
 
 << he cat | pwd handle signals
+
+./ls
+
+export b=world +_) c+=jaja
+
+cat << $""
+
+
+
+ls>a leaks
+
+ls .* . ..
+
+
+#cd -
+# mkdir -p 1/2/3/4 && rm -rf 1 && cd .. until find and exist folder 
+# cd: error retrieving current directory: getcwd: cannot access parent directories: Permission denied

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:40:58 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/15 18:58:23 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:43:56 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,10 @@ void	ft_cd_1(char *str)
 		s[1] = 0;
 		ft_unset(s);
 	}
+}
+
+void	big_error(char *s)
+{
+	error_write(s);
+	perror(0);
 }

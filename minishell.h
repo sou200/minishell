@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/17 10:36:04 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:51:18 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 #include <string.h>
 #include <stdarg.h>
 // char *env[ARG_MAX];
-# define MINISHELL_INIT "minishell-init: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
-# define PWD_ENV "job-working-directory: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
-# define PWD_ERROR "pwd: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
-# define CD_ERROR "cd: error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
+# define MINISHELL_INIT "minishell-init: error retrieving current directory: getcwd: cannot access parent directories: "
+# define PWD_ENV "job-working-directory: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n"
+# define PWD_ERROR "pwd: error retrieving current directory: getcwd: cannot access parent directories: "
+# define CD_ERROR "cd: error retrieving current directory: getcwd: cannot access parent directories: "
 # define DEFAULT_PATH "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 enum e_tokentype
@@ -110,6 +110,7 @@ t_global gl;
 	// t_list *export_list;
 	// int	return_value;
 
+void	big_error(char *s);
 void	controlec2(int c);
 void	holder(int c);
 void	holder1(int c);

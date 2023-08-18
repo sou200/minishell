@@ -1,0 +1,14 @@
+Makefile
+a
+builtins
+expander
+leaks.sh
+lexer
+libft
+minishell
+minishell.c
+minishell.h
+minishell.o
+notes
+parser
+test

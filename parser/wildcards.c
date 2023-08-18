@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 19:04:42 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 19:24:33 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 11:30:14 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_list	*get_matched_files(char *pattern, int *flags)
 	while (entry != NULL)
 	{
 		next_entry = readdir(dir);
-		if (entry->d_name[0] != '.' && pattern_match(pattern, entry->d_name, 0,
+		if (pattern_match(pattern, entry->d_name, 0,
 				flags))
 			add_file_to_lst(&matched_files, entry->d_name, next_entry != NULL);
 		entry = next_entry;

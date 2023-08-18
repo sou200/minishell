@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 00:21:19 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/13 08:30:19 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 11:34:53 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ t_list	*export_exists(char *value)
 			i++;
 			y++;
 		}
-		if (value[y] == '+')
+		if (value[y] == '+' && (y != 0))
 			y++;
 		if (str[i] == value[y] || (str[i] == '=' && !value[y])
 			|| (!str[i] && value[y] == '='))

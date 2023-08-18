@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:19:32 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/16 18:35:26 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:11:02 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	*create_rd(enum e_tokentype type, void *content, int p)
 	if (!rd)
 		ft_exit(ENOMEM);
 	rd->type = type;
-	rd->value = content;
+	rd->value = ft_strdup((char *)content);
 	rd->is_pseudo = p;
 	return (rd);
 }
@@ -59,7 +59,7 @@ void	add_red(t_list **tokens, t_token *token, t_list **left_red,
 {
 	char	*red_name;
 
-	red_name = ft_strdup(((t_token *)(*tokens)->next->content)->value);
+	red_name = ((t_token *)(*tokens)->next->content)->value;
 	ft_lstadd_back(redire, ft_lstnew(create_rd(token->type, red_name, ((t_token *)(*tokens)->next->content)->type == TYPE_P_WORD)));
 	if (token->type == TYPE_RD_L || token->type == TYPE_HERE_DOC
 		|| token->type == TYPE_HERE_DOC_NX)
