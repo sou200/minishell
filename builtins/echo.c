@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 07:10:11 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 18:41:20 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:10:03 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	ft_echo(char **cmd)
 	while (*cmd)
 	{
 		ft_putstr_fd(*cmd, 1);
-		cmd++;
-		if (*cmd)
+		if (*cmd && *cmd[0] && *(cmd + 1) && (*(cmd + 1))[0])
 			write(1, " ", 1);
+		cmd++;
 	}
 	return (write(1, "\n", x), 0);
 }

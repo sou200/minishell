@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 14:48:22 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/18 11:16:47 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:32:01 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int	ft_cd(const char *dirname)
 		if (!dirname)
 			return (error_write("minishell: cd: HOME not set\n")
 				, gl.return_value = 1, 1);
+		if (!dirname[0])
+			return (0);
 		return (ft_cd_succes((char *)dirname, 0), 0);
 	}
 	else if (dirname[0] == '-' && dirname[1] == '\0')

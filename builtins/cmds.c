@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/18 12:02:18 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:18:19 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	failed_cmd(char *cmd, char *cmdd, char **path)
 	if (!cmdd && access(cmd, F_OK) && (!path || ft_strchr(cmd, '/')))
 		print_error(127, 3, "minishell: ", cmd, ": No such file or directory\n");
 	if ((!cmdd && access(cmd, F_OK)) || !ft_strrcmp("..", cmd)
-		|| (!cmdd && !ft_strchr(cmd, '/')))
+		|| (!cmdd && !ft_strchr(cmd, '/')) || !cmd[0])
 		print_error(127, 3, "minishell: ", cmd, ": command not found\n");
 	lstat(cmd, &buf);
 	if (S_ISDIR(buf.st_mode))
