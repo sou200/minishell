@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 23:29:17 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/19 13:51:29 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 21:47:34 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,36 @@ void	ft_error(int erno, const char *msg)
 	ft_exit(errno);
 }
 
+void	ft_not_a(char *str, int flag)
+{
+	struct stat	buf;
+	int			i;
+	char		*tmp;
+
+	if (flag != 4)
+	{
+		if (ft_strchr(str, '/'))
+		{
+			i = ft_strlen(str) - 1;
+			while (i > 0 && str[i] && str[i] != '/')
+				i--;
+			tmp = ft_substr(str, 0, i + 1);
+			stat(str, &buf);
+			free(tmp);
+			if (!(S_ISDIR(buf.st_mode)))
+				print_error(1, 3, "minishell: ", str, ": Not a directory\n");
+		}
+	}
+}
+
 void	ft_open(char *str, int *fd, int flag)
 {
 	struct stat	buf;
 
+	ft_not_a(str, flag);
 	if ((flag == -3) && access(str, F_OK))
 		print_error(1, 3, "minishell: ", str, ": No such file or directory\n");
-	lstat(str, &buf);
+	stat(str, &buf);
 	if (S_ISDIR(buf.st_mode))
 		print_error(1, 3, "minishell: ", str, ": Is a directory\n");
 	if ((flag == -1 || flag == -2) 
@@ -68,26 +91,6 @@ char	*generate_name(void)
 	if (i < 0 || access(str, F_OK) == 0)
 		return (free(str), NULL);
 	return (str);
-}
-
-int	ft_strrcmp(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	if (!s1 && !s2)
-		return (0);
-	if (!s1 || !s2)
-		return (1);
-	while (s1[i] && s2[i])
-	{
-		if (s1[i] != s2[i])
-			return (1);
-		i++;
-	}
-	if (s1[i] != s2[i])
-		return (1);
-	return (0);
 }
 
 int	ft_input(char *stop, enum e_tokentype type, int fd, int tmp)

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/19 14:16:33 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 21:52:14 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,21 @@ void	print_error(int x, int d, ...)
 {
 	va_list	ap;
 	int		i;
+	char	*str;
+	char	*tmp;
 
 	i = 0;
+	tmp = 0;
 	va_start(ap, d);
 	while (i < d)
 	{
-		error_write(va_arg(ap, char *));
+		str = ft_strjoin(tmp, va_arg(ap, char *));
+		free(tmp);
+		tmp = str;
 		i++;
 	}
+	write(2, str, ft_strlen(str));
+	free(str);
 	va_end(ap);
 	ft_exit(x);
 }
@@ -53,15 +60,16 @@ void	failed_cmd(char *cmd, char *cmdd, char **path)
 {
 	struct stat	buf;
 
-	(void ) path;
-	// if (!cmdd && access(cmd, F_OK) && (!path || ft_strchr(cmd, '/')))
-	// 	print_error(127, 3, "minishell: ", cmd, ": No such file or directory\n");
+	if (!cmdd && access(cmd, F_OK) && (!path || ft_strchr(cmd, '/')))
+		print_error(127, 3, "minishell: ", cmd, ": No such file or directory\n");
 	if ((!cmdd && access(cmd, F_OK)) || !ft_strrcmp("..", cmd)
 		|| (!cmdd && !ft_strchr(cmd, '/')) || !cmd[0])
 		print_error(127, 3, "minishell: ", cmd, ": command not found\n");
 	lstat(cmd, &buf);
 	if (S_ISDIR(buf.st_mode))
 		print_error(126, 3, "minishell: ", cmd, ": is a directory\n");
+	if (access(cmdd, F_OK))
+		print_error(127, 3, "minishell: ", cmd, ": No such file or directory\n");
 	if (access(cmdd, X_OK) || access(cmdd, R_OK))
 		print_error(126, 3, "minishell: ", cmd, ": Permission denied\n");
 }

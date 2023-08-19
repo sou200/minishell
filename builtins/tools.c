@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 07:15:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/16 12:31:23 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 21:51:09 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,5 @@ void	init(int argc, char const *argv[], char **en)
 
 void	error_write(const char *s)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		write(2, &s[i], 1);
-		i++;
-	}
+	write(2, s, ft_strlen(s));
 }

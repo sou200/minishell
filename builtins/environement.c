@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 17:00:38 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/09 12:35:30 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 20:41:36 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ void	initialise_env3(int i, char *s, char *tmp)
 		s += 6;
 		if (is_num(s))
 		{
-			i = ft_atoi(s) + 1;
-			s = ft_itoa(i);
+			i = (ft_atoi(s) + 1) % 1000;
+			if (i != 0)
+				s = ft_itoa(i);
+			else
+				s = 0;
 			tmp = ft_strjoin("SHLVL=", s);
-			free(s);
-			two[0] = tmp;
-			two[1] = 0;
-			ft_export(two);
-			free (tmp);
+			return (free(s), two[0] = tmp, two[1] = 0
+				, ft_export(two), free (tmp));
 		}
 		else
 			ft_export(two);

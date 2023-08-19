@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 00:21:19 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/18 11:34:53 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 22:10:14 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	replace_value(char *var, t_list *tmp)
 	char	*str;
 
 	if (!check_var1(var))
-		return (print_error(1, 3
+		return (print_error1(1, 3
 				, "minishell: export: `", var, "': not a valid identifier\n"));
 	if (!ft_strchr(var, '='))
 		return ;
@@ -124,7 +124,7 @@ t_list	*export_exists(char *value)
 			i++;
 			y++;
 		}
-		if (value[y] == '+' && (y != 0))
+		if (value[y] == '+' && (y != 0) && value[y + 1] == '=')
 			y++;
 		if (str[i] == value[y] || (str[i] == '=' && !value[y])
 			|| (!str[i] && value[y] == '='))

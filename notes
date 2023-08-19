@@ -62,7 +62,6 @@ minishell$ echo $PATH
 minishell$ ls
 minishell: ls: No such file or directory
 
-exit mini wst mini
 $USER.$USER 
 $USER$USER env kayn
 echo  "$$USE,$USER"
@@ -70,3 +69,26 @@ echo  "$$USE,$USER"
 echo  "'$$USE,$USER'"
 $USER\$USER
 "$$USER"
+echo "'$USER'"
+echo " '$USER' "
+echo text"'$USER'" ' $USER '
+echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER '' || difference mabin $USER khawya w ''
+echo $USER '' $USER $USER '' $USER '' $USER -n $USER	
+echo "$USER""Users/$USER/file""'$USER'"'$USER'	
+echo "text"   "$USER"    "$USER" | wc
+echo "         $PWD"
+
+
+export TES=T=""	 export TE+S=T=""
+
+
+
+cmd "str1 str2 str3" >out | cmd2 -arg | cmd3 >out2 >out3 mochkil f write 
+whoami | grep $USER > tmp/file	
+/Users/wollio/Desktop/projects/4/minishell         a command not found instead of no su
+exit mini wst mini
+ls > tmp/file 
+8:20 No such a file or ;;; PATH unset
+echo '' eqwe vs echo $qweqwe e 
+SHLVL=999
+exit 9223372036854775807 	

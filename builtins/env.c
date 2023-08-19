@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:58:25 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/18 12:02:26 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 22:11:29 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,21 @@ void	print_error1(int d, ...)
 {
 	va_list	ap;
 	int		i;
+	char	*str;
+	char	*tmp;
 
 	i = 0;
+	tmp = 0;
 	va_start(ap, d);
 	while (i < d)
 	{
-		error_write(va_arg(ap, char *));
+		str = ft_strjoin(tmp, va_arg(ap, char *));
+		free(tmp);
+		tmp = str;
 		i++;
 	}
+	write(2, str, ft_strlen(str));
+	free(str);
 	va_end(ap);
 }
 

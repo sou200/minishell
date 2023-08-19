@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/19 15:45:19 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 21:27:18 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ t_global gl;
 	// t_list *export_list;
 	// int	return_value;
 
+void	ft_not_a(char *str, int flag);
 void	big_error(char *s);
 void	controlec2(int c);
 void	holder(int c);

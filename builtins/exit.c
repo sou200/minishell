@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 17:53:30 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/14 17:59:26 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 20:35:05 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ int	ft_atoi1(const char *str)
 		s = -1;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		z = z * 10 + (str[i] - 48);
-		if ((z * s > LONG_MAX) || (z * s < LONG_MIN)
-			|| ((((z * 10 + (str[i] - 48))
+		if (((((z * 10 + (str[i] - 48)) 
 						/ 10 - ((str[i] - 48) / 10))) * s != z * s))
+			break ;
+		z = z * 10 + (str[i] - 48);
+		if ((z * s > LONG_MAX) || (z * s < LONG_MIN))
 			break ;
 		i++;
 	}
