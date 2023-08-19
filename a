@@ -1,0 +1,20 @@
+total 296
+drwxr-xr-x  19 serhouni  candidate     646 Aug 19 22:13 .
+drwxr-xr-x   3 serhouni  candidate     102 Jul 13 11:41 ..
+-rw-r--r--   1 serhouni  candidate    6148 Aug 18 11:15 .DS_Store
+drwxr-xr-x  15 serhouni  candidate     510 Aug 19 21:05 .git
+drwxr-xr-x   4 serhouni  candidate     136 Aug 18 11:15 .vscode
+-rw-r--r--   1 serhouni  candidate    1927 Aug 19 22:13 Makefile
+-rw-r--r--   1 serhouni  candidate       0 Aug 19 22:13 a
+drwxr-xr-x  44 serhouni  candidate    1496 Aug 19 22:13 builtins
+drwxr-xr-x  10 serhouni  candidate     340 Aug 19 22:13 expander
+-rwxr-xr-x   1 serhouni  candidate     208 Aug 18 11:15 leaks.sh
+drwxr-xr-x  10 serhouni  candidate     340 Aug 19 22:13 lexer
+drwxr-xr-x  91 serhouni  candidate    3094 Aug 19 22:13 libft
+-rwxr-xr-x   1 serhouni  candidate  108520 Aug 19 22:13 minishell
+-rw-r--r--   1 serhouni  candidate    2857 Aug 19 19:03 minishell.c
+-rw-r--r--   1 serhouni  candidate    8184 Aug 19 22:05 minishell.h
+-rw-r--r--   1 serhouni  candidate    6928 Aug 19 22:13 minishell.o
+-rw-r--r--   1 serhouni  candidate    1561 Aug 19 19:17 notes
+drwxr-xr-x  20 serhouni  candidate     680 Aug 19 22:13 parser
+-rw-r--r--   1 serhouni  candidate       0 Aug 19 18:59 user

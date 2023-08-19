@@ -3,29 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:50:04 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/19 16:21:24 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 21:59:34 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_env_var(char **env, char *var)
+char	*get_env_var(char *var)
 {
 	size_t	i;
 	char	**tmp;
 
 	i = env_name_len(var);
-	if (ft_strlen(*env) <= i)
+	tmp = gl.env;
+	if (ft_strlen(*tmp) <= i)
 		return (NULL);
-	while (*env != NULL)
+	while (*tmp != NULL)
 	{
-		if (ft_strlen(*env) > i && !ft_strncmp(*env, var, i)
-			&& (*env)[i] == '=')
-			return (ft_substr(*env, i + 1, ft_strlen(*env) - i));
-		env++;
+		if (ft_strlen(*tmp) > i && !ft_strncmp(*tmp, var, i)
+			&& (*tmp)[i] == '=')
+			return (ft_substr(*tmp, i + 1, ft_strlen(*tmp) - i));
+		tmp++;
 	}
 	tmp = gl.default_env;
 	while (*tmp != NULL)
@@ -59,7 +60,8 @@ char	*get_env_var(char **env, char *var)
 // 		ft_lstadd_back(tokens, ft_lstnew(create_token(TYPE_WORD, rest_word)));
 // 	ft_lstadd_back(tokens, tmp_token);
 // }
-void	insert_env_in_token_lst(char *env_val, char *env_word, t_list **tokens, t_list **new_tokens)
+void	insert_env_in_token_lst(char *env_val, char *env_word, t_list **tokens,
+		t_list **new_tokens)
 {
 	t_list	*var_lexer;
 	char	*rest_word;
@@ -74,7 +76,8 @@ void	insert_env_in_token_lst(char *env_val, char *env_word, t_list **tokens, t_l
 	var_lexer = env_lexer(env_val);
 	ft_lstadd_back(new_tokens, var_lexer);
 	if (rest_word != NULL)
-		ft_lstadd_back(new_tokens, ft_lstnew(create_token(TYPE_WORD, rest_word)));
+		ft_lstadd_back(new_tokens, ft_lstnew(create_token(TYPE_WORD,
+					rest_word)));
 	*tokens = (*tokens)->next;
 }
 
@@ -97,7 +100,7 @@ void	smpl_env(char *env_val, char *env_word, t_list *tokens)
 	free(env_word);
 }
 
-void	expand_env(t_list **tokens,t_list **new_tokens, char **env, int lex_flag)
+void	expand_env(t_list **tokens, t_list **new_tokens, int lex_flag)
 {
 	char	*env_word;
 	char	*env_val;
@@ -109,7 +112,7 @@ void	expand_env(t_list **tokens,t_list **new_tokens, char **env, int lex_flag)
 	if (*env_word == '?')
 		env_val = ft_itoa(gl.return_value);
 	else
-		env_val = get_env_var(env, env_word);
+		env_val = get_env_var(env_word);
 	if (lex_flag)
 		insert_env_in_token_lst(env_val, env_word, tokens, new_tokens);
 	else
