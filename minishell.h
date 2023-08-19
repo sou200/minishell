@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/18 10:51:18 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:21:54 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ int	check_word(char c);
 t_list* to_expanded_tokens(t_list* tokens, char **env);
 int is_valid_syntax(t_list *token_lst);
 
-void expand_env(t_list **tokens, char **env, int lex_flag);
+void	expand_env(t_list **tokens,t_list **new_tokens, char **env, int lex_flag);
 int is_valid_env(t_list* tokens, int open_q);
 t_list* parce_line(char *line, char **env);
 int in_quote_handler(int *open_q, char **quote_content, t_list** new_token_lst, int q_case);
@@ -240,7 +240,7 @@ char *get_pattern(t_list **tokens, int **p_flags);
 void check_quote(int *q_type, enum e_tokentype  cas);
 int	is_lexable(t_list *tokens, int open_q);
 t_list	*wildcard_it(t_list *tokens);
-void	costum_env_expand(t_list **tokens, char **env, int q_open);
+void	costum_env_expand(t_list **tokens, t_list **new_tokens, char **env, int q_open);
 void	f(t_list **new_token_lst, t_list *tokens);
 t_list	*join_and_clean_tokens(t_list *tokens);
 void	build_smpl_cmnd(t_list **tokens, t_list **smpl_cmnds);

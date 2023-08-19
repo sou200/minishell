@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 16:07:59 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/13 08:14:26 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:20:17 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	costum_env_expand(t_list **tokens, char **env, int q_open)
+void	costum_env_expand(t_list **tokens, t_list **new_tokens, char **env, int q_open)
 {
 	if (is_lexable(*tokens, q_open))
-		expand_env(tokens, env, 1);
+		expand_env(tokens, new_tokens, env, 1);
 	else
-		expand_env(tokens, env, 0);
+		expand_env(tokens, new_tokens, env, 0);
 }
 
 int	abdellah_and_hakim(t_list *tokens)

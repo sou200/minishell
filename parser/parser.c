@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:43:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/14 07:07:15 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:20:09 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_list	*to_expanded_tokens(t_list *tokens, char **env)
 			in_quote_handler(&open_q, &quote_content, &new_token_lst, 2);
 		else if (((t_token *)tokens->content)->type == TYPE_DOLLAR
 			&& is_valid_env(tokens, open_q))
-			costum_env_expand(&tokens, env, open_q);
+			costum_env_expand(&tokens, &new_token_lst, env, open_q);
 		else if (open_q)
 			quote_content = ft_strjoin_free(quote_content,
 					((t_token *)tokens->content)->value, 1, 0);

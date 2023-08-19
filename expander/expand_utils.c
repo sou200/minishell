@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 01:32:34 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/15 19:44:40 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/19 00:35:02 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,23 @@ int	env_name_len(char *var)
 
 t_list	*env_lexer(char *env)
 {
+	char **splited_env;
+	t_list *list;
+	int i;
+	
+	i = 0;
+	list = NULL;
 	if (env == NULL)
 		return (ft_lstnew(create_token(TYPE_WORD, NULL)));
-	else if(*env == '\0')
-		return (ft_lstnew(create_token(TYPE_WORD, ft_strdup(""))));
-	return (lexer(env));
+	splited_env = ft_split(env, ' ');
+	if(splited_env == NULL)
+		return NULL;
+	while(splited_env[i] != NULL)
+	{
+		ft_lstadd_back(&list, ft_lstnew(create_token(TYPE_WORD, splited_env[i++])));
+		ft_lstadd_back(&list, ft_lstnew(create_token(TYPE_SPC, ft_strdup(" "))));
+	}
+	return free(splited_env[i]), free(splited_env), list;
 }
 
 int	is_valid_env(t_list *tokens, int open_q)

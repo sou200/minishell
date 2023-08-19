@@ -50,3 +50,5 @@ ls .* . ..
 #cd -
 # mkdir -p 1/2/3/4 && rm -rf 1 && cd .. until find and exist folder 
 # cd: error retrieving current directory: getcwd: cannot access parent directories: Permission denied
+
+sate hadik list li sifti liya rah ma testithach a sate rah 7m9ni chi lakhor mohim dok les errors rah riglthom a sate
