@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 01:32:34 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/19 00:35:02 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:13:31 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ t_list	*env_lexer(char *env)
 	while(splited_env[i] != NULL)
 	{
 		ft_lstadd_back(&list, ft_lstnew(create_token(TYPE_WORD, splited_env[i++])));
-		ft_lstadd_back(&list, ft_lstnew(create_token(TYPE_SPC, ft_strdup(" "))));
+		if(splited_env[i] != NULL)
+			ft_lstadd_back(&list, ft_lstnew(create_token(TYPE_SPC, ft_strdup(" "))));
 	}
 	return free(splited_env[i]), free(splited_env), list;
 }
