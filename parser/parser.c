@@ -6,11 +6,9 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:43:01 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/19 19:09:13 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/19 22:00:30 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../minishell.h"
 
 #include "../minishell.h"
 
@@ -53,8 +51,8 @@ t_list	*parce_line(char *line)
 
 	tokens = lexer(line);
 	if (!is_valid_syntax(tokens))
-		return (ft_lstclear(&tokens, ft_free_token)
-			, printf("syntax error !\n"), gl.return_value = 258, NULL);
+		return (ft_lstclear(&tokens, ft_free_token),
+			printf("minishell: syntax error\n"), gl.return_value = 258, NULL);
 	expanded_tokens = to_expanded_tokens(tokens);
 	wildcarded_tokens = wildcard_it(expanded_tokens);
 	final_tokens = join_and_clean_tokens(wildcarded_tokens);

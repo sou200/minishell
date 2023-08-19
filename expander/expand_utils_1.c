@@ -6,17 +6,19 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 16:07:59 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/19 21:03:35 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/19 21:57:44 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	costum_env_expand(t_list **tokens, t_list **new_tokens,char **content, int q_open)
+void	costum_env_expand(t_list **tokens, t_list **new_tokens, char **content,
+		int q_open)
 {
 	if (is_lexable(*tokens, q_open))
 	{
-		ft_lstadd_back(new_tokens, ft_lstnew(create_token(TYPE_WORD, *content)));
+		ft_lstadd_back(new_tokens, ft_lstnew(create_token(TYPE_WORD,
+					*content)));
 		*content = NULL;
 		expand_env(tokens, new_tokens, 1);
 	}
@@ -49,44 +51,10 @@ void	f(t_list **new_token_lst, t_list *tokens)
 			token_lst_dup((t_token *)tokens->content));
 }
 
-// char	*expand_heredoc_line(char *line)
-// {
-// 	t_helper	a;
-
-// 	a.i = 0;
-// 	while (line[a.i] != '\0')
-// 	{
-// 		if (line[a.i] == '$' && is_valid_to_expand(line, a.i))
-// 		{
-// 			a.before = ft_substr(line, 0, a.i++);
-// 			a.env_n_l = env_name_len(line + a.i);
-// 			a.after = ft_substr(line, a.env_n_l + a.i, ft_strlen(line) - a.i - a.env_n_l);
-// 			a.env_val = get_env_var(line + a.i);
-// 			a.result = ft_strjoin_free(a.before, a.env_val, 1, 1);
-// 			a.result = ft_strjoin_free(a.result, a.after, 1, 1);
-// 			a.i += a.env_n_l;
-// 			printf("%d\n", a.i);
-// 			free(line);
-// 			line = a.result;
-// 		}
-// 		a.i++;
-// 	}
-// 	return (line);
-// }
-
-int ft_count(char *line)
-{
-	int i;
-
-	i = 0;
-	while(line[i] != '\0' && line[i] != '$')
-		i++;
-	return i;
-}
-
 char	*expand_heredoc_line(char *line)
 {
 	t_helper	a;
+	char		*s;
 
 	a.i = 0;
 	a.result = NULL;
@@ -98,10 +66,13 @@ char	*expand_heredoc_line(char *line)
 			a.env_n_l = env_name_len(line + a.i);
 			a.result = ft_strjoin_free(a.result, a.env_val, 1, 1);
 			a.i += a.env_n_l;
-		} else if(line[a.i] == '$')
-			a.result = ft_strjoin_free(a.result, ft_strdup("$"), 1, 1) + ++a.i * 0;
-		else {
-			char *s = ft_substr(line + a.i, 0, ft_count(line + a.i));
+		}
+		else if (line[a.i] == '$')
+			a.result = ft_strjoin_free(a.result, ft_strdup("$"), 1, 1) + ++a.i
+				* 0;
+		else
+		{
+			s = ft_substr(line + a.i, 0, ft_count(line + a.i));
 			a.result = ft_strjoin_free(a.result, s, 1, 1);
 			a.i += ft_count(line + a.i);
 		}

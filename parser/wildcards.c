@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 19:04:42 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/19 01:10:52 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/19 22:01:42 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ t_list	*get_matched_files(char *pattern, int *flags)
 	while (entry != NULL)
 	{
 		next_entry = readdir(dir);
-		if (pattern_match(pattern, entry->d_name, 0, flags) && !((*pattern == '.') ^ (*entry->d_name == '.')))
+		if (pattern_match(pattern, entry->d_name, 0, flags)
+			&& !((*pattern == '.') ^ (*entry->d_name == '.')))
 			add_file_to_lst(&matched_files, entry->d_name, next_entry != NULL);
 		entry = next_entry;
 	}

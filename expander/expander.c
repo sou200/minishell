@@ -6,7 +6,7 @@
 /*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:50:04 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/19 19:05:44 by serhouni         ###   ########.fr       */
+/*   Updated: 2023/08/19 21:59:34 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ char	*get_env_var(char *var)
 // 		ft_lstadd_back(tokens, ft_lstnew(create_token(TYPE_WORD, rest_word)));
 // 	ft_lstadd_back(tokens, tmp_token);
 // }
-void	insert_env_in_token_lst(char *env_val, char *env_word, t_list **tokens, t_list **new_tokens)
+void	insert_env_in_token_lst(char *env_val, char *env_word, t_list **tokens,
+		t_list **new_tokens)
 {
 	t_list	*var_lexer;
 	char	*rest_word;
@@ -75,7 +76,8 @@ void	insert_env_in_token_lst(char *env_val, char *env_word, t_list **tokens, t_l
 	var_lexer = env_lexer(env_val);
 	ft_lstadd_back(new_tokens, var_lexer);
 	if (rest_word != NULL)
-		ft_lstadd_back(new_tokens, ft_lstnew(create_token(TYPE_WORD, rest_word)));
+		ft_lstadd_back(new_tokens, ft_lstnew(create_token(TYPE_WORD,
+					rest_word)));
 	*tokens = (*tokens)->next;
 }
 
@@ -98,7 +100,7 @@ void	smpl_env(char *env_val, char *env_word, t_list *tokens)
 	free(env_word);
 }
 
-void	expand_env(t_list **tokens,t_list **new_tokens, int lex_flag)
+void	expand_env(t_list **tokens, t_list **new_tokens, int lex_flag)
 {
 	char	*env_word;
 	char	*env_val;
