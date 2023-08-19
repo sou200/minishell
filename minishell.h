@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: serhouni <serhouni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:31:05 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/19 15:45:19 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 19:09:41 by serhouni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,12 +218,12 @@ enum e_tokentype	find_type2(char *line, int *i);
 enum e_tokentype	find_type(char *line, int *i);
 t_token	*create_token(enum e_tokentype type, void *content);
 int	check_word(char c);
-t_list* to_expanded_tokens(t_list* tokens, char **env);
+t_list* to_expanded_tokens(t_list* tokens);
 int is_valid_syntax(t_list *token_lst);
 
-void	expand_env(t_list **tokens,t_list **new_tokens, char **env, int lex_flag);
+void	expand_env(t_list **tokens,t_list **new_tokens, int lex_flag);
 int is_valid_env(t_list* tokens, int open_q);
-t_list* parce_line(char *line, char **env);
+t_list* parce_line(char *line);
 int in_quote_handler(int *open_q, char **quote_content, t_list** new_token_lst, int q_case);
 t_list *tokens_without_spc(t_list *token_lst);
 t_list *token_lst_dup(t_token *token);
@@ -240,12 +240,12 @@ char *get_pattern(t_list **tokens, int **p_flags);
 void check_quote(int *q_type, enum e_tokentype  cas);
 int	is_lexable(t_list *tokens, int open_q);
 t_list	*wildcard_it(t_list *tokens);
-void	costum_env_expand(t_list **tokens, t_list **new_tokens, char **env, int q_open);
+void	costum_env_expand(t_list **tokens, t_list **new_tokens, char **content, int q_open);
 void	f(t_list **new_token_lst, t_list *tokens);
 t_list	*join_and_clean_tokens(t_list *tokens);
 void	build_smpl_cmnd(t_list **tokens, t_list **smpl_cmnds);
 
-char	*get_env_var(char **env, char *var);
+char	*get_env_var(char *var);
 // tmp
 void print_tokens(t_list *head);
 
