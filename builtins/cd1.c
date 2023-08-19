@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:40:58 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/18 10:43:56 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 15:45:14 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ const char	*ft_getenv3(const char *var)
 	return (0);
 }
 
-void	controlec1(int c)
-{
-	(void ) c;
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+// void	controlec1(int c)
+// {
+// 	(void ) c;
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// }
 
 void	ft_cd_1(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 23:29:17 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/17 10:54:54 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 13:51:29 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,6 @@ int	ft_input(char *stop, enum e_tokentype type, int fd, int tmp)
 		write(fd, "\n", 1);
 		free(str);
 	}
-	if (!str)
-		printf("\x1b[F> ");
 	signal(SIGINT, SIG_DFL);
 	return (kill(0, SIGUSR1), free(str), str = NULL, close(fd), tmp);
 }

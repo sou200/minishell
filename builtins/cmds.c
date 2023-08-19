@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:07:23 by fel-hazz          #+#    #+#             */
-/*   Updated: 2023/08/18 14:18:19 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:16:33 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_builtins(t_prototype *cmd)
 		ft_exit(ft_export(cmd->cmnd + 1));
 	else if (!ft_strrcmp(cmd->cmnd[0], "unset"))
 		ft_exit(ft_export(cmd->cmnd + 1));
-	else if (!ft_strrcmp(cmd->cmnd[0], "gl.env"))
+	else if (!ft_strrcmp(cmd->cmnd[0], "env"))
 		ft_exit(ft_env());
 	else if (!ft_strrcmp(cmd->cmnd[0], "getenv"))
 		ft_exit(ft_printenv(cmd->cmnd[1]));
@@ -53,8 +53,9 @@ void	failed_cmd(char *cmd, char *cmdd, char **path)
 {
 	struct stat	buf;
 
-	if (!cmdd && access(cmd, F_OK) && (!path || ft_strchr(cmd, '/')))
-		print_error(127, 3, "minishell: ", cmd, ": No such file or directory\n");
+	(void ) path;
+	// if (!cmdd && access(cmd, F_OK) && (!path || ft_strchr(cmd, '/')))
+	// 	print_error(127, 3, "minishell: ", cmd, ": No such file or directory\n");
 	if ((!cmdd && access(cmd, F_OK)) || !ft_strrcmp("..", cmd)
 		|| (!cmdd && !ft_strchr(cmd, '/')) || !cmd[0])
 		print_error(127, 3, "minishell: ", cmd, ": command not found\n");

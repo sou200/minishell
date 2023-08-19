@@ -6,7 +6,7 @@
 /*   By: fel-hazz <fel-hazz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 23:19:53 by serhouni          #+#    #+#             */
-/*   Updated: 2023/08/18 12:02:50 by fel-hazz         ###   ########.fr       */
+/*   Updated: 2023/08/19 15:43:52 by fel-hazz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ int	main(int argc, char const *argv[], char **en)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			return (controlec1(2),
-				printf("\x1b[Fminishell$ exit\n"), ft_exit(gl.return_value));
+			return (/*controlec1(2),*/
+				printf("exit\n"), ft_exit(gl.return_value));
 		if (line)
 			head = parce_line(line, gl.env);
 		if (head && ft_sortir(head))
